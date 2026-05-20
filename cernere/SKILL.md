@@ -63,14 +63,14 @@ The dishonest shape:
 ### Phantom control flow
 
 ```clojure
-;; The language has if, match, when, unless. cond is not declared.
-(cond
-  (= x 0) "zero"
-  (> x 0) "positive"
-  :else   "negative")
+;; The language has if, when, unless, cond, match, do. begin is not declared.
+(begin
+  (println "first")
+  (println "second")
+  (println "third"))
 ```
 
-`cond` is one of Lisp's most familiar control-flow forms. In a language that deliberately reduced its control-flow vocabulary to `if`/`match`/`when`/`unless`, `cond` is a phantom — even though it would be trivially expressible via `match`. The spell catches the import-from-elsewhere.
+`begin` is one of Scheme's most familiar sequencing forms. In a Clojure-style Lisp the sequencing primitive is `do` — `(do (println "first") (println "second") (println "third"))`. A Scheme-trained author writes `begin` reflexively; the language doesn't have it. The spell catches the import-from-elsewhere.
 
 ### Implementation functions promoted to language forms
 
