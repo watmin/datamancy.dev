@@ -1,0 +1,156 @@
+---
+name: conferre
+description: Bring spec and code together to find divergence. The datamancer conferre the specification against the implementation — where they disagree, one of them is wrong.
+---
+
+# Conferre
+
+> *conferre* — Latin: to bring together, gather, compare; carry into one place. From *con-* (together) + *ferre* (to bring, carry — irregular root of "transfer," "refer," "infer," "defer"). The act of bringing two readings into the same frame to find where they disagree.
+
+> The spec is the source of truth for what the code SHOULD do. The code is what it ACTUALLY does. When the two disagree, one of them is wrong — and conferre tells you which one to update.
+
+Conferre checks **fidelity between intent and implementation**. Specs drift; implementations drift. When the practitioner writes "the function takes a Config and returns a Plan" in the design doc, the function had better take a Config and return a Plan in the code. When the comment says "returns sorted output," the output had better be sorted. When the wat surface says `(:my::svc::get k)`, the Rust eval handler had better accept that exact arity.
+
+## The principle
+
+Every claim the spec makes is a hypothesis the code must validate. Every behavior the code exhibits is a fact the spec must acknowledge. The relationship between them is a contract; conferre verifies the contract holds in both directions.
+
+Conferre asks: **what does the spec say, what does the code do, and where do they disagree?**
+
+The honest shape:
+- Spec and code agree on names (the function in the spec exists in the code with the same name)
+- Spec and code agree on shapes (the signature in the spec matches the signature in the code)
+- Spec and code agree on contracts (the comment / docstring / type claim is what the body actually delivers)
+- When spec and code diverge, ONE is updated (not both left to drift further)
+
+The dishonest shape:
+- Spec describes a function the code never implemented
+- Code implements a function the spec never declared
+- Comment promises invariants the type doesn't enforce and the body doesn't guarantee
+- Two readings of the same thing, neither updated when the other moves
+
+## The four questions applied
+
+- **Obvious?** Can a reader holding the spec next to the code see whether they agree? If the spec is a one-page sketch and the code is 10,000 lines of "everything else," obvious fails. The spec must scope to what it claims to specify; the code must surface what it claims to implement.
+- **Simple?** Does the spec cover ONE concept per section, and the code mirror it ONE module per concept? Multi-concept spec sections that map to scattered code locations are conferre nightmares — the practitioner can't follow the trace.
+- **Honest?** When a divergence is found, does the prose tell the truth about which is wrong? "TODO: spec says X but we do Y" is honest. Silently leaving the spec wrong while updating the code is the silent drift conferre exists to catch.
+- **Good UX?** Does the spec say WHO the audience is and WHAT they're entitled to expect? A spec written for the implementer vs the consumer makes different promises. Conferre checks the promises against the appropriate audience's experience.
+
+## What conferre sees
+
+> Code examples below illustrate the discipline at the wat-surface / Rust-eval boundary where it matured. The discipline applies to any spec-vs-implementation boundary: schema vs database; API doc vs HTTP handler; protocol spec vs wire codec; design doc vs module structure.
+
+### Spec promises a function the code never implemented — Level 1 lie
+
+```
+;; spec says:
+;; (:my::svc::compute-summary :input::Snapshot) -> :my::svc::Summary
+```
+
+```rust
+// code has:
+pub fn compute_summary(input: Snapshot) -> Result<Summary, ComputeError> { ... }
+```
+
+Three divergences in one site: name casing differs slightly (`compute-summary` vs `compute_summary` — may be a translation convention), return type differs (spec says `Summary`, code returns `Result<Summary, ComputeError>`), the error path is unspoken in the spec. Which is wrong depends on whether `ComputeError` is a real failure mode (spec should declare it) or a defensive `Result` wrapping a never-failing call (code should drop the wrap).
+
+### Code implements a function the spec never declared — Level 1 lie
+
+```rust
+// code has:
+pub fn debug_dump_internal_state() -> String { ... }
+```
+
+The spec has no entry for `debug_dump_internal_state`. Either it's a private debug helper that should not be `pub` (the visibility is wrong), or it's a real consumer-facing surface the spec forgot (the spec needs an entry). The unspoken `pub` is the lie — the visibility implies a contract the spec doesn't acknowledge.
+
+### Comment promises what the type doesn't enforce — Level 1 lie
+
+```rust
+/// Returns the cache entries sorted by access time, newest first.
+pub fn list_entries(&self) -> Vec<Entry> {
+    self.entries.values().cloned().collect()
+}
+```
+
+The comment promises sorted output. The body returns the values in `HashMap` iteration order (undefined). Either: (a) the comment is wrong — drop the sorting promise; (b) the body is wrong — sort before returning; (c) the return type is wrong — return `SortedVec<Entry>` (a newtype that enforces the sort).
+
+### Wat-surface verb / Rust-eval-handler arity mismatch — Level 1 lie
+
+```
+;; wat surface says:
+;; (:wat::core::concat :a :b) -> :ab
+```
+
+```rust
+// Rust eval handler:
+fn eval_concat(args: &[Value]) -> Result<Value> {
+    if args.len() < 1 { return Err(...); }
+    // accepts any number of args including 1
+}
+```
+
+The wat-side type signature claims arity 2. The Rust handler accepts arity ≥ 1. A wat program passing `(concat "x")` will type-check (if the wat surface only sees the binary signature) and run (if the runtime accepts variadic). The trust between the two layers breaks silently.
+
+### Stale "does not" clauses — Level 2 mumble
+
+```
+;; spec says:
+;; CacheService DOES NOT eagerly populate on spawn; first Get triggers backfill.
+```
+
+```rust
+// code has:
+impl CacheService {
+    pub fn new(config: Config) -> Self {
+        let mut s = Self { ... };
+        s.backfill(&config);   // ← spec says "does not eagerly populate"
+        s
+    }
+}
+```
+
+The "does not" clause is the most easily-violated kind of spec. Active functionality is felt when missing; non-functionality is only felt when the spec is consulted. Conferre flags every "does not" clause in the spec and verifies the absence in the code.
+
+## What conferre does NOT flag
+
+- **Internal helpers** the spec wasn't intended to cover — implementation details below the spec's level of abstraction. The spec covers WHAT; the helpers are HOW.
+- **Generated code** (proc macros, code-gen) where the source-of-truth IS the spec (a macro definition; a schema) and the generated code's job is to mirror it. The generator's job is to keep them in sync.
+- **Versioned diverged surfaces** where v1 and v2 of an API are both intentionally live and the spec describes both. Conferre flags only undeclared diverge.
+- **Test fixtures** with deliberately wrong inputs to exercise error paths. The wrongness is the test's whole point.
+
+## The rune
+
+Some divergences are intentional and load-bearing. The rune declares the divergence exempt with a justified reason:
+
+```rust
+// rune:conferre(intentional-richer-type) — spec returns Summary; code returns Result<Summary, ComputeError> because the underlying parser can fail; ComputeError documented in module-level doc
+pub fn compute_summary(input: Snapshot) -> Result<Summary, ComputeError> { ... }
+```
+
+Format: `// rune:conferre(<category>) — <reason>`
+
+**Categories:**
+
+- `intentional-richer-type` — the code's signature is intentionally more honest than the spec (e.g., the spec elides error paths the code surfaces). The spec is the simplification; the code is the truth. Cite where the truth is documented.
+- `deprecated-spec` — the spec describes a retired surface that's been left for historical context; the divergence is intentional retirement. The rune retires when the spec section is moved to a historical/changelog file.
+- `staged-rollout` — the new behavior is feature-flagged; spec describes both old and new; the divergence is the rollout in flight. Cite the flag and the deprecation timeline.
+- `private-surface` — the code has a `pub` that's intentionally not in the spec because the visibility is wider than the contract (e.g., needed by a sibling crate). Cite the sibling and consider tightening visibility.
+- `stale-negation` — the spec's "does NOT do X" clause is intentionally retired because the code now does X by design; the negation is the residue. Cite the arc / decision that flipped the behavior; the rune retires when the spec's negation is rewritten.
+
+Placement: on the line immediately preceding the diverged code site (or above the spec section if the spec is wrong).
+
+The reason field is required. A rune with an empty reason fails the spell.
+
+## Reporting format
+
+For each divergence, report:
+
+- Spec location (file + section/line) + code location (file + line)
+- The two claims, side by side
+- Which one is likely right (with reasoning)
+- The recommended update: spec / code / both / mark with rune
+- Severity: Level 1 (active lie someone will trip over) or Level 2 (latent drift)
+
+## The principle behind the spell
+
+A spec is a promise to the consumer. The code is the keeping of the promise. When the two diverge, the consumer is owed an honest reconciliation — either the promise was wrong (update the spec) or the keeping was wrong (update the code). Silent drift breaks the trust between the spec's author and its reader. Conferre brings the two readings into one frame so the practitioner can update consciously.
