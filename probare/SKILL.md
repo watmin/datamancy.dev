@@ -1,0 +1,122 @@
+---
+name: probare
+description: Test the substance. The datamancer probare the file — is this a program or a description? Comments tell the human; expressions tell the machine. The assayer crushes the rock and reports the fraction.
+---
+
+# Probare
+
+> *probare* — Latin: to test, prove, examine; to determine the quality of metal by testing. Direct cognate root of "probe," "prove," "approve," "probation." The metallurgical assay made operational: crush the ore; measure what's actually metal.
+
+> Comments tell the human. Expressions tell the wards. A file full of comments is a rock that glitters; the assay crushes it and reports the fraction.
+
+Other defensive spells check the QUALITY of what exists. Probare checks whether it exists at all. A specification file that's mostly prose passes solvere, purgare, struere, intueri — because those spells test the expressions that are present. Probare tests how many expressions ARE present.
+
+## The principle
+
+A program is composed of forms. A description is composed of prose. Both have their place: the spec is half-program, half-description by design. But when a "spec" file is 90% prose and 10% forms, the file is mostly a wish — not a thing the machine can execute, type-check, or verify against another spec.
+
+Probare asks: **what is the substance of this file? Is it actually a program (forms that run), or mostly a description (prose that hopes)?**
+
+The honest shape:
+- The file's PURPOSE is declared (spec / docs / config / mixed)
+- The substance matches the purpose (spec files have forms; doc files have prose; mixed files have both, named)
+- Forms that LOOK like they should run, actually do — they parse, they type-check, they have machines to receive them
+- Comments that LOOK like specs, ARE specs — they make falsifiable claims, not aspirations
+
+The dishonest shape:
+- A "spec" file is mostly TODO comments
+- A "config" file is mostly prose explaining what the config WOULD be if it existed
+- A schema is described in three paragraphs of English; the type is `String`
+- A test file has comments naming the tests; the deftest bodies are stubs
+
+## The four questions applied
+
+- **Obvious?** Can a reader determine the file's substance in 5 seconds? "This is a spec — N forms, M comments, ratio 3:1" is obvious. "This is... something — mostly comments with some forms scattered" is the failure.
+- **Simple?** Does each form do ONE thing the spec promised? Or are the forms placeholders that defer the work to TODOs? A `(define :svc/get ...)` whose body is `;; TODO: implement` has form but no substance.
+- **Honest?** Does the file's stated purpose match its actual contents? A file titled "Counter Service Specification" had better contain the spec; if it contains "Once we figure out the requirements, this will be the spec," the title lies.
+- **Good UX?** Can a downstream consumer (the next spell, a sibling tool, a fresh practitioner) trust the file to deliver what its name suggests? Or do they have to read the prose to discover the substance is missing?
+
+## What probare sees
+
+> Code examples below illustrate the discipline on wat/Scheme files where each form begins with `(`; translate to your host language's atomic-unit boundary (function definitions; class declarations; schema entries; etc.).
+
+### Expression density — the canonical measure
+
+For each file in scope, count:
+
+- **Forms** — lines that contain (or begin) an atomic expression unit (in Scheme: a line beginning with `(`; in Rust: a function/struct/impl/use declaration; in YAML: a top-level or list-item key)
+- **Comments** — lines that are pure prose (begin with the host's comment marker; or are blank lines inside a doc block)
+- **Ratio** = forms / comments
+
+| Ratio | Verdict |
+|-------|---------|
+| > 3:1 | Substance-rich: this is a program. The prose is annotation. |
+| 1:1 to 3:1 | Mixed: spec + commentary. Check the purpose declaration. |
+| 1:3 to 1:1 | Prose-heavy: this is a description. Substance is sparse. |
+| < 1:3 | Almost no substance. The file is a wish. Flag for restructuring or renaming. |
+
+### Form classification (Phase 2)
+
+For each form found, classify:
+
+- **Expressed** — the form has a body that runs / parses / has callers. Substance.
+- **Described** — the form's body is `;; TODO`, `unimplemented!()`, `pass`, `null`, or equivalent placeholder. The form exists as syntax; the substance is deferred.
+- **Hollow** — the form is structurally valid but accomplishes nothing observable (a function returning its single argument unchanged; a struct with one field of unit type). The form has body but the body has no effect.
+
+A file with high form count but mostly described-or-hollow forms is failing probare more deeply than a file with low form count. Quantity is the surface; classification is the substance.
+
+### Naming alignment
+
+A file's purpose is declared in its name and header. Probare checks alignment:
+
+- A file named `CounterService.spec.wat` should contain wat forms specifying the CounterService.
+- A file named `architecture.md` should contain prose describing architecture; if it contains 50 wat forms, those forms either belong elsewhere or the file should be renamed.
+- A file named `migration.sql` should contain SQL; if it contains commented-out SQL with prose explaining what should happen, the migration is the prose's hope.
+
+## What probare does NOT flag
+
+- **README files** intentionally prose-heavy — their purpose IS description.
+- **Doc-comment-rich code** where each function has a substantial docstring + the body is real. The substance is the body; the doc is annotation. High comment counts here are signal, not noise.
+- **CHANGELOG / HISTORY files** that ARE prose by nature.
+- **Tutorial / explainer files** where the structure is "prose → small example → prose → small example." The small examples carry the substance; the prose is the teaching.
+
+## The rune
+
+Some files look substance-thin but are intentionally so. The rune declares the file's shape exempt with a justified reason:
+
+```scheme
+;; rune:probare(spec-wip) — this file holds the design WIP; the forms land as the design crystallizes; tracked in arc N
+```
+
+Format: `;; rune:probare(<category>) — <reason>`
+
+**Categories:**
+
+- `description-by-purpose` — the file IS a description by design (README, CHANGELOG, ARCHITECTURE, etc.). Probare's substance metric does not apply.
+- `spec-wip` — the file is a work-in-progress spec; forms land as the design crystallizes. Cite the tracking arc / issue; the rune retires when the spec stabilizes.
+- `teaching-artifact` — tutorial-style file where prose:form ratio is high by pedagogical design. Cite the teaching audience.
+- `placeholder-tracked` — the file's stub forms are tracked in a known TODO list with owners + deadlines. Cite the tracker.
+
+Placement: at the file head (after the frontmatter, before the first form / paragraph).
+
+The reason field is required. A rune with an empty reason fails the spell.
+
+## Reporting format
+
+For each file in scope, report:
+
+- File path
+- Total lines / form lines / comment lines / blank lines
+- Substance ratio (forms : comments)
+- Form classification breakdown (expressed / described / hollow)
+- Verdict (substance-rich / mixed / prose-heavy / wish)
+- Recommendation: rename / restructure / ship as-is / mark with rune
+
+For each rune encountered:
+
+- File path + the rune's category + reason
+- Verdict on the reason: clear / questionable / expired
+
+## The principle behind the spell
+
+A practitioner who reads "spec.wat" expects a spec. A spec that's actually a wish disappoints in a way the practitioner can't even articulate — they read the file, find prose, and walk away feeling cheated of the substance the file's name promised. Probare measures the substance so the gap between name and content is visible before the reader hits it. The four-questions apply to every "rename / restructure / ship" decision the practitioner makes.
