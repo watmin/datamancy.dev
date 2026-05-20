@@ -1,0 +1,135 @@
+---
+name: intueri
+description: Contemplate whether the code speaks. The datamancer intuetur the file — does each name say what it is? Does the structure tell the story? Does the spark live?
+---
+
+# Intueri
+
+> *intueri* — Latin: to gaze upon, look at attentively, contemplate. Deponent verb; root of "intuit" and "intuition." The act of looking that produces understanding.
+
+> The code should read like a story. Each function tells one chapter. The names are the characters. The structure is the plot. — Sandi Metz
+
+The compiler checks if the code runs. The other spells check structure, life, fidelity, time. Intueri checks if the code **communicates**. Not to the compiler — to the reader who arrives with no context.
+
+Code that communicates is code that sparks. Code that mumbles hides bugs, hides intent, hides the architecture. Intueri finds where the spark died.
+
+## The principle
+
+Every name is a promise. The function name promises what the function does. The struct name promises what the struct holds. The module name promises the domain it occupies. When the name and the body diverge — promise broken — the reader is left holding the lie. They must read the body to learn what the name should have said.
+
+Intueri asks: **does this name, this structure, this comment carry its own meaning?**
+
+A name that requires the reader to find its definition to understand the code has failed. A name that IS its definition has succeeded.
+
+## The four questions applied
+
+- **Obvious?** Will a reader who arrives at this name immediately know what it refers to? If `dd` requires a hunt for "drawdown depth," the name has failed Obvious. If `drawdown_depth` says it on the line, Obvious holds.
+- **Simple?** Is the function short enough to hold in one mind-load? > 5 things to remember = too complex. > 6 parameters = the parameters are asking to be split. Length isn't the metric — cognitive load is.
+- **Honest?** Does the comment tell the truth? A stale comment is worse than no comment because it lies actively. A WHAT comment is noise the code already says. A WHY comment is signal the code cannot say. Only the WHY earns its place.
+- **Good UX?** Does the structure mirror the architecture? `market.rs`, `risk.rs`, `treasury.rs` — these speak the domain. `utils.rs`, `helpers.rs`, `common.rs` — these mumble the absence of domain.
+
+## What intueri sees
+
+### Names
+
+The identifier of the thing should be the thing itself.
+
+- `dd` is not a name. `drawdown_depth` is a name.
+- `sw` is not a name. `signal_weight` is a name.
+- `ctx` is acceptable when the type is `CandleContext`. The type speaks.
+- `i` is acceptable in a tight loop. Not in a 1000-line method.
+- Single-letter names earn their place through scope. The smaller the scope, the shorter the name.
+
+A name that lies (`refresh_cache` that actually invalidates and reloads) is Level 1. A name that mumbles (`process_data` for a function that specifically encodes events as EDN) is Level 2.
+
+### Functions
+
+A function should fit in your mind. When you read it top to bottom, you should understand its story without jumping to another file.
+
+- If you need to hold more than 5 things in your head, the function is too complex.
+- If a function takes more than 6 parameters, it's trying to do too many things. The parameters are the function telling you it wants to be split.
+- If a function is longer than your screen, it should have a reason. A function that's long because it orchestrates a sequence has a reason. A function that's long because it braids concerns does not (and is solvere's problem too).
+
+### Comments
+
+The best comment is no comment — code that speaks for itself.
+
+- A comment that says WHAT the code does is noise. The code already says what it does. Delete the noise.
+- A comment that says WHY is signal. "The flip was removed because the upstream encoder already orients" explains a design decision the code alone cannot.
+- A comment that says BEWARE is valuable. "This assumes sorted input" prevents a class of bugs.
+- A stale comment is worse than no comment. It lies — and an active lie is worse than absence.
+
+### Structure
+
+The file tree should mirror the domain. When you `ls src/`, you should see the architecture — not `utils`, `helpers`, `common`, `misc`.
+
+- Imports at the top tell you the function's world. Too many imports = too many concerns.
+- A block of code separated by a blank line is claiming to be a paragraph. Does it tell one thought?
+- Nested indentation beyond 3 levels is a sign the code is hiding its intent inside conditionals.
+
+### The spark
+
+The ineffable quality. Code where the author cared. Where every name was chosen, not defaulted. Where the structure serves comprehension, not convenience. Where you read it and think "this person understood what they were building."
+
+The spark cannot be mechanically checked. But concrete signals start the looking:
+
+- Every identifier traces to a domain noun the reader could explain (no `data` / `info` / `stuff` / `manager` carrying weight)
+- Every TODO has either been addressed or has a tracked issue + date
+- Every module name names what the module does, not where it sits in some prior framework's taxonomy
+- WHY comments outnumber WHAT comments (often by a lot)
+- The opening of each function tells you the function's story; the body fills in the steps
+
+Where these signals are present, the spark lives. Where they are absent, the spell looks closer. The absence can be felt; the spell finds where the looking starts.
+
+## What intueri does NOT flag
+
+- **`cargo fmt` / `rustfmt` / `prettier` concerns** — formatting is not communication; it's appearance. A different ward.
+- **`clippy` / linter concerns** — clippy is correctness pedantry; intueri is communication.
+- **Decomplection** — structural concerns belong to solvere. Intueri sees names and stories; solvere sees concerns and dependencies braided together.
+- **Dead code** — metabolism belongs to purgare. Intueri may notice that a name has no clear referent; purgare confirms whether the referent exists at all.
+- **Deep type expressions hiding a noun** — perspicere defends the type-level form of the naming discipline (deeply-nested generics that need a typealias). Intueri sees names *at* their use sites; perspicere sees names *missing* from the type vocabulary.
+- **Test vantage** — vocare checks whether tests verify what the caller sees. Test names often overlap with intueri's concern, but a well-named test that tests the wrong vantage is vocare's catch; a badly-named test at the right vantage is intueri's.
+
+## The rune
+
+Some names look like mumbles but are intentional choices the practitioner has weighed. The rune declares the choice exempt with a justified reason:
+
+```rust
+// rune:intueri(naming) — ctx is acceptable when the type is CandleContext; the type speaks
+fn handle(ctx: CandleContext) -> Decision { ... }
+```
+
+Format: `// rune:intueri(<category>) — <reason>`
+
+**Categories:**
+
+- `naming` — short/unclear name is intentional (the surrounding type or scope speaks for it).
+- `length` — long function has a reason (orchestration sequence; state-machine match; embedded data).
+- `complexity` — nested depth is justified (parser state machine; tree-walker; pattern matcher).
+- `comment-style` — comment style departs from the spell's preference for a reason (license header; doctest; auto-generated).
+
+Placement: on the line immediately preceding the identifier or block whose form the spell would otherwise question.
+
+The reason field is required. A rune with an empty reason fails the spell.
+
+## Reporting format
+
+For each finding, report:
+
+- File path + line number
+- The name / function / comment / structure flagged
+- Level (1 lies / 2 mumbles)
+- What the spell suggests — direction, not a full rewrite
+- For names: the proposed name that would speak
+
+For each rune encountered:
+
+- File path + line number
+- The reason text
+- Verdict: clear (the reason holds) or questionable (vague, copy-paste, "I didn't want to refactor this")
+
+## The principle behind the spell
+
+Sandi Metz said: code that is easy to change is code that is easy to understand. Code that is easy to understand is code that communicates its intent. Intueri measures communication. The spark is the reward.
+
+The datamancer intuetur the code. The code either speaks or it doesn't. Where it mumbles, refine. Where it shines, move on. Every name is a promise; the spell asks whether the promise was kept.
