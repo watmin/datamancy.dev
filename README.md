@@ -21,11 +21,12 @@ Test whether the code is well-made. The compiler tells you it runs; these spells
 | Spell | Form | One-phrase reading |
 |---|---|---|
 | **intueri** | infinitive (act) | to contemplate whether the code speaks — names, structure, comments |
-| **struere** | infinitive (act) | to test what is built — values not places, composition that holds |
+| **struere** | infinitive (act) | to test what is built — Hickey at the function level |
 | **solvere** | infinitive (act) | to loosen what was wrongly bound — Hickey's decomplect |
 | **purgare** | infinitive (act) | to purge dead code — structs unimported, fields unread, branches untaken |
 | **temperare** | infinitive (act) | to mix computation in right proportion — efficient waste |
 | **secare** | infinitive (act) | to cut cleanly along the grain — parallel boundaries genuinely disjoint |
+| **sequi** | infinitive (act) | to follow the state — Beckman at the chain level; state threaded visibly through types |
 
 ### Tests of surface
 

@@ -42,9 +42,10 @@ The defensive set, in the order each spell's findings tend to compose:
 | Spell | Concern | Why in the set |
 |---|---|---|
 | **intueri** | Names + structure + communication | Read first because every other spell's findings reference names |
-| **solvere** | Braided concerns; misplaced logic | Structure comes before behavior |
+| **solvere** | Braided concerns; misplaced logic | Hickey's decomplect; structure comes before behavior |
 | **purgare** | Dead code; unused state | Removes noise before craft checks |
-| **struere** | Values not places; composition that holds | The craft, after structure is settled |
+| **struere** | Per-function craft — values not places, types enforce | Hickey at the function level, after structure is settled |
+| **sequi** | Per-chain state threading — visible through types | Beckman at the chain level, after per-function craft |
 | **temperare** | Wasteful computation; redundant work | Efficiency, after correctness |
 | **secare** | Parallel safety; disjoint writes | Concurrency, where applicable |
 | **cernere** | Phantom forms; language-spec conformance | Where applicable (wat / DSL / language files) |
@@ -52,7 +53,7 @@ The defensive set, in the order each spell's findings tend to compose:
 | **conferre** | Spec vs implementation divergence | Where the target has both spec and code |
 | **nesciens** | Documentation walkability | Where the target is documentation |
 
-Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's kind (code / spec / docs / mixed). The default casts the universally-applicable set (intueri, solvere, purgare, struere, temperare) and adds the others as the target's contents warrant.
+Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's kind (code / spec / docs / mixed). The default casts the universally-applicable set (intueri, solvere, purgare, struere, sequi, temperare) and adds the others as the target's contents warrant.
 
 ## How to invoke
 
@@ -65,7 +66,7 @@ Not all spells apply to every target. Vigilia casts only those whose discipline 
 
 The default selection rule:
 
-- Code file in a host language (Rust, Scheme, etc.) — cast intueri, solvere, purgare, struere, temperare (+ secare if the file uses parallel primitives)
+- Code file in a host language (Rust, Scheme, etc.) — cast intueri, solvere, purgare, struere, sequi, temperare (+ secare if the file uses parallel primitives)
 - Spec / DSL / wat file — add cernere (phantom forms), probare (substance)
 - Documentation (README, USER-GUIDE, etc.) — add nesciens (walkability); skip code-specific spells
 - Mixed file — cast the union

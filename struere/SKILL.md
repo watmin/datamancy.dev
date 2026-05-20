@@ -9,9 +9,9 @@ description: Test what is built. The datamancer struere the function — values 
 
 > A built thing is shaped by repeated thought and revision. Each cycle removes what shouldn't be there. Each composition tests what should.
 
-Other spells ask: is it tangled (solvere)? Is it alive (purgare)? Does it speak (intueri)? Struere asks: **is it well-built?**
+Other spells ask: is it tangled (solvere)? Is it alive (purgare)? Does it speak (intueri)? Does state follow through the chain (sequi)? Struere asks: **is the function itself well-built?**
 
-Two lenses focused on one structure. Rich Hickey: values, not places. Brian Beckman: composition that holds. Struere is both questions at once.
+Hickey's lens applied at the function level: values, not places; types enforce; the abstraction sits at the caller's vantage. (Chain-level state-threading is sequi's concern; struere checks the per-function craft.)
 
 ## The principle
 
@@ -138,4 +138,4 @@ For each finding, report:
 
 ## The principle behind the spell
 
-A function is the smallest unit of the architecture. If functions don't hold under load, the architecture they compose into doesn't either. Struere applies Hickey's heat (remove what's mutable when values would do) and Beckman's hammer (test whether the composition actually holds) to each function before it joins the structure. The four-questions decide which findings ship as changes.
+A function is the smallest unit of the architecture. If functions don't hold under load, the architecture they compose into doesn't either. Struere applies Hickey's heat at the function level — remove what's mutable when values would do; make the type tell the truth; place the abstraction where the caller stands. Composition across functions (whether state follows visibly through the chain) is sequi's concern; struere defends the unit before sequi tests how units compose. The four-questions decide which findings ship as changes.
