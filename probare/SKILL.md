@@ -32,19 +32,19 @@ The dishonest shape:
 ## The four questions applied
 
 - **Obvious?** Can a reader determine the file's substance in 5 seconds? "This is a spec — N forms, M comments, ratio 3:1" is obvious. "This is... something — mostly comments with some forms scattered" is the failure.
-- **Simple?** Does each form do ONE thing the spec promised? Or are the forms placeholders that defer the work to TODOs? A `(define :svc/get ...)` whose body is `;; TODO: implement` has form but no substance.
+- **Simple?** Does each form do ONE thing the spec promised? Or are the forms placeholders that defer the work to TODOs? A `(defn :svc/get [...] ...)` whose body is `;; TODO: implement` has form but no substance.
 - **Honest?** Does the file's stated purpose match its actual contents? A file titled "Counter Service Specification" had better contain the spec; if it contains "Once we figure out the requirements, this will be the spec," the title lies.
 - **Good UX?** Can a downstream consumer (the next spell, a sibling tool, a fresh practitioner) trust the file to deliver what its name suggests? Or do they have to read the prose to discover the substance is missing?
 
 ## What probare sees
 
-> Code examples below illustrate the discipline on wat/Scheme files where each form begins with `(`; translate to your host language's atomic-unit boundary (function definitions; class declarations; schema entries; etc.).
+> Code examples below illustrate the discipline on wat (Clojure-style Lisp on Rust) files where each form begins with `(`; translate to your host language's atomic-unit boundary (function definitions; class declarations; schema entries; etc.).
 
 ### Expression density — the canonical measure
 
 For each file in scope, count:
 
-- **Forms** — lines that contain (or begin) an atomic expression unit (in Scheme: a line beginning with `(`; in Rust: a function/struct/impl/use declaration; in YAML: a top-level or list-item key)
+- **Forms** — lines that contain (or begin) an atomic expression unit (in a Clojure-style Lisp: a line beginning with `(`; in Rust: a function/struct/impl/use declaration; in YAML: a top-level or list-item key)
 - **Comments** — lines that are pure prose (begin with the host's comment marker; or are blank lines inside a doc block)
 - **Ratio** = forms / comments
 
@@ -84,7 +84,7 @@ A file's purpose is declared in its name and header. Probare checks alignment:
 
 Some files look substance-thin but are intentionally so. The rune declares the file's shape exempt with a justified reason:
 
-```scheme
+```clojure
 ;; rune:probare(spec-wip) — this file holds the design WIP; the forms land as the design crystallizes; tracked in arc N
 ```
 

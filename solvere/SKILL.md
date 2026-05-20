@@ -69,11 +69,11 @@ The fix: extract the metrics into a separate call site at the caller. `parse_con
 
 A consumer that hand-builds the wire protocol instead of calling the helper that abstracts it. The helper exists; the consumer reaches past it; the abstraction is silently undone. The interface promised insulation; the consumer's bypass means every other consumer must now also learn the wire (or copy the bypass). Level 1 lie — the surface lies about what it actually provides once one caller routes around it.
 
-```scheme
+```clojure
 ;; ❌ Level 1 lie — bypassing the consumer surface
 ;; (CacheService/get is the helper; this consumer hand-builds the wire)
 (send req-tx (Request::Get k reply-tx))
-(let ((response (recv reply-rx)))
+(let [response (recv reply-rx)]
   ...)
 
 ;; ✓ Honest — call the helper

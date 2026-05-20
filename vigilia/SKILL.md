@@ -66,7 +66,7 @@ Not all spells apply to every target. Vigilia casts only those whose discipline 
 
 The default selection rule:
 
-- Code file in a host language (Rust, Scheme, etc.) — cast intueri, solvere, purgare, struere, sequi, temperare (+ secare if the file uses parallel primitives)
+- Code file in a host language (Rust, Clojure-style Lisp, etc.) — cast intueri, solvere, purgare, struere, sequi, temperare (+ secare if the file uses parallel primitives)
 - Spec / DSL / wat file — add cernere (phantom forms), probare (substance)
 - Documentation (README, USER-GUIDE, etc.) — add nesciens (walkability); skip code-specific spells
 - Mixed file — cast the union

@@ -34,23 +34,22 @@ A deftest body with > ~10 let bindings is making a structural claim it cannot su
 
 Empirical bound: a deftest body with more than ~10 sequential bindings is a Level 1 lie. It claims to test a scenario but cannot diagnose which unit of work failed.
 
-```scheme
+```clojure
 ;; ❌ Level 1 lie — monolithic. When it fails, what broke?
 (deftest test-cache-round-trip
-  (let
-    (((spawn ...) (...))
-     ((pool ...) (...))
-     ((driver ...) (...))
-     ((handle ...) (...))
-     ((reply-pair ...) (...))
-     ((reply-tx ...) (...))
-     ((reply-rx ...) (...))
-     ((ack-pair ...) (...))
-     ((ack-tx ...) (...))
-     ((ack-rx ...) (...))
-     ((_put ...) (...))
-     ((results ...) (...))
-     ((_join ...) (...)))
+  (let [spawn       ...
+        pool        ...
+        driver      ...
+        handle      ...
+        reply-pair  ...
+        reply-tx    ...
+        reply-rx    ...
+        ack-pair    ...
+        ack-tx      ...
+        ack-rx      ...
+        _put        ...
+        results     ...
+        _join       ...]
     (assert-eq ...)))
 ```
 
@@ -60,11 +59,11 @@ Anonymous sequential bindings are the lie. Every binding is a name that pretends
 
 Each named helper above the final test should have its own deftest proving it in isolation. Without per-helper deftests, the discipline degrades to "named factoring" without the proof tree. Failure trace can't bisect the layers.
 
-```scheme
+```clojure
 ;; ❌ Level 2 mumble — helpers exist but no deftests for them.
-(define :test::send-one-put ...)        ; helper, but never tested alone
-(define :test::send-one-get ...)        ; helper, but never tested alone
-(define :test::put-then-get ...)        ; composes; never tested alone
+(defn :test::send-one-put [...] ...)    ; helper, but never tested alone
+(defn :test::send-one-get [...] ...)    ; helper, but never tested alone
+(defn :test::put-then-get [...] ...)    ; composes; never tested alone
 
 (deftest :final-test                    ; only this is proven
   (test::put-then-get ...))
@@ -84,13 +83,13 @@ Layered helpers + per-layer deftests + the final scenario all in one file. File-
 
 Test files MUST read top-down. A helper at line 200 referencing a helper at line 400 is the file lying about its dependency direction. The reader can no longer trust top-down comprehension; they must scan forward AND backward.
 
-```scheme
+```clojure
 ;; ❌ Level 1 lie — line N defines a helper that calls one defined at line N+M.
 
-(define :test::layer-1-helper       ; line 50
-  (:test::layer-2-helper ...))      ; references something defined LATER
+(defn :test::layer-1-helper [...]    ; line 50
+  (:test::layer-2-helper ...))       ; references something defined LATER
 
-(define :test::layer-2-helper       ; line 200
+(defn :test::layer-2-helper [...]    ; line 200
   ...)
 ```
 
@@ -148,22 +147,18 @@ A test file can mix deftests that PASS cleanly with deftests that `:should-panic
 
 The fix: TWO prelude factories in the same file. One per outcome class.
 
-```scheme
+```clojure
 ;; Factory 1 — Layer 0 helpers; pure lifecycle; no channel-pair patterns; clean pass.
 (make-deftest :deftest-hermetic
-  (
-   (define :test::layer-0a ...)   ;; spawn + drop + join
-   (define :test::layer-0b ...)   ;; receive a value end-to-end
-  ))
+  [(defn :test::layer-0a [...] ...)   ;; spawn + drop + join
+   (defn :test::layer-0b [...] ...)]) ;; receive a value end-to-end
 
 ;; Factory 2 — Layer 1+ helpers; service-aware; includes channel-pair patterns
 ;; that trigger the deadlock walker at freeze; all deftests using this prelude :should-panic.
 (make-deftest :deftest-service
-  (
-   (define :test::layer-1-put ...)        ;; helper-verb call site
-   (define :test::layer-1-get ...)
-   (define :test::layer-2-put-then-get ...)
-  ))
+  [(defn :test::layer-1-put [...] ...)         ;; helper-verb call site
+   (defn :test::layer-1-get [...] ...)
+   (defn :test::layer-2-put-then-get [...] ...)])
 
 ;; Clean-pass deftests use factory 1.
 (:deftest-hermetic :test::test-layer-0a (:test::layer-0a))
@@ -179,24 +174,24 @@ The two-prelude split is a one-file solution to the mixed-outcome constraint. Sa
 
 When the consumer has a walker that traces channel arguments back through `(first pair)` / `(second pair)` chains to a `make-channel` anchor, **the trace stops at function-call boundaries.** Factoring channel allocation + the first/second projections into a helper that returns the (Sender, Receiver) tuple SILENCES the check — the same code shape that fires the walker inline does NOT fire when wrapped.
 
-```scheme
+```clojure
 ;; ❌ Tempting: clean abstraction. But the walker stops tracing here;
 ;; if a deadlock pattern existed inline, it's hidden now.
-(define
-  (:test::make-ack-channel -> :(AckTx, AckRx))
-  (let
-    (((pair) (make-bounded-channel :unit 1)))
+(defn :test::make-ack-channel
+  [] -> :(AckTx, AckRx)
+  (let [pair (make-bounded-channel :unit 1)]
     (Tuple (first pair) (second pair))))
 
 ;; ✓ Correct: keep the channel-allocation + first/second sequence INLINE in the
 ;; helper that uses both halves. The walker's trace can follow the chain.
-(define
-  (:test::send-put-with-ack (req-tx :ReqTx) (k :K) (v :V) -> :unit)
-  (let
-    (((ack-pair) (make-bounded-channel :unit 1))
-     ((ack-tx) (first ack-pair))
-     ((ack-rx) (second ack-pair))
-     ((_put) (put req-tx ack-tx ack-rx ...)))
+(defn :test::send-put-with-ack
+  [req-tx <- :ReqTx
+   k      <- :K
+   v      <- :V] -> :unit
+  (let [ack-pair (make-bounded-channel :unit 1)
+        ack-tx   (first ack-pair)
+        ack-rx   (second ack-pair)
+        _put     (put req-tx ack-tx ack-rx ...)]
     ()))
 ```
 
@@ -206,19 +201,16 @@ When extracting helpers, leave channel allocations IN the helper that calls the 
 
 A lifecycle helper that demonstrates spawn-and-shutdown without doing any actual work must STILL pop a handle from the pool before calling `pool/finish` (when the consumer's substrate enforces pool-accounting). The runtime check raises "orphaned handles" if the pool is finished with un-popped slots. The lifecycle helper:
 
-```scheme
-(define
-  (:test::lifecycle-spawn-and-shutdown -> :unit)
-  (let
-    (((driver)
-      (let
-        (((spawn) (svc/spawn 1 ...))
-         ((pool) (first spawn))
-         ((d) (second spawn))
-         ((req-tx) (pool/pop pool))   ;; ← required
-         ((_finish) (pool/finish pool)))
-        d))
-     ((_join) (Thread/join-result driver)))
+```clojure
+(defn :test::lifecycle-spawn-and-shutdown
+  [] -> :unit
+  (let [driver  (let [spawn   (svc/spawn 1 ...)
+                      pool    (first spawn)
+                      d       (second spawn)
+                      req-tx  (pool/pop pool)        ;; ← required
+                      _finish (pool/finish pool)]
+                  d)
+        _join   (Thread/join-result driver)]
     ()))
 ```
 
@@ -228,25 +220,22 @@ The pop-then-drop pattern is the standard form even when no work happens — the
 
 For services where the driver loop sends a final state before returning, the lifecycle helper MUST `recv` from `Thread/output` BEFORE calling `Thread/join-result`. Dropping the receiver before the send completes panics the driver with "out disconnected".
 
-```scheme
-(define
-  (:test::svc-spawn-and-shutdown -> :unit)
-  (let
-    (((driver-and-final)
-      (let
-        (((spawn) (svc/Service 1))
-         ((pool) (first spawn))
-         ((d) (second spawn))
-         ((final-rx) (Thread/output d))
-         ((req-tx) (pool/pop pool))
-         ((_finish) (pool/finish pool))
-         ((_final-state)
-          (Option/expect
-            (Result/expect (recv final-rx)
-              "spawn-and-shutdown: thread died before sending final-state")
-            "spawn-and-shutdown: thread output closed without sending")))
-        d))
-     ((_join) (Thread/join-result driver-and-final)))
+```clojure
+(defn :test::svc-spawn-and-shutdown
+  [] -> :unit
+  (let [driver-and-final
+         (let [spawn        (svc/Service 1)
+               pool         (first spawn)
+               d            (second spawn)
+               final-rx     (Thread/output d)
+               req-tx       (pool/pop pool)
+               _finish      (pool/finish pool)
+               _final-state (Option/expect
+                              (Result/expect (recv final-rx)
+                                "spawn-and-shutdown: thread died before sending final-state")
+                              "spawn-and-shutdown: thread output closed without sending")]
+           d)
+        _join (Thread/join-result driver-and-final)]
     ()))
 ```
 
@@ -256,15 +245,13 @@ Services whose driver returns the unit type don't have this issue — there's no
 
 The previous edge case warns against factoring channel allocation into a helper. The full picture: walker checks fire on any function-call site that passes both halves of a channel pair as arguments — INCLUDING calls to user-defined helpers whose signatures take both halves.
 
-```scheme
+```clojure
 ;; ❌ Walker fires HERE — at the call to send-ack-wait — because both
 ;; ack-tx and ack-rx are passed in the same call.
-(define
-  (:test::send-ack-wait
-    (req-tx :ReqTx)
-    (ack-tx :AckTx)
-    (ack-rx :AckRx)
-    -> :unit)
+(defn :test::send-ack-wait
+  [req-tx <- :ReqTx
+   ack-tx <- :AckTx
+   ack-rx <- :AckRx] -> :unit
   ...)
 
 ;; In a deftest body or another helper:
@@ -296,10 +283,10 @@ The simpler rule: when one of the deftest's let bindings has an RHS that EVALUAT
 
 Some deftest bodies are inherently complex by design — the bulk is a fixture, not scaffolding, and refactoring would make the test worse. For these cases, the line gets a **rune** that declares the deftest exempt with a justified reason:
 
-```scheme
+```clojure
 (deftest :my::test-with-fixture
   ;; rune:complectens(embedded-program) — outer let has 2 bindings; bulk is embedded-program AST literal (sandboxed subprocess fixture)
-  (let (...) ...))
+  (let [...] ...))
 ```
 
 Format: `;; rune:complectens(<category>) — <reason>`

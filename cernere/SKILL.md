@@ -26,7 +26,7 @@ The honest shape:
 The dishonest shape:
 - Source uses a form that looks like it should work but isn't declared (`push!` in a language without `push!`; `cond` in a language with only `if` / `match`)
 - Source uses an implementation function (`cache-get`) as if it were a language primitive
-- Source uses a form from a SIBLING language (Rust idioms in Scheme; Python idioms in JavaScript) because the author was thinking in another tongue
+- Source uses a form from a SIBLING language (Scheme idioms in a Clojure-style Lisp; Python idioms in JavaScript) because the author was thinking in another tongue
 - Source uses an OLD form that was retired — the spell finds the retirement gap before the runtime does
 
 ## The four questions applied
@@ -38,12 +38,12 @@ The dishonest shape:
 
 ## What cernere sees
 
-> Code examples below illustrate the discipline on wat/Scheme files where forms begin with `(`; translate to your host language's atomic-call boundary. The discipline applies to any language with a defined vocabulary: SQL dialects (catch `SELECT TOP` in PostgreSQL); shell scripts (catch `bash`isms in `sh`); domain DSLs (catch invented operations).
+> Code examples below illustrate the discipline on wat (Clojure-style Lisp on Rust) files where forms begin with `(`; translate to your host language's atomic-call boundary. The discipline applies to any language with a defined vocabulary: SQL dialects (catch `SELECT TOP` in PostgreSQL); shell scripts (catch `bash`isms in `sh`); domain DSLs (catch invented operations).
 
 ### Phantom function calls
 
-```scheme
-;; The language registers: define, fn, let, match, if, cons, car, cdr, ...
+```clojure
+;; The language registers: def, defn, fn, let, match, if, when, first, rest, ...
 ;; The source uses:
 (format "~a / ~a" k v)
 ```
@@ -52,7 +52,7 @@ The dishonest shape:
 
 ### Phantom mutation operators
 
-```scheme
+```clojure
 ;; The language is immutable; mutation lives only in specific primitives.
 (push! my-vec x)
 (set! counter 0)
@@ -62,18 +62,19 @@ The dishonest shape:
 
 ### Phantom control flow
 
-```scheme
+```clojure
 ;; The language has if, match, when, unless. cond is not declared.
-(cond ((= x 0) "zero")
-      ((> x 0) "positive")
-      (else "negative"))
+(cond
+  (= x 0) "zero"
+  (> x 0) "positive"
+  :else   "negative")
 ```
 
 `cond` is one of Lisp's most familiar control-flow forms. In a language that deliberately reduced its control-flow vocabulary to `if`/`match`/`when`/`unless`, `cond` is a phantom — even though it would be trivially expressible via `match`. The spell catches the import-from-elsewhere.
 
 ### Implementation functions promoted to language forms
 
-```scheme
+```clojure
 ;; cache-get is an internal helper in the substrate's Rust impl.
 ;; It is not exposed as a language primitive.
 (cache-get key)
@@ -83,9 +84,11 @@ The author found `cache-get` in the source tree and tried to call it. It's an in
 
 ### Retired forms still in use
 
-```scheme
+```clojure
 ;; The language retired :wat::core::lambda in favor of :wat::core::fn (arc 162).
-(:wat::core::lambda (x) (* x x))
+;; The retired form also used Scheme-style positional arg lists; the modern
+;; form uses Clojure-style vector arg lists.
+(:wat::core::lambda (x) (* x x))   ;; phantom: both the verb AND the arg-list shape
 ```
 
 A form that USED to exist but was retired is a phantom from the spec's current perspective. The spell catches usage of retired forms and cites the retirement (which arc / which version / what to use instead).
@@ -101,7 +104,7 @@ A form that USED to exist but was retired is a phantom from the spec's current p
 
 Some uses look like phantoms but are intentional. The rune declares the form exempt with a justified reason:
 
-```scheme
+```clojure
 ;; rune:cernere(future-form) — calling :next-version::foo deliberately; this branch only executes when the new substrate version is loaded; gated by feature flag
 (:next-version::foo x)
 ```

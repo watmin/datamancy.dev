@@ -31,7 +31,7 @@ A test that stands NOWHERE — that has cracked open layers no real caller would
 
 When a helper verb / public API exists for a use case, but the test bypasses it:
 
-```scheme
+```clojure
 ;; A consumer of HologramCacheService calls
 ;; (HologramCacheService/get req-tx reply-tx reply-rx probes).
 ;;
@@ -91,7 +91,7 @@ intentionally tests from a non-consumer vantage — substrate reference,
 protocol fixture, or vantage-bypass test by design. The rune
 declares the vantage exempt with a justified reason:
 
-```scheme
+```clojure
 (deftest test-spawn-program-stdout-piping
   ;; rune:vocare(substrate-primitive-reference) — this test documents the spawn-program substrate primitive's stdout-piping contract; the implementer's vantage IS the canonical vantage here
   (let (...) ...))

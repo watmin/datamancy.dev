@@ -83,7 +83,7 @@ can fix. Examples:
 For these cases, the line gets a **rune** that declares the deep
 type viable for a justified reason:
 
-```scheme
+```clojure
 ;; rune:perspicere(read-once) — called once at the test boundary; alias would be a Level 2 mumble
 ((_ Vector<Option<HolonAST>>)
   ...)
