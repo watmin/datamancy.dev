@@ -26,7 +26,7 @@ The four questions MUST run in order. Obvious + Simple + Honest must all hold be
 
 ## What complectēns sees
 
-> Code examples below are transcribed from the wat-rs substrate where this discipline matured. The syntax is wat-rs-specific (`define`, `deftest`, `let` with paren-balanced binding tuples, `Thread/join-result`, `pool/finish`, channel-pair patterns); translate to your substrate's equivalent verbs. The DISCIPLINE — top-down dependency, named layers, per-layer proof, short deftest body — applies regardless of host language.
+> Code examples below are transcribed from the wat-rs substrate where this discipline matured. The syntax is wat-rs-specific (`defn`, `deftest`, `let` with vector bindings `[name val name val]`, `Thread/join-result`, `pool/finish`, channel-pair patterns); translate to your substrate's equivalent verbs. The DISCIPLINE — top-down dependency, named layers, per-layer proof, short deftest body — applies regardless of host language.
 
 ### Monolithic deftests — the load-bearing violation
 
