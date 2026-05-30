@@ -1,7 +1,7 @@
 {
   "serverInfo": {
     "name": "datamancy.dev",
-    "version": "1437004"
+    "version": "59870ef"
   },
   "practitioner": "https://datamancer.dev",
   "trust": {
@@ -16,7 +16,7 @@
       "mimeType": "text/markdown",
       "sha256": "28357cd40895d670fcada6bfdc56e38c2da4ce6188dfb3823346389749f67fd0",
       "size": 9123,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "complectens",
@@ -24,7 +24,7 @@
       "mimeType": "text/markdown",
       "sha256": "5b44c113fb7c4ad3ccd82be6824764d969726f3dfadd51bd5c6070d7c672c01e",
       "size": 19914,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "conferre",
@@ -32,7 +32,7 @@
       "mimeType": "text/markdown",
       "sha256": "3167d55b0ea9befdc0d91ba59481026e3fcf26062f43968a0a21427d9d9788de",
       "size": 9739,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "conformare",
@@ -40,7 +40,7 @@
       "mimeType": "text/markdown",
       "sha256": "9b212cef9ea93737e0652094b728deac1c90e88370b22dc7fc448a9bafe7dca8",
       "size": 8858,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "consonare",
@@ -48,7 +48,7 @@
       "mimeType": "text/markdown",
       "sha256": "803fc2591532aaac047078e0f0a86daeb7c0fb029c8f25c23934d4652f3cc9b6",
       "size": 13968,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "exigere",
@@ -56,7 +56,15 @@
       "mimeType": "text/markdown",
       "sha256": "e3ebaee49a9292c826faeb395e4566677203e906f54dfe58391858a78f74d83f",
       "size": 9742,
-      "version": "1437004"
+      "version": "59870ef"
+    },
+    {
+      "name": "grimoire",
+      "uri": "https://datamancy.dev/grimoire/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "071886eabd93df6e6a71e7fc26fb4c11714df82e1927d98968f6f89ee1d1749b",
+      "size": 5958,
+      "version": "59870ef"
     },
     {
       "name": "intueri",
@@ -64,7 +72,7 @@
       "mimeType": "text/markdown",
       "sha256": "967a808cf5e25cfe0d0a81055941ae70bdb7564246b605cb4491dd04863b1749",
       "size": 8461,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "mora",
@@ -72,7 +80,7 @@
       "mimeType": "text/markdown",
       "sha256": "cc50a6af8c2fccc8ef6e063503bee2ba08512baf013063a95b365507f6a8c439",
       "size": 11851,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "nesciens",
@@ -80,7 +88,7 @@
       "mimeType": "text/markdown",
       "sha256": "3d070093543d047838bca6850351a3fe19359107040ee709ef18541195ae5671",
       "size": 7745,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "perspicere",
@@ -88,7 +96,7 @@
       "mimeType": "text/markdown",
       "sha256": "b1268fd029bbf1e0bb99e665eab5d8548560c06cdceecc0108797c64016c78c6",
       "size": 5954,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "probare",
@@ -96,7 +104,7 @@
       "mimeType": "text/markdown",
       "sha256": "79addf814adf7e9d88b344a3afc29f7c68766e946eb01798080f8db6b41a8a3d",
       "size": 7965,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "purgare",
@@ -104,7 +112,7 @@
       "mimeType": "text/markdown",
       "sha256": "49800061f40f6ff90a581f74e4664168dc1de1ad9087937cb343472e2497ae39",
       "size": 8677,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "secare",
@@ -112,7 +120,7 @@
       "mimeType": "text/markdown",
       "sha256": "4c8596a047e5b33c827e23f506ac9e1df4ea4f334a6eb186602adc1b027a29d6",
       "size": 8469,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "sequi",
@@ -120,7 +128,7 @@
       "mimeType": "text/markdown",
       "sha256": "673a3ba09272e8c0efa840603b67544299afe244da272ae4efb2c963af6996db",
       "size": 10453,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "solvere",
@@ -128,7 +136,7 @@
       "mimeType": "text/markdown",
       "sha256": "553f73fa84e1f4e4efa0005e7b1079db1a5c1ad85db18f89d6347822994211c4",
       "size": 8960,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "struere",
@@ -136,7 +144,7 @@
       "mimeType": "text/markdown",
       "sha256": "d8314758716f3753e0032d32bd9f6d483cd0acc8b515940c87579fbe03cb4a74",
       "size": 8693,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "temperare",
@@ -144,7 +152,7 @@
       "mimeType": "text/markdown",
       "sha256": "591c6b79db488202ce5de51d80ccc6ac5802c097702c002db56ab7ebe048fb10",
       "size": 7916,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "vigilia",
@@ -152,7 +160,7 @@
       "mimeType": "text/markdown",
       "sha256": "0219fda05c365c22bf0410e0e1cf05e5f5bf1e69e8958cdf7aa552ad0eb91bf5",
       "size": 7332,
-      "version": "1437004"
+      "version": "59870ef"
     },
     {
       "name": "vocare",
@@ -160,7 +168,7 @@
       "mimeType": "text/markdown",
       "sha256": "02083b991d7c3bcb1cfdb5231f922f8f4c84a4560940349a80e53c3afe8006cf",
       "size": 7497,
-      "version": "1437004"
+      "version": "59870ef"
     }
   ]
 }

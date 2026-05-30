@@ -5,9 +5,10 @@
   "type": "module",
   "description": "Source for datamancy.dev — the grimoire published as raw markdown + hash-verified MCP manifest.",
   "scripts": {
+    "grimoire:regen": "node scripts/generate-grimoire-skill.mjs",
     "manifest:generate": "node scripts/generate-manifest.mjs",
     "manifest:sign": "node scripts/sign-manifest.mjs",
-    "manifest:publish": "npm run manifest:generate && npm run manifest:sign"
+    "manifest:publish": "npm run grimoire:regen && npm run manifest:generate && npm run manifest:sign"
   },
   "engines": {
     "node": ">=20"
