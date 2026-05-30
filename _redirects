@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects.
+# Zero rendering — every file is served as raw markdown. The bare domain
+# has no index.html, so land a human visitor on the grimoire: the index
+# of the practice, which catalogs every spell and explains the trust chain.
+/    /grimoire/SKILL.md    302
