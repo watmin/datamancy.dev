@@ -90,6 +90,12 @@ async function readHead() {
 async function main() {
   const commit = gitShortSha();
   const epoch = Math.floor(Date.now() / 1000);
+  // ISO8601 version label, tag-safe (colons → dashes): 2026-05-30T21-42-00Z.
+  // Sorts chronologically, reads cleanly, and is a valid git tag + path.
+  const version = new Date(epoch * 1000)
+    .toISOString()
+    .replace(/\.\d{3}Z$/, "Z")
+    .replace(/:/g, "-");
   const prevHash = await readHead();
 
   await mkdir(BLOBS_DIR, { recursive: true });
@@ -139,7 +145,7 @@ async function main() {
 
   const manifest = {
     schemaVersion: SCHEMA_VERSION,
-    serverInfo: { name: "datamancy.dev", version: commit },
+    serverInfo: { name: "datamancy.dev", version, commit },
     practitioner: "https://datamancer.dev",
     epoch,
     previous: prevHash ? `sha256:${prevHash}` : null,
@@ -151,8 +157,8 @@ async function main() {
   await writeFile(MANIFEST, JSON.stringify(manifest, null, 2) + "\n");
 
   console.error(
-    `[generate-manifest] ${resources.length} spells, schemaVersion ` +
-      `${SCHEMA_VERSION}, epoch ${epoch}`,
+    `[generate-manifest] ${resources.length} spells, version ${version}, ` +
+      `schemaVersion ${SCHEMA_VERSION} (commit ${commit})`,
   );
   console.error(
     `[generate-manifest] previous: ${manifest.previous ?? "(genesis)"}`,

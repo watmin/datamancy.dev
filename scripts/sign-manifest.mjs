@@ -88,9 +88,15 @@ async function main() {
   console.error(
     `[sign-manifest] DER signature: ${signature.byteLength} bytes → ${SIGNATURE}`,
   );
-  console.error(`[sign-manifest] version: sha256:${manifestHash}`);
+  const versionLabel = JSON.parse(manifestBytes.toString("utf-8")).serverInfo
+    .version;
+  console.error(
+    `[sign-manifest] version: ${versionLabel} (sha256:${manifestHash})`,
+  );
   console.error(`[sign-manifest] snapshot → ${snapDir}/ (HEAD advanced)`);
-  console.error(`[sign-manifest] next: git add . && git commit && git push`);
+  console.error(`[sign-manifest] next:`);
+  console.error(`  git add . && git commit -m "publish ${versionLabel}"`);
+  console.error(`  git tag ${versionLabel} && git push --follow-tags`);
 }
 
 main().catch((err) => {
