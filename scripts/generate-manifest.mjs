@@ -45,7 +45,6 @@ import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
 
 const REPO_ROOT = process.cwd();
-const SITE = "https://datamancy.dev";
 const SCHEMA_VERSION = 1;
 
 const MANIFEST = ".well-known/mcp/manifest.json";
@@ -119,10 +118,15 @@ async function main() {
     const blobPath = join(BLOBS_DIR, sha256);
     if (!(await exists(blobPath))) await writeFile(blobPath, buf);
 
+    // Origin-AGNOSTIC paths, not absolute URLs. The consumer resolves them
+    // against whatever origin it's pointed at (datamancy.dev by default, or
+    // an org's own mirror via DATAMANCY_SITE). The signed manifest carries no
+    // hostname, so the exact same signed bytes verify wherever they're served
+    // — clone the snapshot, host it yourself, still provably authentic.
     resources.push({
       name: entry.name,
-      uri: `${SITE}/${entry.name}/SKILL.md`,
-      blob: `${SITE}/${BLOBS_DIR}/${sha256}`,
+      uri: `${entry.name}/SKILL.md`,
+      blob: `${BLOBS_DIR}/${sha256}`,
       mimeType: "text/markdown",
       sha256,
       size: buf.byteLength,
