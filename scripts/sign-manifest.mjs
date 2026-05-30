@@ -22,7 +22,7 @@
  *   5. git add . && git commit && git push
  */
 
-import { readFile, writeFile, unlink } from "node:fs/promises";
+import { readFile, writeFile, unlink, mkdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
@@ -30,6 +30,7 @@ import { join } from "node:path";
 
 const MANIFEST = ".well-known/mcp/manifest.json";
 const SIGNATURE = ".well-known/mcp/manifest.json.sig";
+const HEAD = ".well-known/mcp/HEAD";
 
 const KEY_ID = process.env.DATAMANCY_KMS_KEY ?? "alias/datamancy-signing";
 const REGION = process.env.DATAMANCY_KMS_REGION ?? "us-west-2";
@@ -69,6 +70,17 @@ async function main() {
   const signature = Buffer.from(sigB64, "base64");
   await writeFile(SIGNATURE, signature);
 
+  // Finalize the immutable snapshot. The manifest's own SHA-256 is its
+  // content address = the version id a consumer pins. Copy the EXACT signed
+  // bytes + signature to manifests/<hash>/ (write-once, never reopened), and
+  // advance HEAD so the next generate links its `previous` to this version.
+  const manifestHash = createHash("sha256").update(manifestBytes).digest("hex");
+  const snapDir = join("manifests", manifestHash);
+  await mkdir(snapDir, { recursive: true });
+  await writeFile(join(snapDir, "manifest.json"), manifestBytes);
+  await writeFile(join(snapDir, "manifest.json.sig"), signature);
+  await writeFile(HEAD, manifestHash + "\n");
+
   console.error(
     `[sign-manifest] signed ${manifestBytes.byteLength} bytes of ${MANIFEST} ` +
       `via KMS (${KEY_ID}, ${REGION})`,
@@ -76,6 +88,8 @@ async function main() {
   console.error(
     `[sign-manifest] DER signature: ${signature.byteLength} bytes → ${SIGNATURE}`,
   );
+  console.error(`[sign-manifest] version: sha256:${manifestHash}`);
+  console.error(`[sign-manifest] snapshot → ${snapDir}/ (HEAD advanced)`);
   console.error(`[sign-manifest] next: git add . && git commit && git push`);
 }
 

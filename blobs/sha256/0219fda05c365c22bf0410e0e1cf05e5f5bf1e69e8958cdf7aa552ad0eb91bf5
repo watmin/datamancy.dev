@@ -1,0 +1,133 @@
+---
+name: vigilia
+description: The watch. The datamancer summons the vigilia — every defensive spell in the grimoire cast against the target in parallel; one report per spell; the full guard standing.
+---
+
+# Vigilia
+
+> *vigilia* — Latin: a watch, a guard, a vigil; the act of staying alert. Cognate root of "vigilance," "vigilant," "vigil." The full guard standing watch.
+
+> The pieces guard each. The whole guards everything.
+
+Vigilia is **the aggregator**. It does not check the code itself; it summons every defensive spell in the grimoire against the target, in parallel, and collects the reports. The practitioner casts vigilia when the question is "is this code ready?" — and wants the answer from every angle the grimoire knows how to ask.
+
+## The principle
+
+Each defensive spell sees one concern. solvere sees tangles. purgare sees dead thoughts. intueri sees communication. struere sees craft. temperare sees waste. secare sees parallel races. conferre sees spec/code divergence. probare sees substance. cernere sees phantom forms. nesciens sees documentation walkability. Each finding is bounded; each spell converges (L1 + L2 = 0) on its own concern.
+
+Vigilia asks: **across ALL the concerns the grimoire knows, has the target converged?**
+
+The honest shape:
+- Vigilia spawns the defensive spells in parallel — one subagent per spell, anchored to the target
+- Each spell applies its discipline; each returns its report
+- Vigilia aggregates the reports; the aggregate shows the target's overall standing
+- A target that converges across ALL spells is ready; a target that diverges in any spell has a gap to close
+
+The dishonest shape:
+- Casting vigilia and hoping NO spell finds anything (vigilia is a measurement, not a prayer)
+- Skipping spells whose findings are inconvenient (the full guard means ALL of them)
+- Counting Level 3 taste against the aggregate (vigilia respects each spell's severity rules; only L1+L2 count toward divergence)
+
+## The four questions applied
+
+- **Obvious?** Can the practitioner read vigilia's aggregate and know in one glance which spells converged and which didn't? "9 of 10 converged; cernere flagged 2 phantoms" is obvious. "Various findings" is not.
+- **Simple?** Does vigilia add complexity beyond aggregation? The spell should not invent new findings; the spell should only collect what the defensive set produced.
+- **Honest?** Does the aggregate report each spell's findings as that spell named them? Vigilia does not re-classify (no demoting a sibling's L1 to L2; no merging two findings into one).
+- **Good UX?** Does the aggregate point at what to fix FIRST? The practitioner needs prioritization: L1 lies before L2 mumbles; the spell whose finding gates the most downstream work first.
+
+## What vigilia casts
+
+The defensive set, in the order each spell's findings tend to compose:
+
+| Spell | Concern | Why in the set |
+|---|---|---|
+| **intueri** | Names + structure + communication | Read first because every other spell's findings reference names |
+| **solvere** | Braided concerns; misplaced logic | Hickey's decomplect; structure comes before behavior |
+| **purgare** | Dead code; unused state | Removes noise before craft checks |
+| **struere** | Per-function craft — values not places, types enforce | Hickey at the function level, after structure is settled |
+| **sequi** | Per-chain state threading — visible through types | Beckman at the chain level, after per-function craft |
+| **temperare** | Wasteful computation; redundant work | Efficiency, after correctness |
+| **secare** | Parallel safety; disjoint writes | Concurrency, where applicable |
+| **cernere** | Phantom forms; language-spec conformance | Where applicable (wat / DSL / language files) |
+| **probare** | Substance vs description | Where the target is a spec/doc/config |
+| **conferre** | Spec vs implementation divergence | Where the target has both spec and code |
+| **nesciens** | Documentation walkability | Where the target is documentation |
+
+Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's kind (code / spec / docs / mixed). The default casts the universally-applicable set (intueri, solvere, purgare, struere, sequi, temperare) and adds the others as the target's contents warrant.
+
+## How to invoke
+
+```
+/vigilia path/to/target
+/vigilia path/to/directory
+/vigilia path/to/target --include cernere,probare      # explicit add
+/vigilia path/to/target --exclude temperare,secare     # explicit skip
+```
+
+The default selection rule:
+
+- Code file in a host language (Rust, Clojure-style Lisp, etc.) — cast intueri, solvere, purgare, struere, sequi, temperare (+ secare if the file uses parallel primitives)
+- Spec / DSL / wat file — add cernere (phantom forms), probare (substance)
+- Documentation (README, USER-GUIDE, etc.) — add nesciens (walkability); skip code-specific spells
+- Mixed file — cast the union
+
+The practitioner can override with `--include` / `--exclude` as needed.
+
+## What vigilia returns
+
+For each spell cast:
+- Spell name
+- Convergence (CONVERGED / N L1 / M L2)
+- Findings list (passed through from the spell's report verbatim)
+
+Aggregate:
+- Total L1 across all spells
+- Total L2 across all spells
+- Prioritization: which findings to address first (L1 in the most upstream spell)
+- Verdict: target CONVERGES (zero L1+L2) or DIVERGES (counts)
+
+## What vigilia does NOT do
+
+- **Invent findings** — vigilia's output is the union of its children's outputs; nothing new appears
+- **Re-classify findings** — each child spell owns its severity verdicts
+- **Suppress findings** — the rune system per spell handles legitimate exemptions; vigilia respects each spell's rune output and does not add its own suppression layer
+- **Recommend rune additions** — that's per-spell authoring discipline, not aggregator concern
+
+## The rune
+
+Vigilia has no rune of its own. Vigilia is an aggregator; its findings are the children's findings; the children's runes already cover legitimate exemptions. A rune at the vigilia level would be a meta-suppression with no honest semantics.
+
+(If a target should be excluded from vigilia entirely, that's a per-spell rune on the target — or a build-tool config that doesn't run vigilia on that path. Not vigilia's concern.)
+
+## Reporting format
+
+The aggregate report:
+
+```
+vigilia on <target>
+  intueri    : CONVERGED
+  solvere    : 1 L1 (file:line — braided concerns)
+  purgare    : CONVERGED
+  struere    : 2 L2 (file:line — wrong-level abstraction; file:line — type doesn't enforce)
+  temperare  : CONVERGED
+
+Aggregate: 1 L1 + 2 L2; DIVERGES.
+Priority: solvere L1 (structure gates everything else); then struere L2s.
+```
+
+A converged target shows:
+
+```
+vigilia on <target>
+  intueri    : CONVERGED
+  solvere    : CONVERGED
+  purgare    : CONVERGED
+  struere    : CONVERGED
+  temperare  : CONVERGED
+
+Aggregate: 0 L1 + 0 L2; CONVERGES. Ready.
+```
+
+## The principle behind the spell
+
+Each defensive spell guards one concern with discipline. The full guard standing watch is more than any single spell — not because the spells COMBINE into something larger, but because no concern is left unwatched when all are cast. The practitioner casts vigilia when the question is the whole, not the part. The four-questions decide what to address in the divergent report.

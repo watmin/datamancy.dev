@@ -13,10 +13,20 @@
 /*.md
   Content-Type: text/markdown; charset=utf-8
 
-# MCP manifest — JSON
+# MCP manifest (latest pointer) — JSON
 /.well-known/mcp/manifest.json
   Content-Type: application/json; charset=utf-8
 
-# Detached Ed25519 signature — opaque binary bytes
+# Detached ECDSA P-256 signature — opaque binary bytes
 /.well-known/mcp/manifest.json.sig
+  Content-Type: application/octet-stream
+
+# Immutable content-addressed blobs (spell bodies) — raw markdown
+/blobs/sha256/*
+  Content-Type: text/markdown; charset=utf-8
+
+# Immutable manifest snapshots (one per version)
+/manifests/*/manifest.json
+  Content-Type: application/json; charset=utf-8
+/manifests/*/manifest.json.sig
   Content-Type: application/octet-stream

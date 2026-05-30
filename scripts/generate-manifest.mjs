@@ -1,31 +1,64 @@
 #!/usr/bin/env node
 /**
- * Generate .well-known/mcp/manifest.json for datamancy.dev.
+ * Generate the content-addressed MCP layout for datamancy.dev.
  *
- * Walks every top-level directory looking for SKILL.md, computes the
- * SHA-256 + byte size of each, and emits a manifest with a resource
- * entry per spell. Sorted deterministically by spell name so the
- * manifest is byte-stable across regenerations (good for signing).
+ * For each spell (<dir>/SKILL.md):
+ *   - SHA-256 the content, write an immutable blob at blobs/sha256/<hash>
+ *     (skipped if it already exists — unchanged spells dedupe across versions)
+ *   - add a resource entry carrying the live `uri` (pretty, browsable) AND
+ *     the immutable `blob` URL
  *
- * Run from the repo root: `npm run manifest:generate`
+ * Then emit the "latest" manifest at .well-known/mcp/manifest.json carrying:
+ *   - schemaVersion — so the FORMAT can evolve independently of the URLs
+ *   - epoch — unix seconds, a monotonic version stamp
+ *   - previous — hash of the last PUBLISHED manifest (the chain backpointer,
+ *     read from .well-known/mcp/HEAD; null at genesis). History is the chain
+ *     of immutable manifests — git's parent links — so there is no growing
+ *     index file.
  *
- * After regenerating, sign with `npm run manifest:sign`.
+ * This script does NOT write the immutable manifests/<hash>/ snapshot or
+ * advance HEAD — that happens in sign-manifest.mjs, after the bytes are
+ * final and signed. Re-running generate only refreshes `latest` + blobs; it
+ * never litters immutable snapshots.
+ *
+ * Layout (stable, storage-agnostic — maps 1:1 to object-store keys, so a
+ * future move to R2/S3 is a copy + route, not a redesign):
+ *   blobs/sha256/<hash>                  immutable content, append-only
+ *   manifests/<manifest-hash>/...        immutable versions (written by sign)
+ *   .well-known/mcp/manifest.json(.sig)  the moving "latest" pointer
+ *   .well-known/mcp/HEAD                 the published chain head (a hash)
+ *   <spell>/SKILL.md                     pretty human tree (the `uri` target)
+ *
+ * Run from repo root: `npm run manifest:generate`, then `npm run manifest:sign`.
  */
 
-import { readdir, readFile, writeFile, mkdir, stat } from "node:fs/promises";
+import {
+  readdir,
+  readFile,
+  writeFile,
+  mkdir,
+  stat,
+  access,
+} from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
 
 const REPO_ROOT = process.cwd();
-const OUTPUT = ".well-known/mcp/manifest.json";
 const SITE = "https://datamancy.dev";
+const SCHEMA_VERSION = 1;
 
-// Top-level entries to skip — repo plumbing, not spells.
+const MANIFEST = ".well-known/mcp/manifest.json";
+const HEAD = ".well-known/mcp/HEAD";
+const BLOBS_DIR = "blobs/sha256";
+
+// Top-level entries that are never spells.
 const SKIP = new Set([
   "node_modules",
   "scripts",
   ".well-known",
+  "blobs",
+  "manifests",
   ".git",
   ".github",
 ]);
@@ -38,8 +71,30 @@ function gitShortSha() {
   }
 }
 
+async function exists(p) {
+  try {
+    await access(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function readHead() {
+  try {
+    return (await readFile(HEAD, "utf-8")).trim() || null;
+  } catch {
+    return null;
+  }
+}
+
 async function main() {
   const commit = gitShortSha();
+  const epoch = Math.floor(Date.now() / 1000);
+  const prevHash = await readHead();
+
+  await mkdir(BLOBS_DIR, { recursive: true });
+
   const entries = await readdir(REPO_ROOT, { withFileTypes: true });
   const resources = [];
 
@@ -53,49 +108,53 @@ async function main() {
     try {
       s = await stat(skillPath);
     } catch {
-      continue; // no SKILL.md in this directory, not a spell
+      continue; // no SKILL.md — not a spell
     }
     if (!s.isFile()) continue;
 
     const buf = await readFile(skillPath);
     const sha256 = createHash("sha256").update(buf).digest("hex");
 
+    // Immutable, content-addressed blob. Unchanged spells already have it.
+    const blobPath = join(BLOBS_DIR, sha256);
+    if (!(await exists(blobPath))) await writeFile(blobPath, buf);
+
     resources.push({
       name: entry.name,
       uri: `${SITE}/${entry.name}/SKILL.md`,
+      blob: `${SITE}/${BLOBS_DIR}/${sha256}`,
       mimeType: "text/markdown",
       sha256,
       size: buf.byteLength,
-      version: commit,
     });
   }
 
-  // Deterministic ordering — manifest bytes are stable across runs as
-  // long as content doesn't change. Important for signing.
+  // Deterministic ordering so the manifest bytes only change when content
+  // (or epoch/previous) changes.
   resources.sort((a, b) => a.name.localeCompare(b.name));
 
   const manifest = {
-    serverInfo: {
-      name: "datamancy.dev",
-      version: commit,
-    },
+    schemaVersion: SCHEMA_VERSION,
+    serverInfo: { name: "datamancy.dev", version: commit },
     practitioner: "https://datamancer.dev",
-    trust: {
-      algorithm: "SHA-256",
-      tier: 2,
-      signed: true,
-    },
+    epoch,
+    previous: prevHash ? `sha256:${prevHash}` : null,
+    trust: { algorithm: "SHA-256", tier: 2, signed: true },
     resources,
   };
 
-  await mkdir(dirname(OUTPUT), { recursive: true });
-  await writeFile(OUTPUT, JSON.stringify(manifest, null, 2) + "\n");
+  await mkdir(dirname(MANIFEST), { recursive: true });
+  await writeFile(MANIFEST, JSON.stringify(manifest, null, 2) + "\n");
 
   console.error(
-    `[generate-manifest] wrote ${resources.length} resources to ${OUTPUT}`,
+    `[generate-manifest] ${resources.length} spells, schemaVersion ` +
+      `${SCHEMA_VERSION}, epoch ${epoch}`,
   );
-  console.error(`[generate-manifest] version: ${commit}`);
-  console.error(`[generate-manifest] next: run \`npm run manifest:sign\``);
+  console.error(
+    `[generate-manifest] previous: ${manifest.previous ?? "(genesis)"}`,
+  );
+  console.error(`[generate-manifest] wrote ${MANIFEST} + blobs → ${BLOBS_DIR}/`);
+  console.error(`[generate-manifest] next: \`npm run manifest:sign\``);
 }
 
 main().catch((err) => {

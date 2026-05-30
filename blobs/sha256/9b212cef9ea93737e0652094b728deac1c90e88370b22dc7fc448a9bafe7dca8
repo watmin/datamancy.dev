@@ -1,0 +1,146 @@
+---
+name: conformare
+description: Shape error types together to a common standard. The datamancer conformat — every error variant must reach diagnostic completeness via structural guarantee, not hand-discipline. The wrong shape must be uncompilable.
+---
+
+# Conformare
+
+> *conformare* — Latin: *con-* (together) + *formare* (to shape). To shape together to a common standard; to bring into conformity. Active infinitive; root of English "conform," "conformity," "conformation." Two faces, one act: detects deviation from the diagnostic-completeness shape; demands structural enforcement that makes deviation uncompilable.
+
+> An error type that allows variants to silently drop span is the substrate apologizing in advance for failures it will produce.
+
+The compiler checks if types compose. The other spells check structure, life, names, time, decomplection. Conformare checks **error-type honesty at the structural layer**: does every error variant carry diagnostic completeness by construction, or only by hand-discipline?
+
+## The principle
+
+A failure is the system telling you something. An error type is the system's vocabulary for telling. If that vocabulary allows variants to silently lack source location, the substrate's diagnostic surface is built on convention — and convention fails under load. Per `scratch/FAILURE-ENGINEERING.md`: eliminate the CLASS by making the wrong shape STRUCTURALLY UNAVAILABLE.
+
+Conformare asks: **does every error variant in this type structurally guarantee its diagnostic completeness, or does it allow silent omission?**
+
+The dishonest shape is the pure flat enum where each variant may or may not carry a `span` field. Rust accepts both `ArityMismatch { actual: usize }` (no span) and `ArrowMissing { span: Span }` (with span) — the type system has no opinion. Discipline lives in hand-written convention; the next variant author can silently break it.
+
+The honest shape is whatever structural pattern makes the wrong shape uncompilable. Several Rust patterns achieve this; the spell catalogs candidates + applies the four-questions to choose.
+
+## The four-questions applied
+
+Run on every error-type definition + every conversion impl + every API that produces or transports errors:
+
+- **Obvious?** Does a reader see immediately that this error carries (or doesn't carry) source location? If they must scan every variant to know, the type is failing Obvious.
+- **Simple?** Is span access ONE path (e.g., `err.span`) or N paths (exhaustive match across N variants)? N-path access is the discipline failing.
+- **Honest?** Can a constructor produce this error without supplying a span? If yes, the type is structurally dishonest about its diagnostic guarantee. The discipline holds only as far as the convention holds.
+- **Good UX?** Does the type system enforce the discipline, or does the practitioner enforce it? Practitioner-enforced = brittle; type-system-enforced = structural.
+
+A type failing any axis is conformare's finding.
+
+## What conformare audits
+
+### Error-type enum definitions
+
+For each `enum *Error` (or `enum *Step`, `enum *Result`, or anything carried in `Result<_, X>` positions):
+
+- Does every variant carry a `span` field — or is it absent on some?
+- If absent on some, is the absence DOCUMENTED as legitimate (e.g., registry-cycle errors have no source location)?
+- Is the discipline enforced by the type system, or by convention?
+
+### Constructor surfaces
+
+For each error type:
+
+- Can the type be constructed WITHOUT supplying a span?
+- If yes — the type allows silent span omission; structural failure.
+
+### `From<E1> for E2` conversion impls
+
+For each conversion:
+
+- Does the From impl preserve the source's span into the destination's span?
+- Or does it discard? (Common shape: `From<TypeError> for RuntimeError` extracts string + drops span.)
+
+### Parser / check API signatures producing errors
+
+For each function returning `Result<T, Error>`:
+
+- Does the function have access to caller-supplied span context (head_span, list_span, etc.)?
+- Does its error path THREAD that span into the error, or discard at the boundary?
+- A function taking a bare `&[WatAST]` slice and producing an error with `Span::unknown()` while the caller has list_span in scope is the API discarding diagnostic data.
+
+## Structural-enforcement patterns to evaluate
+
+When conformare finds an error type that fails the discipline, the fix is structural. Multiple Rust patterns provide the guarantee; the spell evaluates each via four-questions for the specific substrate context:
+
+**Pattern A — outer struct + kind enum:**
+```rust
+struct MyError { span: Option<Span>, kind: MyErrorKind }
+enum MyErrorKind { /* variants without span fields */ }
+```
+Constructor demands span at the outer level. Field access is one path. Familiar Rust idiom (`std::io::Error` shape).
+
+**Pattern B — newtype wrapper:**
+```rust
+struct Spanned<E>(Option<Span>, E);
+type MyError = Spanned<MyErrorKind>;
+```
+ONE wrapper type substrate-wide. Maximum reuse. Generic type signatures leak.
+
+**Pattern C — derive macro with field check:**
+```rust
+#[derive(Conformare)]
+enum MyError { Variant1 { span: Span, .. }, #[spanless] Variant2 { .. } }
+```
+Per-variant span stays; macro fails compilation if a variant lacks both. TWO authorship patterns within a single type (with span / with `#[spanless]`).
+
+Cast the four-questions on each. The pattern that passes all four (Obvious YES + Simple YES + Honest YES + Good UX YES atomic) is the substrate's answer. If multiple patterns pass, the tiebreaker is "exactly one way to do a thing" per LLM-first design.
+
+## What conformare does NOT audit
+
+- **Internal logic** of error production (which case fires when — that's check.rs / runtime.rs concern, not error-type-shape)
+- **Display / formatting** of errors at the rendering layer (that's perspicere or vocare territory)
+- **Error-recovery strategies** (catch + continue vs propagate — that's solvere structural concern)
+- **Non-error types** that may have similar span-discipline gaps (Bundle nodes, AST nodes — separate audit, separate spell-cast if needed)
+
+## The rune
+
+Per `feedback_runes_illegal_when_solvable`: runes are EXCEPTION mechanisms. Legal ONLY when:
+- The fix is genuinely unsolvable in current scope (substrate-level constraint that can't be lifted without a tracked follow-up arc), OR
+- Fixing would impair performance (hot-path error construction where the structural wrapper costs measurable cycles — must be benchmarked, not assumed)
+
+Format: `// rune:conformare(<category>) — <reason>`
+
+**Categories:**
+
+- `spanless-by-domain` — the variant has no source location by domain semantics (registry cycle; runtime invariant violation with no input source; etc.). The reason MUST name the domain reason + show that consumers don't expect a span here.
+- `attested-arc` — the fix is tracked in a named arc that's open and the work is in flight. Reason MUST cite the arc number + DESIGN.md path.
+
+The reason field is required. A rune with empty or vague reason fails the spell. A rune citing an arc that doesn't exist fails.
+
+## Reporting format
+
+For each finding:
+- File path + line numbers
+- The error type + variant(s) + the specific shape failure
+- Level (L1 / L2)
+- Pattern proposal (which of A/B/C/other) with four-questions verdict
+- Cascade scope (how many consumers touch this error type's variants — what closes when the type retrofits)
+
+For the audit cast as a whole:
+- Substrate-wide manifest: every error type + its conformance state
+- Pattern recommendation for the substrate: which of A/B/C the four-questions pick across the catalogue
+- Suggested retrofit ordering (which error type to fix first based on cascade size + dependency depth)
+
+## How to invoke
+
+```
+/conformare path/to/error/type.rs
+/conformare src/                              # audit all error types substrate-wide
+/conformare --pattern-evaluation              # explicit four-questions on patterns A/B/C
+```
+
+Default vigilia inclusion: conformare joins the defensive set for code files alongside intueri/solvere/purgare/struere/sequi/temperare/exigere.
+
+## The principle behind the spell
+
+The substrate ships diagnostic-complete error types. Diagnostic completeness is not a convention to follow — it is a structural guarantee enforced by Rust's type system. Where the type system can enforce, the audit role is to identify the right pattern + drive the retrofit. Where the type system genuinely can't reach (rare; usually means the pattern is wrong), the audit becomes the discipline.
+
+Per failure engineering: the failure isn't avoided; the situation that produces the failure is never constructed. An error type that allows silent span-omission IS the situation. Conformare detects it; the pattern eliminates it.
+
+The datamancer conformat. Error types shape together to one standard; the wrong shape is uncompilable.

@@ -1,0 +1,44 @@
+---
+name: grimoire
+description: The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.
+---
+
+# Grimoire — the index of the datamancy practice
+
+> *grimoire* — the book of the practice. Load this first. Each spell below is named with a Latin verb (the act) or noun (the thing) and described in one line. To actually cast a spell, load its `<name>/SKILL.md` from this same server. Each fetch is SHA-256 verified against the signed manifest at `/.well-known/mcp/manifest.json`.
+
+## How to use
+
+The datamancy grimoire holds focused disciplines, each codified as a `SKILL.md` cast by an LLM subagent against a target file or tree. Loading every spell's full SKILL.md into context wastes tokens and obscures what each does. Loading just this grimoire index gives you the catalog — pick the spell that fits your need, then load its full discipline on demand.
+
+Spells are **cast, not enacted**: the subagent reads the SKILL.md, applies the discipline to the named target, returns findings. The orchestrator addresses the findings before shipping. The discipline lives in the spell; the casting is mechanical; pre-deciding the findings skips the discipline the spell exists to enforce.
+
+## The catalog
+
+*All spells alphabetical.*
+
+- **`cernere`** — Sift valid forms from phantom. The datamancer cernit the source — every form used must trace to the language spec. Forms that look valid but aren't defined are phantom; the spell catches them before they ship.
+- **`complectens`** — Weave together. The datamancer complectēns the tests — does each layer compose only from layers above it? Does each layer carry its own proof? Or did this test attempt to one-shot a hard problem?
+- **`conferre`** — Bring spec and code together to find divergence. The datamancer conferre the specification against the implementation — where they disagree, one of them is wrong.
+- **`conformare`** — Shape error types together to a common standard. The datamancer conformat — every error variant must reach diagnostic completeness via structural guarantee, not hand-discipline. The wrong shape must be uncompilable.
+- **`consonare`** — Hear whether new prose rings in tune with the chronicle's voice. The datamancer consonat the draft against the gold anchors — does each line carry the substrate-event register? Does the close earn its verdict? Does recognition-voice stay in its lane? Returns VERDICT + per-rule findings + fidelity score 1-10.
+- **`exigere`** — Drive out deferred-work language. The datamancer exigit — what cannot ship in this stone either ships now or is bounded by a named arc; deferral-prose carries no other honest form. Substrate code does not promise future-work in comments; it ships present-work or names where the future-work tracks.
+- **`intueri`** — Contemplate whether the code speaks. The datamancer intuetur the file — does each name say what it is? Does the structure tell the story? Does the spark live?
+- **`mora`** — Hunt the pause. The datamancer suffers no mora — every wait must arrive via the wire, not via mechanism. Sleep is a guess; guesses race. Time is I/O; it arrives as an fd-event or it doesn't arrive honestly.
+- **`nesciens`** — The one who does not yet know. The datamancer summons the nesciens — a fresh reader who walks the document top-to-bottom, measuring what cannot be reached.
+- **`perspicere`** — See through. The datamancer perspicere — pierces deeply-nested type expressions to find the noun the depth is hiding, and suggests a typealias that names it.
+- **`probare`** — Test the substance. The datamancer probare the file — is this a program or a description? Comments tell the human; expressions tell the machine. The assayer crushes the rock and reports the fraction.
+- **`purgare`** — Purge dead thoughts. The datamancer purgares the code — finds structs never imported, fields never read, collections never populated, branches never taken. The cost of a dead thought is compute.
+- **`secare`** — Cut cleanly along the grain. The datamancer secat the parallel boundary — verify that each parallel invocation writes to its own slot, never shares mutation, never races for state.
+- **`sequi`** — Follow the state. The datamancer sequit the composition chain — state must follow through every transformation, visibly, through the types. Hidden state breaks composition; the spell catches the break.
+- **`solvere`** — Loosen what was wrongly bound. The datamancer solveres the code — finds braided concerns, misplaced logic, duplicated encoding. Hickey's decomplect, made operational.
+- **`struere`** — Test what is built. The datamancer struere the function — values flowing through, not mutating in place; composition that holds under load; abstractions at the right level.
+- **`temperare`** — Mix computation in right proportion. The datamancer temperat the code — finds redundant calls, invariant work in loops, recomputation when nothing changed. Correct but hot.
+- **`vigilia`** — The watch. The datamancer summons the vigilia — every defensive spell in the grimoire cast against the target in parallel; one report per spell; the full guard standing.
+- **`vocare`** — Call the test to its caller. The datamancer vocares the tests — does this verify what the caller sees, or has the test reached past the interface into the implementation?
+
+## Trust
+
+Every spell content fetched from this server is SHA-256 verified against the manifest at `/.well-known/mcp/manifest.json`, which is itself Ed25519-signed by an offline key. The public key is pinned in the [`datamancy`](https://www.npmjs.com/package/datamancy) npm package source. Tampered content cannot reach the LLM.
+
+Full design: [algebraic-intelligence.dev/docs/static-mcp/](https://github.com/watmin/algebraic-intelligence.dev/blob/main/docs/static-mcp/DESIGN.md).
