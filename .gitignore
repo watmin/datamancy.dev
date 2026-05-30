@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+# Defensive: never accept .pem or .key into this repo.
+# Private keys live offline at ~/.config/datamancy/.
+*.pem
+*.key

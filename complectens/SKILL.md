@@ -128,7 +128,7 @@ For host-language integration test files that embed test source as strings, the 
 Read each candidate. Apply the four questions. Distinguish:
 
 - A 30-line deftest body might be inherently complex (e.g., a long match expression on a complex enum) and NOT a Level 1 lie. The line count is a candidate flag, not a verdict.
-- A helper without a sibling deftest might be a single-use detail that doesn't need its own proof (e.g., a thin wrapper used in exactly one place). Level 3 taste.
+- A helper without a sibling deftest might be a thin wrapper whose body is trivially provable by inspection (e.g., format + delegate + map_err). The proof-need axis is logic complexity, not call-count — single-caller or multi-caller, a wrapper with no inherent logic to verify needs no sibling test. Level 3 taste.
 - A forward reference might be a macro auto-recursion. Not a real violation.
 
 Phase 2 is where the judgment happens: applying the four questions to actual code requires reading the bindings' semantics, not just counting them.

@@ -1,0 +1,158 @@
+{
+  "serverInfo": {
+    "name": "datamancy.dev",
+    "version": "2a1bb6d"
+  },
+  "practitioner": "https://datamancer.dev",
+  "trust": {
+    "algorithm": "SHA-256",
+    "tier": 2,
+    "signed": true
+  },
+  "resources": [
+    {
+      "name": "cernere",
+      "uri": "https://datamancy.dev/cernere/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "28357cd40895d670fcada6bfdc56e38c2da4ce6188dfb3823346389749f67fd0",
+      "size": 9123,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "complectens",
+      "uri": "https://datamancy.dev/complectens/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "5b44c113fb7c4ad3ccd82be6824764d969726f3dfadd51bd5c6070d7c672c01e",
+      "size": 19914,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "conferre",
+      "uri": "https://datamancy.dev/conferre/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "3167d55b0ea9befdc0d91ba59481026e3fcf26062f43968a0a21427d9d9788de",
+      "size": 9739,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "consonare",
+      "uri": "https://datamancy.dev/consonare/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "803fc2591532aaac047078e0f0a86daeb7c0fb029c8f25c23934d4652f3cc9b6",
+      "size": 13968,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "exigere",
+      "uri": "https://datamancy.dev/exigere/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "e3ebaee49a9292c826faeb395e4566677203e906f54dfe58391858a78f74d83f",
+      "size": 9742,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "intueri",
+      "uri": "https://datamancy.dev/intueri/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "967a808cf5e25cfe0d0a81055941ae70bdb7564246b605cb4491dd04863b1749",
+      "size": 8461,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "mora",
+      "uri": "https://datamancy.dev/mora/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "cc50a6af8c2fccc8ef6e063503bee2ba08512baf013063a95b365507f6a8c439",
+      "size": 11851,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "nesciens",
+      "uri": "https://datamancy.dev/nesciens/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "3d070093543d047838bca6850351a3fe19359107040ee709ef18541195ae5671",
+      "size": 7745,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "perspicere",
+      "uri": "https://datamancy.dev/perspicere/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "b1268fd029bbf1e0bb99e665eab5d8548560c06cdceecc0108797c64016c78c6",
+      "size": 5954,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "probare",
+      "uri": "https://datamancy.dev/probare/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "79addf814adf7e9d88b344a3afc29f7c68766e946eb01798080f8db6b41a8a3d",
+      "size": 7965,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "purgare",
+      "uri": "https://datamancy.dev/purgare/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "49800061f40f6ff90a581f74e4664168dc1de1ad9087937cb343472e2497ae39",
+      "size": 8677,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "secare",
+      "uri": "https://datamancy.dev/secare/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "4c8596a047e5b33c827e23f506ac9e1df4ea4f334a6eb186602adc1b027a29d6",
+      "size": 8469,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "sequi",
+      "uri": "https://datamancy.dev/sequi/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "673a3ba09272e8c0efa840603b67544299afe244da272ae4efb2c963af6996db",
+      "size": 10453,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "solvere",
+      "uri": "https://datamancy.dev/solvere/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "553f73fa84e1f4e4efa0005e7b1079db1a5c1ad85db18f89d6347822994211c4",
+      "size": 8960,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "struere",
+      "uri": "https://datamancy.dev/struere/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "d8314758716f3753e0032d32bd9f6d483cd0acc8b515940c87579fbe03cb4a74",
+      "size": 8693,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "temperare",
+      "uri": "https://datamancy.dev/temperare/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "591c6b79db488202ce5de51d80ccc6ac5802c097702c002db56ab7ebe048fb10",
+      "size": 7916,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "vigilia",
+      "uri": "https://datamancy.dev/vigilia/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "0219fda05c365c22bf0410e0e1cf05e5f5bf1e69e8958cdf7aa552ad0eb91bf5",
+      "size": 7332,
+      "version": "2a1bb6d"
+    },
+    {
+      "name": "vocare",
+      "uri": "https://datamancy.dev/vocare/SKILL.md",
+      "mimeType": "text/markdown",
+      "sha256": "02083b991d7c3bcb1cfdb5231f922f8f4c84a4560940349a80e53c3afe8006cf",
+      "size": 7497,
+      "version": "2a1bb6d"
+    }
+  ]
+}

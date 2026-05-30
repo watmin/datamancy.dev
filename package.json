@@ -1,0 +1,21 @@
+{
+  "name": "datamancy.dev",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Source for datamancy.dev — the grimoire published as raw markdown + hash-verified MCP manifest.",
+  "scripts": {
+    "manifest:generate": "node scripts/generate-manifest.mjs",
+    "manifest:sign": "node scripts/sign-manifest.mjs",
+    "manifest:publish": "npm run manifest:generate && npm run manifest:sign"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watmin/datamancy.dev.git"
+  },
+  "homepage": "https://datamancy.dev",
+  "license": "MIT"
+}

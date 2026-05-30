@@ -1,0 +1,22 @@
+# Cloudflare Pages headers.
+#
+# datamancy.dev serves bare markdown — no rendering layer, no HTML
+# transformation. The file IS the artifact. MIME types here ensure
+# clients (and bots, and LLM consumers) see the raw text exactly as
+# committed.
+
+# Every SKILL.md in a spell directory → text/markdown
+/*/SKILL.md
+  Content-Type: text/markdown; charset=utf-8
+
+# Top-level .md files (e.g. index.md, README.md)
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+
+# MCP manifest — JSON
+/.well-known/mcp/manifest.json
+  Content-Type: application/json; charset=utf-8
+
+# Detached Ed25519 signature — opaque binary bytes
+/.well-known/mcp/manifest.json.sig
+  Content-Type: application/octet-stream
