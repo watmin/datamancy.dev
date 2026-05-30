@@ -22,7 +22,7 @@
  *   5. git add . && git commit && git push
  */
 
-import { readFile, writeFile, unlink, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, mkdtemp, rm } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
@@ -43,7 +43,11 @@ async function main() {
   // The digest is not secret — it's SHA-256 of the public manifest — so a
   // temp file to hand it to the AWS CLI as fileb:// is fine.
   const digest = createHash("sha256").update(manifestBytes).digest();
-  const digestPath = join(tmpdir(), `datamancy-manifest-${process.pid}.digest`);
+  // Write the digest inside a private, owner-only (0700) temp DIRECTORY rather
+  // than a predictable tmp PATH — a predictable name is a symlink/AFO target a
+  // local attacker could pre-create. mkdtemp's randomized 0700 dir kills that.
+  const tmpDir = await mkdtemp(join(tmpdir(), "datamancy-sign-"));
+  const digestPath = join(tmpDir, "manifest.digest");
   await writeFile(digestPath, digest);
 
   let sigB64;
@@ -64,7 +68,7 @@ async function main() {
       { encoding: "utf-8" },
     ).trim();
   } finally {
-    await unlink(digestPath).catch(() => {});
+    await rm(tmpDir, { recursive: true, force: true }).catch(() => {});
   }
 
   const signature = Buffer.from(sigB64, "base64");

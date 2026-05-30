@@ -89,14 +89,34 @@ async function readHead() {
 
 async function main() {
   const commit = gitShortSha();
-  const epoch = Math.floor(Date.now() / 1000);
+  const prevHash = await readHead();
+
+  // Epoch MUST strictly increase per published manifest — the consumer's
+  // rollback protection depends on monotonicity. Use wall-clock seconds, but if
+  // a prior manifest exists, force at least prevEpoch + 1, so two publishes in
+  // the same second (or a backward clock) can never emit a non-increasing
+  // epoch. Rigid at the source, not left to chance.
+  const now = Math.floor(Date.now() / 1000);
+  let epoch = now;
+  if (prevHash) {
+    try {
+      const prev = JSON.parse(
+        await readFile(join("manifests", prevHash, "manifest.json"), "utf-8"),
+      );
+      if (typeof prev.epoch === "number") {
+        epoch = Math.max(now, prev.epoch + 1);
+      }
+    } catch {
+      // No readable prior snapshot — treat as the genesis baseline.
+    }
+  }
+
   // ISO8601 version label, tag-safe (colons → dashes): 2026-05-30T21-42-00Z.
   // Sorts chronologically, reads cleanly, and is a valid git tag + path.
   const version = new Date(epoch * 1000)
     .toISOString()
     .replace(/\.\d{3}Z$/, "Z")
     .replace(/:/g, "-");
-  const prevHash = await readHead();
 
   await mkdir(BLOBS_DIR, { recursive: true });
 
