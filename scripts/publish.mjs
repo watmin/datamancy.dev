@@ -122,6 +122,7 @@ async function main() {
 
   // ── 1. Generate + sign ─────────────────────────────────────────────────
   step("regenerating grimoire index", "scripts/generate-grimoire-skill.mjs");
+  step("regenerating README catalog", "scripts/generate-readme-catalog.mjs");
   step("regenerating manifest", "scripts/generate-manifest.mjs");
   step("signing manifest via KMS", "scripts/sign-manifest.mjs");
 

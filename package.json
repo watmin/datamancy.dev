@@ -6,9 +6,12 @@
   "description": "Source for datamancy.dev — the grimoire published as raw markdown + hash-verified MCP manifest.",
   "scripts": {
     "grimoire:regen": "node scripts/generate-grimoire-skill.mjs",
+    "readme:regen": "node scripts/generate-readme-catalog.mjs",
+    "docs:regen": "npm run grimoire:regen && npm run readme:regen",
+    "check:docs": "node scripts/generate-grimoire-skill.mjs --check && node scripts/generate-readme-catalog.mjs --check",
     "manifest:generate": "node scripts/generate-manifest.mjs",
     "manifest:sign": "node scripts/sign-manifest.mjs",
-    "manifest:publish": "npm run grimoire:regen && npm run manifest:generate && npm run manifest:sign",
+    "manifest:publish": "npm run docs:regen && npm run manifest:generate && npm run manifest:sign",
     "ship": "node scripts/publish.mjs"
   },
   "engines": {

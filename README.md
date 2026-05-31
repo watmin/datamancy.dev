@@ -14,49 +14,73 @@ This separation is load-bearing. The discipline lives in the spell; the casting 
 
 Acts (infinitive), agents (present participle), things (noun) — Latin, after the typology established by *perspicere* (to see through), *vocare* (to call), *complectens* (the one who weaves), *mora* (the delay).
 
+> The catalog tables below are **generated** from each spell's `SKILL.md`
+> frontmatter (`scripts/generate-readme-catalog.mjs`). To change a row, edit the
+> spell — not this file. `npm run check:docs` fails the build if they drift.
+
 ### Tests of craft
 
 Test whether the code is well-made. The compiler tells you it runs; these spells tell you whether it is worthy.
 
+<!-- BEGIN catalog:craft -->
+
 | Spell | Form | One-phrase reading |
 |---|---|---|
+| **conformare** | infinitive (act) | to shape error types to one standard — diagnostic completeness by structure, the wrong shape uncompilable |
 | **intueri** | infinitive (act) | to contemplate whether the code speaks — names, structure, comments |
-| **struere** | infinitive (act) | to test what is built — Hickey at the function level |
-| **solvere** | infinitive (act) | to loosen what was wrongly bound — Hickey's decomplect |
 | **purgare** | infinitive (act) | to purge dead code — structs unimported, fields unread, branches untaken |
-| **temperare** | infinitive (act) | to mix computation in right proportion — efficient waste |
 | **secare** | infinitive (act) | to cut cleanly along the grain — parallel boundaries genuinely disjoint |
-| **sequi** | infinitive (act) | to follow the state — Beckman at the chain level; state threaded visibly through types |
+| **sequi** | infinitive (act) | to follow the state — threaded visibly through types, across the chain |
+| **solvere** | infinitive (act) | to loosen what was wrongly bound — Hickey's decomplect |
+| **struere** | infinitive (act) | to test what is built — Hickey at the function level |
+| **temperare** | infinitive (act) | to mix computation in right proportion — efficient waste |
+
+<!-- END catalog:craft -->
 
 ### Tests of surface
 
 Test whether the code's surface (types, tests, declarations) names what it does.
 
+<!-- BEGIN catalog:surface -->
+
 | Spell | Form | One-phrase reading |
 |---|---|---|
+| **complectens** | participle (agent) | the one who weaves — test composition from layered, named, individually-proven helpers |
+| **mora** | noun (thing) | the delay — every wait must arrive via the wire, not by chosen mechanism |
 | **perspicere** | infinitive (act) | to see through — deeply-nested type expressions hiding a missing noun |
 | **vocare** | infinitive (act) | to call — verify the test from the caller's vantage, not the implementer's |
-| **complectens** | participle (agent) | the one who weaves — test composition from layered, named, individually-proven helpers |
-| **mora** | noun (thing hunted) | the delay — every wait must arrive via the wire, not by chosen mechanism |
+
+<!-- END catalog:surface -->
 
 ### Tests of fidelity
 
 Test whether what is claimed matches what is delivered.
 
+<!-- BEGIN catalog:fidelity -->
+
 | Spell | Form | One-phrase reading |
 |---|---|---|
-| **conferre** | infinitive (act) | to bring spec and code together and compare — find divergence at every joint |
-| **probare** | infinitive (act) | to test the substance — is this a program or a description? |
 | **cernere** | infinitive (act) | to sift valid forms from phantom — every form traces to the language spec |
+| **circumspicere** | infinitive (act) | to look around — runtime defaults, shipped claims, the blind spot every inward lens turns its back on |
+| **conferre** | infinitive (act) | to bring spec and code together and compare — find divergence at every joint |
+| **consonare** | infinitive (act) | to sound together — whether new prose rings in tune with the chronicle's gold-anchor voice |
+| **exigere** | infinitive (act) | to drive out deferred-work language — ship it now or bound it to a named arc |
+| **probare** | infinitive (act) | to test the substance — is this a program or a description? |
+
+<!-- END catalog:fidelity -->
 
 ### Solo wards
 
 Two wards stand alone — one simulates the practitioner who reads, the other invokes every defensive spell at once.
 
+<!-- BEGIN catalog:solo -->
+
 | Spell | Form | One-phrase reading |
 |---|---|---|
 | **nesciens** | participle (agent) | the one who does not yet know — simulates a fresh reader walking the path |
-| **vigilia** | noun (thing) | the watch — casts every defensive spell against a target in parallel |
+| **vigilia** | noun (thing) | the watch — every defensive spell cast against a target in parallel |
+
+<!-- END catalog:solo -->
 
 ## The four questions
 

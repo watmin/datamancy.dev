@@ -2,89 +2,29 @@
 //
 // Generate grimoire/SKILL.md — the index spell of the datamancy practice.
 //
-// Walks every <spell>/SKILL.md, extracts name + description from YAML
-// frontmatter, emits a markdown index. The whole point: an LLM consumer
-// loads THIS spell first (small, scannable), sees the catalog, then
-// fetches specific spell SKILL.md files on demand. Each fetch is
-// SHA-256 verified by the npm adapter; this is just the entry point.
+// Reads every spell's metadata from the shared source of truth
+// (scripts/lib/spells.mjs → each spell's SKILL.md frontmatter) and emits a
+// scannable markdown index. The whole point: an LLM consumer loads THIS spell
+// first (small), sees the catalog, then fetches specific spell SKILL.md files
+// on demand. Each fetch is SHA-256 verified by the npm adapter; this is just
+// the entry point. Output order: alphabetical by spell name.
 //
-// Output ordering: alphabetical by spell name.
+//   npm run grimoire:regen          # write grimoire/SKILL.md
+//   node scripts/generate-grimoire-skill.mjs --check   # drift gate, no write
 //
-// Run from the repo root: `npm run grimoire:regen`
-//
-// Naming: per intueri's verdict (2026-05-30). The user's bias was
-// `datamancy`; intueri overrode — datamancy names the PRACTICE, grimoire
-// is the BOOK of the practice. An LLM loading `grimoire` immediately
-// knows what to expect (a collection of spells). Loading `datamancy`
-// would have been ambiguous: index? manifesto? founding document?
-//
-// Workflow:
-//   1. Edit / add spells
-//   2. `npm run manifest:publish` (regens grimoire, regens manifest, signs)
-//   3. git commit + push
+// Naming: per intueri's verdict (2026-05-30). datamancy names the PRACTICE,
+// grimoire is the BOOK of the practice — an LLM loading `grimoire` immediately
+// knows to expect a collection of spells.
 
-import { readdir, readFile, writeFile, mkdir, stat } from "node:fs/promises";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
+import { readSpells } from "./lib/spells.mjs";
 
-const REPO_ROOT = process.cwd();
 const OUTPUT_DIR = "grimoire";
 const OUTPUT_FILE = "grimoire/SKILL.md";
+const CHECK = process.argv.includes("--check");
 
-// Top-level entries that are NOT spell directories.
-const SKIP = new Set([
-  "node_modules",
-  "scripts",
-  ".well-known",
-  ".git",
-  ".github",
-  "grimoire", // this script's own output; we generate it, don't read it
-]);
-
-function parseFrontmatter(content) {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
-  if (!match) return null;
-  const yaml = match[1];
-
-  // Extract `name:` and `description:` — single-line values in our spells.
-  const nameMatch = yaml.match(/^name:\s*(.+)$/m);
-  const descMatch = yaml.match(/^description:\s*(.+)$/m);
-
-  if (!nameMatch || !descMatch) return null;
-
-  return {
-    name: nameMatch[1].trim(),
-    description: descMatch[1].trim(),
-  };
-}
-
-async function main() {
-  const entries = await readdir(REPO_ROOT, { withFileTypes: true });
-  const spells = [];
-
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    if (entry.name.startsWith(".")) continue;
-    if (SKIP.has(entry.name)) continue;
-
-    const skillPath = join(REPO_ROOT, entry.name, "SKILL.md");
-    try {
-      await stat(skillPath);
-    } catch {
-      continue;
-    }
-
-    const content = await readFile(skillPath, "utf-8");
-    const fm = parseFrontmatter(content);
-    if (!fm) {
-      console.error(`[skip] ${entry.name}: missing or unparseable frontmatter`);
-      continue;
-    }
-
-    spells.push(fm);
-  }
-
-  spells.sort((a, b) => a.name.localeCompare(b.name));
-
+function render(spells) {
   const lines = [
     "---",
     "name: grimoire",
@@ -106,11 +46,9 @@ async function main() {
     "*All spells alphabetical.*",
     "",
   ];
-
   for (const { name, description } of spells) {
     lines.push(`- **\`${name}\`** — ${description}`);
   }
-
   lines.push("");
   lines.push("## Trust");
   lines.push("");
@@ -122,22 +60,36 @@ async function main() {
     "Full design: [algebraic-intelligence.dev/docs/static-mcp/](https://github.com/watmin/algebraic-intelligence.dev/blob/main/docs/static-mcp/DESIGN.md).",
   );
   lines.push("");
+  return lines.join("\n");
+}
 
-  await mkdir(join(REPO_ROOT, OUTPUT_DIR), { recursive: true });
-  await writeFile(OUTPUT_FILE, lines.join("\n"));
+async function main() {
+  const spells = await readSpells();
+  const next = render(spells);
 
-  console.error(
-    `[generate-grimoire-skill] wrote index of ${spells.length} spells to ${OUTPUT_FILE}`,
-  );
-  console.error(
-    "[generate-grimoire-skill] next: `npm run manifest:publish` (regens manifest + signs; grimoire becomes the 20th resource)",
-  );
+  if (CHECK) {
+    let current = "";
+    try {
+      current = await readFile(OUTPUT_FILE, "utf-8");
+    } catch {
+      /* missing file → drift */
+    }
+    if (current !== next) {
+      console.error(
+        `[generate-grimoire-skill] DRIFT: ${OUTPUT_FILE} is stale — run \`npm run grimoire:regen\``,
+      );
+      process.exit(1);
+    }
+    console.error(`[generate-grimoire-skill] ✓ ${OUTPUT_FILE} is current (${spells.length} spells)`);
+    return;
+  }
+
+  await mkdir(join(process.cwd(), OUTPUT_DIR), { recursive: true });
+  await writeFile(OUTPUT_FILE, next);
+  console.error(`[generate-grimoire-skill] wrote index of ${spells.length} spells to ${OUTPUT_FILE}`);
 }
 
 main().catch((err) => {
-  console.error(
-    "[generate-grimoire-skill] FATAL:",
-    err instanceof Error ? err.message : err,
-  );
+  console.error("[generate-grimoire-skill] FATAL:", err instanceof Error ? err.message : err);
   process.exit(1);
 });
