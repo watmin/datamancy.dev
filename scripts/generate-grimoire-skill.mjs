@@ -39,7 +39,7 @@ function render(spells) {
     "",
     "The datamancy grimoire holds focused disciplines, each codified as a `SKILL.md` cast by an LLM subagent against a target file or tree. Loading every spell's full SKILL.md into context wastes tokens and obscures what each does. Loading just this grimoire index gives you the catalog — pick the spell that fits your need, then load its full discipline on demand.",
     "",
-    "Spells are **cast, not enacted**: the subagent reads the SKILL.md, applies the discipline to the named target, returns findings. The orchestrator addresses the findings before shipping. The discipline lives in the spell; the casting is mechanical; pre-deciding the findings skips the discipline the spell exists to enforce.",
+    "Spells are **cast, not enacted**: the caster embeds a spell's `SKILL.md` verbatim into a subagent's prompt — the subagent reads it from context and never fetches the spell itself (a spawned worker may be sandboxed, with no network or MCP) — names the target, and the subagent applies the discipline and returns findings. The spell travels into the worker by value, not by reference. The orchestrator addresses the findings before shipping. The discipline lives in the spell; the casting is mechanical; pre-deciding the findings skips the discipline the spell exists to enforce.",
     "",
     "## The catalog",
     "",
