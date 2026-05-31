@@ -44,9 +44,9 @@
     {
       "name": "consonare",
       "type": "tests-of-fidelity",
-      "description": "Hear whether new prose rings in tune with the chronicle's voice. The datamancer consonat the draft against the gold anchors — does each line carry the substrate-event register? Does the close earn its verdict? Does recognition-voice stay in its lane? Returns VERDICT + per-rule findings + fidelity score 1-10.",
+      "description": "Hear whether new prose rings in tune with the chronicle's voice. The datamancer consonat the draft against the gold anchors — does each line carry the substrate-event register? Does the close earn its verdict? Does recognition-voice stay in its lane? Is the user present as a collaborator, quoted the way the gold anchors carry them, or has the duet collapsed into a solo report? Returns VERDICT + per-rule findings + fidelity score 1-10.",
       "url": "https://datamancy.dev/consonare/SKILL.md",
-      "sha256": "93956b9b4c170529d7217ac0c6e191924f285641845044d575dadc4970b94f8d",
+      "sha256": "665169f6bf35dc91f191898c3fb5733177320838c8b2bde27ebedb9b47267d6a",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/consonare/SKILL.md"
     },
     {
@@ -62,7 +62,7 @@
       "type": "grimoire-index",
       "description": "The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "feb22f335eee2462eff41f5b1253e3eb3bc87872edebf43e9954422686b566af",
+      "sha256": "9b08a6fe31fab219f64652e4dcb0558860b02d14d27d09cfbe578900190140aa",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
