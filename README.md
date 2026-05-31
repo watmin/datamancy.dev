@@ -140,6 +140,13 @@ The grimoire is open. New spells join when a new discipline surfaces that cannot
 
 No numbering. The grimoire grows; numbered declarations break under unbounded growth. Spells are named by their etymology, not their position.
 
+## Publishing
+
+This README is for the *practitioner* who casts spells. If you maintain the
+grimoire — adding a spell, editing one, re-signing the manifest — the publish
+loop (`npm run ship`) and the trust ceremony live in
+**[CONTRIBUTING.md](CONTRIBUTING.md)**.
+
 ## License
 
 Inscribed by the datamancer. Vended for any practitioner who values the discipline.
