@@ -1,5 +1,9 @@
 # Cloudflare Pages redirects.
-# Zero rendering — every file is served as raw markdown. The bare domain
-# has no index.html, so land a human visitor on the grimoire: the index
-# of the practice, which catalogs every spell and explains the trust chain.
-/    /grimoire/SKILL.md    302
+#
+# The root now serves a thin HTML landing (index.html) instead of redirecting
+# to /grimoire/SKILL.md. WebMCP requires a real HTML page that runs JavaScript
+# (it calls navigator.modelContext.provideContext via /webmcp.js) — a 302 to a
+# text/markdown file gives the agent-readiness crawler nothing to execute and it
+# times out. The landing links straight to the grimoire; spells stay raw markdown.
+#
+# (No redirects currently needed.)

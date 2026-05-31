@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>datamancy — the grimoire</title>
+  <meta name="description" content="A cryptographically verifiable static MCP serving the datamancy grimoire: Latin-named defensive spells, each SHA-256 verified against an ECDSA P-256-signed manifest before it reaches a model.">
+
+  <!-- RFC 8288 agent-discovery links (HTML equivalents of the HTTP Link headers in _headers) -->
+  <link rel="describedby" href="/llms.txt" type="text/markdown">
+  <link rel="api-catalog" href="/.well-known/api-catalog" type="application/linkset+json">
+  <link rel="sitemap" href="/sitemap.xml" type="application/xml">
+  <link rel="alternate" href="/.well-known/mcp/manifest.json" type="application/json" title="Signed MCP manifest">
+  <link rel="alternate" href="/.well-known/agent-skills/index.json" type="application/json" title="Agent Skills index">
+  <link rel="author" href="https://github.com/watmin">
+
+  <!-- WebMCP: expose grimoire tools to in-browser AI agents. The script
+       feature-detects navigator.modelContext and no-ops where absent. -->
+  <script src="/webmcp.js" defer></script>
+
+  <style>
+    :root { color-scheme: light dark; }
+    body { max-width: 44rem; margin: 4rem auto; padding: 0 1.25rem;
+           font: 15px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    h1 { font-size: 1.5rem; margin: 0 0 .2rem; }
+    h2 { font-size: 1rem; margin: 2rem 0 .5rem; }
+    .sub { opacity: .75; margin-top: 0; }
+    pre { background: rgba(127,127,127,.12); padding: .8rem 1rem; border-radius: 6px; overflow-x: auto; }
+    code { background: rgba(127,127,127,.12); padding: .1em .35em; border-radius: 4px; }
+    a { color: inherit; }
+    ul { padding-left: 1.1rem; }
+    .trust { font-size: .9rem; opacity: .85; border-left: 3px solid rgba(127,127,127,.4); padding-left: .9rem; }
+  </style>
+</head>
+<body>
+  <h1>datamancy — the grimoire</h1>
+  <p class="sub">A cryptographically verifiable static MCP. Latin-named defensive spells — each a
+  <code>SKILL.md</code> an LLM subagent casts against a target, SHA-256 verified against an
+  ECDSA&nbsp;P-256-signed manifest before it reaches a model.</p>
+
+  <h2>Use it</h2>
+  <p>Add to any MCP client (Claude&nbsp;Code, Cursor, …):</p>
+  <pre>{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy"] } } }</pre>
+
+  <h2>Read it</h2>
+  <ul>
+    <li><a href="/grimoire/SKILL.md">The grimoire index</a> — the spell catalog, load first</li>
+    <li><a href="/llms.txt">llms.txt</a> — the agent map</li>
+    <li><a href="/.well-known/agent-skills/index.json">Agent Skills index</a> — structured, each spell with its SHA-256</li>
+    <li><a href="/.well-known/mcp/manifest.json">Signed MCP manifest</a> — the source of truth (<a href="/.well-known/mcp/manifest.json.sig">signature</a>)</li>
+  </ul>
+
+  <p class="trust">Content integrity, not access control: the manifest is signed by a key held
+  non-exportably in AWS&nbsp;KMS; the public key (fingerprint <code>09db7668…</code>) is pinned in the
+  <a href="https://www.npmjs.com/package/datamancy">npm package</a> and cross-published at
+  <a href="https://datamancer.dev">datamancer.dev</a>. Tampered content is refused, never delivered.</p>
+
+  <h2>Elsewhere</h2>
+  <ul>
+    <li><a href="https://datamancer.dev">datamancer.dev</a> — the practitioner's identity card</li>
+    <li><a href="https://algebraic-intelligence.dev">algebraic-intelligence.dev</a> — the chronicle</li>
+    <li><a href="https://github.com/watmin/datamancy.dev">source</a></li>
+  </ul>
+</body>
+</html>
