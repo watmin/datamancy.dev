@@ -7,7 +7,7 @@
 // naming the spell — drift becomes a red build, never a silent stale table.
 
 import { readdir, readFile, stat } from "node:fs/promises";
-import { join } from "node:path";
+import { join, relative } from "node:path";
 
 // Top-level entries that are not spell directories.
 const SKIP = new Set([
@@ -26,6 +26,10 @@ const SKIP = new Set([
 // `form` and `category` drive the catalog's typology + grouping.
 const REQUIRED = ["name", "form", "category", "description", "reading"];
 const FORMS = new Set(["act", "agent", "thing"]);
+// Closed typology — extend ON PURPOSE here (a one-line, reviewed edit), never
+// by accident via a typo in frontmatter. A category outside this set is a red
+// build, not a silent mis-file into the catalog's "spell" fallback.
+const CATEGORIES = new Set(["craft", "surface", "fidelity", "solo"]);
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);
@@ -38,15 +42,51 @@ function parseFrontmatter(content) {
   return Object.fromEntries(REQUIRED.map((k) => [k, field(k)]));
 }
 
+// Recursively collect every SKILL.md path (relative to root), pruning the dirs
+// that never hold spells. Used to assert the FLAT layout: the enumeration in
+// readSpells only sees `<name>/SKILL.md`, so a spell written one level deeper
+// is invisible to it — never validated, silently absent. This walk is the eye
+// that sees what the glob can't, so a misplaced/nested spell fails LOUD.
+async function findSkillFiles(root) {
+  const out = [];
+  async function walk(dir) {
+    for (const e of await readdir(dir, { withFileTypes: true })) {
+      if (e.name === "node_modules" || e.name === ".git" || e.name === ".github") continue;
+      const full = join(dir, e.name);
+      if (e.isDirectory()) await walk(full);
+      else if (e.name === "SKILL.md") out.push(relative(root, full));
+    }
+  }
+  await walk(root);
+  return out;
+}
+
+// Flat == "<single-segment>/SKILL.md" (handles either path separator).
+const FLAT_SKILL = /^[^/\\]+[/\\]SKILL\.md$/;
+
 /**
- * Read + validate every spell. Returns an array sorted by name. Throws with
- * a message naming the offending spell if any required field is missing or a
- * `form` is outside the typology — so a half-catalogued spell can never ship.
+ * Read + validate the whole spell tree. Returns the spells sorted by name, or
+ * throws — naming every offence — if any spell is malformed (missing field,
+ * unknown form, unknown category) OR misplaced (a SKILL.md nested below the
+ * flat `<name>/SKILL.md` layout). A half-catalogued or misplaced spell can
+ * never ship: the enumeration validates what it sees, and the flat-layout
+ * assertion guarantees it sees everything.
  */
 export async function readSpells(repoRoot = process.cwd()) {
+  const problems = [];
+
+  // Gate 1 — tree hygiene: every SKILL.md must be flat. A nested spell is
+  // illegal (for now) and, worse, invisible to the enumeration below; assert
+  // against the disk so it cannot exist silently.
+  for (const rel of await findSkillFiles(repoRoot)) {
+    if (!FLAT_SKILL.test(rel)) {
+      problems.push(`${rel}: illegal nested/misplaced spell — spells must be flat at <name>/SKILL.md`);
+    }
+  }
+
+  // Gate 2 — enumerate the flat spells and validate each one's frontmatter.
   const entries = await readdir(repoRoot, { withFileTypes: true });
   const spells = [];
-  const problems = [];
 
   for (const entry of entries) {
     if (!entry.isDirectory() || entry.name.startsWith(".")) continue;
@@ -73,12 +113,16 @@ export async function readSpells(repoRoot = process.cwd()) {
       problems.push(`${entry.name}/SKILL.md: form "${fm.form}" not one of ${[...FORMS].join(" | ")}`);
       continue;
     }
+    if (!CATEGORIES.has(fm.category)) {
+      problems.push(`${entry.name}/SKILL.md: category "${fm.category}" not one of ${[...CATEGORIES].join(" | ")}`);
+      continue;
+    }
     spells.push(fm);
   }
 
   if (problems.length) {
     throw new Error(
-      `spell metadata incomplete — fix the frontmatter:\n  - ${problems.join("\n  - ")}`,
+      `spell validation failed — fix the tree/frontmatter:\n  - ${problems.join("\n  - ")}`,
     );
   }
   spells.sort((a, b) => a.name.localeCompare(b.name));
