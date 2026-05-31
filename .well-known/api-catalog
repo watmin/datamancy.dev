@@ -1,0 +1,35 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://datamancy.dev/",
+      "service-doc": [
+        {
+          "href": "https://datamancy.dev/grimoire/SKILL.md",
+          "type": "text/markdown",
+          "title": "The grimoire index — start here"
+        },
+        {
+          "href": "https://datamancy.dev/llms.txt",
+          "type": "text/markdown",
+          "title": "Agent map (llms.txt)"
+        },
+        {
+          "href": "https://datamancy.dev/.well-known/mcp/manifest.json",
+          "type": "application/json",
+          "title": "Signed MCP manifest (ECDSA P-256)"
+        },
+        {
+          "href": "https://datamancy.dev/.well-known/agent-skills/index.json",
+          "type": "application/json",
+          "title": "Agent Skills index"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://datamancy.dev/llms.txt",
+          "type": "text/markdown"
+        }
+      ]
+    }
+  ]
+}

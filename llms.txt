@@ -1,0 +1,59 @@
+# datamancy — the grimoire
+
+> A cryptographically verifiable static MCP serving the **datamancy grimoire**:
+> Latin-named defensive spells, each a `SKILL.md` an LLM subagent casts against a
+> target file or tree. Every spell is SHA-256 verified against an ECDSA P-256-signed
+> manifest before it reaches a model — tampered content is refused, never delivered.
+
+This site is one of three: **datamancy.dev** is the grimoire + MCP server (raw,
+hash-verified markdown); [datamancer.dev](https://datamancer.dev) is the
+practitioner's identity card; [algebraic-intelligence.dev](https://algebraic-intelligence.dev)
+is the chronicle. The grimoire is openly published for agent consumption.
+
+## Use it
+
+Add to any MCP client (Claude Code, Cursor, etc.):
+
+```json
+{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy"] } } }
+```
+
+The [`datamancy`](https://www.npmjs.com/package/datamancy) npm package is a
+zero-dependency adapter: it fetches the signed manifest, verifies the ECDSA P-256
+signature against a public key pinned in its source, then verifies the SHA-256 of
+each fetched spell before exposing it as an MCP resource. No content reaches the
+LLM unverified.
+
+## Start here
+
+- [The grimoire index](https://datamancy.dev/grimoire/SKILL.md): the catalog of every spell, one line each. Load this first, then fetch the spell you need.
+- [Agent Skills index](https://datamancy.dev/.well-known/agent-skills/index.json): the same spells as structured JSON, grouped by discipline, each with a SHA-256.
+- [Signed MCP manifest](https://datamancy.dev/.well-known/mcp/manifest.json): the source of truth — every spell's SHA-256 + size. Detached signature at [`.json.sig`](https://datamancy.dev/.well-known/mcp/manifest.json.sig).
+
+## What a spell is
+
+A spell is one focused discipline. It is **cast**, not enacted in-line: an LLM
+subagent reads the spell's `SKILL.md`, applies the discipline to a named target,
+and returns findings the practitioner addresses before shipping. Severity is
+L1 (lies — blocks) / L2 (mumbles — fix now) / L3 (taste — noted). The disciplines
+group into tests of craft (code quality), surface (test quality), and fidelity
+(spec/code drift and claim-vs-code honesty), plus solo wards (a fresh-reader pass
+and a parallel full-guard cast).
+
+## Trust
+
+The grimoire's security model is **content integrity, not access control**. There
+is no login, no token, no gated content (see [auth.md](https://datamancy.dev/auth.md)).
+The guarantee is cryptographic: the manifest is ECDSA P-256 signed by a key held
+non-exportably in AWS KMS; the matching public key is pinned in the npm package and
+cross-published at [datamancer.dev](https://datamancer.dev) and in a DNS `TXT`
+record. The major package version is the key generation: `1.x` trusts this key.
+
+## Pointers
+
+- **npm adapter:** [npmjs.com/package/datamancy](https://www.npmjs.com/package/datamancy)
+- **Source:** [github.com/watmin/datamancy.dev](https://github.com/watmin/datamancy.dev)
+- **Practitioner:** [datamancer.dev](https://datamancer.dev)
+- **Chronicle:** [algebraic-intelligence.dev](https://algebraic-intelligence.dev) — the story, incl. *The Hinge* (the build + the freeze)
+- **MCP server card:** [/.well-known/mcp/server-card.json](https://datamancy.dev/.well-known/mcp/server-card.json)
+- **API catalog:** [/.well-known/api-catalog](https://datamancy.dev/.well-known/api-catalog)

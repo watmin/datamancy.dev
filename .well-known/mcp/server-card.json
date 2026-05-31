@@ -1,0 +1,40 @@
+{
+  "serverInfo": {
+    "name": "datamancy.dev",
+    "version": "2026-05-31T01-51-51Z"
+  },
+  "capabilities": {
+    "resources": {}
+  },
+  "x-static-server": true,
+  "x-manifest-url": "https://datamancy.dev/.well-known/mcp/manifest.json",
+  "x-resource-count": 21,
+  "x-trust": {
+    "algorithm": "SHA-256",
+    "signed": true,
+    "signature-url": "https://datamancy.dev/.well-known/mcp/manifest.json.sig",
+    "signature-algorithm": "ECDSA-P256",
+    "pubkey-pinned-in": "https://www.npmjs.com/package/datamancy"
+  },
+  "x-note": "datamancy.dev is a cryptographically verifiable static MCP serving the datamancy grimoire as raw markdown. The manifest is ECDSA P-256 signed; the npm adapter (`npx -y datamancy`) verifies the signature against a public key pinned in the package source, then verifies the SHA-256 of each fetched spell against the signed manifest. No content reaches the LLM unverified. The practitioner's identity card is at https://datamancer.dev; the chronicle is at https://algebraic-intelligence.dev.",
+  "x-recommended-resources": [
+    {
+      "name": "datamancy-mcp-manifest",
+      "uri": "https://datamancy.dev/.well-known/mcp/manifest.json",
+      "mimeType": "application/json",
+      "description": "The signed MCP manifest — 21 resources, each with SHA-256-verifiable content. Verify against the signature at /.well-known/mcp/manifest.json.sig."
+    },
+    {
+      "name": "datamancy-agent-skills",
+      "uri": "https://datamancy.dev/.well-known/agent-skills/index.json",
+      "mimeType": "application/json",
+      "description": "The Agent Skills index — the same spells, grouped by discipline, each SHA-256-cross-checkable against the signed manifest."
+    },
+    {
+      "name": "datamancy-npm-package",
+      "uri": "https://www.npmjs.com/package/datamancy",
+      "mimeType": "text/html",
+      "description": "Zero-dependency MCP adapter that consumes the manifest. Pins the public key in source. Invoke via `npx -y datamancy` in any MCP client config."
+    }
+  ]
+}

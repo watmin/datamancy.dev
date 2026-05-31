@@ -1,17 +1,57 @@
-# Cloudflare Pages headers.
+# Cloudflare Pages headers for datamancy.dev.
 #
-# datamancy.dev serves bare markdown — no rendering layer, no HTML
-# transformation. The file IS the artifact. MIME types here ensure
-# clients (and bots, and LLM consumers) see the raw text exactly as
-# committed.
+# The grimoire is served as bare, hash-verified markdown — no rendering layer.
+# The file IS the artifact. These headers (1) set MIME types so clients see raw
+# text exactly as committed, and (2) advertise agent-discovery metadata on every
+# response: RFC 8288 Link relations + Content Signals (the HTTP equivalent of
+# robots.txt's Content-Signal line).
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Signal: search=yes, ai-input=yes, ai-train=yes
+  Link: </llms.txt>; rel="describedby"; type="text/markdown"
+  Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
+  Link: </sitemap.xml>; rel="sitemap"; type="application/xml"
+  Link: <https://github.com/watmin>; rel="author"
+
+# The grimoire index is the landing page (/ redirects here) — point agents at
+# the signed manifest and the skills index from it.
+/grimoire/SKILL.md
+  Content-Type: text/markdown; charset=utf-8
+  Link: </.well-known/mcp/manifest.json>; rel="alternate"; type="application/json"; title="Signed MCP manifest"
+  Link: </.well-known/agent-skills/index.json>; rel="alternate"; type="application/json"; title="Agent Skills index"
 
 # Every SKILL.md in a spell directory → text/markdown
 /*/SKILL.md
   Content-Type: text/markdown; charset=utf-8
 
-# Top-level .md files (e.g. index.md, README.md)
+# Top-level .md files (index.md, README.md, auth.md)
 /*.md
   Content-Type: text/markdown; charset=utf-8
+
+# Agent-discovery companions
+/llms.txt
+  Content-Type: text/markdown; charset=utf-8
+  Cache-Control: public, max-age=300
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+/webmcp.js
+  Content-Type: application/javascript; charset=utf-8
+
+# .well-known agent documents
+/.well-known/api-catalog
+  Content-Type: application/linkset+json; charset=utf-8
+/.well-known/oauth-authorization-server
+  Content-Type: application/json; charset=utf-8
+/.well-known/oauth-protected-resource
+  Content-Type: application/json; charset=utf-8
+/.well-known/agent-skills/index.json
+  Content-Type: application/json; charset=utf-8
+/.well-known/mcp/server-card.json
+  Content-Type: application/json; charset=utf-8
 
 # MCP manifest (latest pointer) — JSON
 /.well-known/mcp/manifest.json

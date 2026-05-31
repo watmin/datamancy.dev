@@ -1,0 +1,20 @@
+{
+  "issuer": "https://datamancy.dev",
+  "response_types_supported": [],
+  "grant_types_supported": [],
+  "service_documentation": "https://datamancy.dev/llms.txt",
+  "op_policy_uri": "https://datamancy.dev/grimoire/SKILL.md",
+  "agent_auth": {
+    "skill": "https://datamancy.dev/auth.md",
+    "register_uri": "https://datamancy.dev/auth.md",
+    "claim_uri": "https://datamancy.dev/auth.md",
+    "identity_types_supported": ["anonymous"],
+    "anonymous": {
+      "credential_types_supported": ["api_key"]
+    },
+    "x-no-registration": true,
+    "x-note": "datamancy.dev has no agent registration endpoint and issues no credentials. register_uri and claim_uri both point at the auth.md document because the document IS the response — it explains that no register or claim flow exists. identity_types_supported names 'anonymous' (the operational answer is 'GET anything, no token needed'). anonymous.credential_types_supported lists 'api_key' as the canonical vocabulary value the auth.md validator recognizes for an Anonymous flow; the site does NOT issue API keys. The grimoire's security model is content integrity (ECDSA P-256-signed manifest + SHA-256 per spell), not access control — see auth.md. No revocation_uri — nothing to revoke."
+  },
+  "x-authentication-required": false,
+  "x-note": "datamancy.dev has no OAuth/OIDC infrastructure: no protected resources, no token endpoint, no authorization server. This metadata exists to signal that explicitly (response_types_supported and grant_types_supported are intentionally empty) rather than rely on a 404. All grimoire content is publicly readable; the only guarantee is cryptographic integrity, not authentication. See service_documentation for the agent map and agent_auth.skill for the auth.md companion."
+}

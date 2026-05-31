@@ -1,0 +1,15 @@
+# datamancy — the grimoire, agent-friendly
+# Grimoire index (start here):  https://datamancy.dev/grimoire/SKILL.md
+# Agent map:                    https://datamancy.dev/llms.txt
+# Agent Skills index:           https://datamancy.dev/.well-known/agent-skills/index.json
+# Signed MCP manifest:          https://datamancy.dev/.well-known/mcp/manifest.json
+
+User-agent: *
+Allow: /
+
+# Content Signals (contentsignals.org, IETF draft-romm-aipref-contentsignals).
+# The grimoire is openly published for agent consumption — every spell is a
+# SKILL.md an LLM subagent casts against a target file or tree. Loading is the point.
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+
+Sitemap: https://datamancy.dev/sitemap.xml

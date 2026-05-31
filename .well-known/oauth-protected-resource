@@ -1,0 +1,10 @@
+{
+  "resource": "https://datamancy.dev",
+  "authorization_servers": ["https://datamancy.dev"],
+  "scopes_supported": ["public"],
+  "bearer_methods_supported": ["header"],
+  "resource_documentation": "https://datamancy.dev/llms.txt",
+  "resource_policy_uri": "https://datamancy.dev/grimoire/SKILL.md",
+  "x-authentication-required": false,
+  "x-note": "datamancy.dev has no protected resources requiring authentication. authorization_servers names the issuer of the companion Authorization Server metadata at /.well-known/oauth-authorization-server (which carries the agent_auth block pointing at /auth.md). scopes_supported lists 'public' as the single documented identifier for unrestricted access — every URL is reachable without authorization. bearer_methods_supported lists 'header' as the canonical RFC 6750 method per the OPR spec; the site does not actually accept bearer tokens — a presented token is ignored and the request is served as anonymous GET. All grimoire content is publicly accessible; integrity is guaranteed by the ECDSA P-256-signed manifest, not by authentication."
+}

@@ -124,6 +124,7 @@ async function main() {
   step("regenerating grimoire index", "scripts/generate-grimoire-skill.mjs");
   step("regenerating README catalog", "scripts/generate-readme-catalog.mjs");
   step("regenerating manifest", "scripts/generate-manifest.mjs");
+  step("regenerating agent-discovery files", "scripts/generate-agent-ready.mjs");
   step("signing manifest via KMS", "scripts/sign-manifest.mjs");
 
   // ── 2. GATE: prove the fresh signature verifies against the pinned key ──

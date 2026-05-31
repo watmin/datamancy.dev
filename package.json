@@ -7,11 +7,12 @@
   "scripts": {
     "grimoire:regen": "node scripts/generate-grimoire-skill.mjs",
     "readme:regen": "node scripts/generate-readme-catalog.mjs",
+    "agent:regen": "node scripts/generate-agent-ready.mjs",
     "docs:regen": "npm run grimoire:regen && npm run readme:regen",
-    "check:docs": "node scripts/generate-grimoire-skill.mjs --check && node scripts/generate-readme-catalog.mjs --check",
+    "check:docs": "node scripts/generate-grimoire-skill.mjs --check && node scripts/generate-readme-catalog.mjs --check && node scripts/generate-agent-ready.mjs --check",
     "manifest:generate": "node scripts/generate-manifest.mjs",
     "manifest:sign": "node scripts/sign-manifest.mjs",
-    "manifest:publish": "npm run docs:regen && npm run manifest:generate && npm run manifest:sign",
+    "manifest:publish": "npm run docs:regen && npm run manifest:generate && npm run agent:regen && npm run manifest:sign",
     "ship": "node scripts/publish.mjs"
   },
   "engines": {
