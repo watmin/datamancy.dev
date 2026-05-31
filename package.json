@@ -8,7 +8,8 @@
     "grimoire:regen": "node scripts/generate-grimoire-skill.mjs",
     "manifest:generate": "node scripts/generate-manifest.mjs",
     "manifest:sign": "node scripts/sign-manifest.mjs",
-    "manifest:publish": "npm run grimoire:regen && npm run manifest:generate && npm run manifest:sign"
+    "manifest:publish": "npm run grimoire:regen && npm run manifest:generate && npm run manifest:sign",
+    "ship": "node scripts/publish.mjs"
   },
   "engines": {
     "node": ">=20"
