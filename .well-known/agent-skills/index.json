@@ -62,7 +62,7 @@
       "type": "grimoire-index",
       "description": "The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "9b08a6fe31fab219f64652e4dcb0558860b02d14d27d09cfbe578900190140aa",
+      "sha256": "fc14b97d4b99cd3de9a835d0ff7ec3bea677ee14d2c728713e92617efb327770",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -112,6 +112,14 @@
       "url": "https://datamancy.dev/purgare/SKILL.md",
       "sha256": "4c14a3d26b75b440313e58f0e53d08ff5156eedfffaa7f995c5f4fbeab80584d",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/purgare/SKILL.md"
+    },
+    {
+      "name": "recensere",
+      "type": "tests-of-fidelity",
+      "description": "Re-muster the runes against present truth. The datamancer recenset the rolls — re-examining every already-declared exemption (stale-guard, closed-deferral, orphaned back-reference) and striking each rune whose justification no longer holds.",
+      "url": "https://datamancy.dev/recensere/SKILL.md",
+      "sha256": "cf615a299e73e60882e8aa88933d58079a311a14d2038149a0094177789f77be",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/recensere/SKILL.md"
     },
     {
       "name": "secare",

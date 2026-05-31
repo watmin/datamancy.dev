@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "serverInfo": {
     "name": "datamancy.dev",
-    "version": "2026-05-31T23-58-07Z",
+    "version": "2026-05-31T23-47-06Z",
     "commit": "2bcaf86"
   },
   "practitioner": "https://datamancer.dev",
-  "epoch": 1780271887,
-  "previous": "sha256:3fc10a0c944546e9c998ce261666f8886364384ee338ceb852a846196bd43b13",
+  "epoch": 1780271226,
+  "previous": "sha256:14837e05113036b1815e3cb67a14ff149c0dfe5223b3473a09e7e274d869082e",
   "trust": {
     "algorithm": "SHA-256",
     "tier": 2,

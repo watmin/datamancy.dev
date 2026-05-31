@@ -66,6 +66,7 @@ Test whether what is claimed matches what is delivered.
 | **consonare** | infinitive (act) | to sound together — whether new prose rings in tune with the chronicle's gold-anchor voice |
 | **exigere** | infinitive (act) | to drive out deferred-work language — ship it now or bound it to a named arc |
 | **probare** | infinitive (act) | to test the substance — is this a program or a description? |
+| **recensere** | infinitive (act) | to re-muster the runes — every standing exemption re-judged against present truth |
 
 <!-- END catalog:fidelity -->
 
