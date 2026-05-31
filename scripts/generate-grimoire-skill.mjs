@@ -115,7 +115,7 @@ async function main() {
   lines.push("## Trust");
   lines.push("");
   lines.push(
-    "Every spell content fetched from this server is SHA-256 verified against the manifest at `/.well-known/mcp/manifest.json`, which is itself Ed25519-signed by an offline key. The public key is pinned in the [`datamancy`](https://www.npmjs.com/package/datamancy) npm package source. Tampered content cannot reach the LLM.",
+    "Every spell content fetched from this server is SHA-256 verified against the manifest at `/.well-known/mcp/manifest.json`, which is itself signed with **ECDSA P-256 over SHA-256** by a key held non-exportably in **AWS KMS** — the private key material never touches a disk and every signature is logged in CloudTrail. The matching public key is pinned in the [`datamancy`](https://www.npmjs.com/package/datamancy) npm package source. Tampered content cannot reach the LLM.",
   );
   lines.push("");
   lines.push(
