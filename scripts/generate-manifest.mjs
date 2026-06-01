@@ -11,22 +11,22 @@
  * Then emit the "latest" manifest at .well-known/mcp/manifest.json carrying:
  *   - schemaVersion — so the FORMAT can evolve independently of the URLs
  *   - epoch — unix seconds, a monotonic version stamp
- *   - previous — hash of the last PUBLISHED manifest (the chain backpointer,
- *     read from .well-known/mcp/HEAD; null at genesis). History is the chain
- *     of immutable manifests — git's parent links — so there is no growing
- *     index file.
+ *   - previous — SHA-256 of the last PUBLISHED manifest, read from immutable
+ *     git history (the committed manifest at HEAD), NOT a mutable working-tree
+ *     pointer; null at genesis. History is the chain of immutable manifests —
+ *     git's parent links — so there is no growing index file, and nothing a
+ *     dry run or a dirty tree can poison.
  *
- * This script does NOT write the immutable manifests/<hash>/ snapshot or
- * advance HEAD — that happens in sign-manifest.mjs, after the bytes are
- * final and signed. Re-running generate only refreshes `latest` + blobs; it
- * never litters immutable snapshots.
+ * This script does NOT write the immutable manifests/<hash>/ snapshot — that
+ * happens in sign-manifest.mjs, after the bytes are final and signed.
+ * Re-running generate only refreshes `latest` + blobs; it never litters
+ * immutable snapshots.
  *
  * Layout (stable, storage-agnostic — maps 1:1 to object-store keys, so a
  * future move to R2/S3 is a copy + route, not a redesign):
  *   blobs/sha256/<hash>                  immutable content, append-only
  *   manifests/<manifest-hash>/...        immutable versions (written by sign)
  *   .well-known/mcp/manifest.json(.sig)  the moving "latest" pointer
- *   .well-known/mcp/HEAD                 the published chain head (a hash)
  *   <spell>/SKILL.md                     pretty human tree (the `uri` target)
  *
  * Run from repo root: `npm run manifest:generate`, then `npm run manifest:sign`.
@@ -48,7 +48,6 @@ const REPO_ROOT = process.cwd();
 const SCHEMA_VERSION = 1;
 
 const MANIFEST = ".well-known/mcp/manifest.json";
-const HEAD = ".well-known/mcp/HEAD";
 const BLOBS_DIR = "blobs/sha256";
 
 // Top-level entries that are never spells.
@@ -79,9 +78,18 @@ async function exists(p) {
   }
 }
 
-async function readHead() {
+// The previous published manifest, read from IMMUTABLE git history — the last
+// COMMITTED .well-known/mcp/manifest.json — never from a working-tree pointer.
+// Only a real `npm run ship` commits a manifest, so a NO_PUSH dry run, a crash
+// mid-publish, or a hand-edit can never change git HEAD and therefore can never
+// poison `previous`. This is the chain's parent link by construction (and what
+// this script's header always claimed). Returns null at genesis (no committed
+// manifest yet).
+function committedManifestBytes() {
   try {
-    return (await readFile(HEAD, "utf-8")).trim() || null;
+    return execSync("git show HEAD:.well-known/mcp/manifest.json", {
+      encoding: "buffer",
+    });
   } catch {
     return null;
   }
@@ -89,25 +97,31 @@ async function readHead() {
 
 async function main() {
   const commit = gitShortSha();
-  const prevHash = await readHead();
+
+  // `previous` = SHA-256 of the last COMMITTED manifest's exact bytes (its
+  // content address). Sourced from git, so no run that fails to commit can
+  // advance it.
+  const prevBytes = committedManifestBytes();
+  const prevHash = prevBytes
+    ? createHash("sha256").update(prevBytes).digest("hex")
+    : null;
 
   // Epoch MUST strictly increase per published manifest — the consumer's
   // rollback protection depends on monotonicity. Use wall-clock seconds, but if
   // a prior manifest exists, force at least prevEpoch + 1, so two publishes in
   // the same second (or a backward clock) can never emit a non-increasing
-  // epoch. Rigid at the source, not left to chance.
+  // epoch. The baseline comes from the same committed prior manifest. Rigid at
+  // the source, not left to chance.
   const now = Math.floor(Date.now() / 1000);
   let epoch = now;
-  if (prevHash) {
+  if (prevBytes) {
     try {
-      const prev = JSON.parse(
-        await readFile(join("manifests", prevHash, "manifest.json"), "utf-8"),
-      );
+      const prev = JSON.parse(prevBytes.toString("utf-8"));
       if (typeof prev.epoch === "number") {
         epoch = Math.max(now, prev.epoch + 1);
       }
     } catch {
-      // No readable prior snapshot — treat as the genesis baseline.
+      // committed manifest unparseable — treat as the genesis baseline.
     }
   }
 

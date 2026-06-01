@@ -171,6 +171,22 @@ async function main() {
         `  remove or .gitignore them, then re-run.`,
     );
   }
+  // GATE: only THIS publish's snapshot may be staged. A leftover
+  // manifests/<other-hash>/ — e.g. from a NO_PUSH dry run — would otherwise ride
+  // the signed push as a phantom version. `previous` already comes from git so a
+  // stray cannot corrupt the chain; this keeps it from polluting the archive too.
+  const orphanSnaps = staged.filter(
+    (f) =>
+      /^manifests\/[0-9a-f]{64}\//.test(f) &&
+      !f.startsWith(`manifests/${head}/`),
+  );
+  if (orphanSnaps.length) {
+    die(
+      `staged a manifest snapshot that is not this publish (${head.slice(0, 16)}…) — ` +
+        `likely a leftover dry-run snapshot:\n  ${orphanSnaps.join("\n  ")}\n` +
+        `  remove the stray manifests/<hash>/ dir(s), then re-run.`,
+    );
+  }
   capture("git", ["commit", "-m", message]);
   capture("git", ["tag", version]);
   log(`committed + tagged ${version}; pushing …`);

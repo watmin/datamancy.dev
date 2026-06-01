@@ -30,7 +30,6 @@ import { join } from "node:path";
 
 const MANIFEST = ".well-known/mcp/manifest.json";
 const SIGNATURE = ".well-known/mcp/manifest.json.sig";
-const HEAD = ".well-known/mcp/HEAD";
 
 const KEY_ID = process.env.DATAMANCY_KMS_KEY ?? "alias/datamancy-signing";
 const REGION = process.env.DATAMANCY_KMS_REGION ?? "us-west-2";
@@ -76,14 +75,15 @@ async function main() {
 
   // Finalize the immutable snapshot. The manifest's own SHA-256 is its
   // content address = the version id a consumer pins. Copy the EXACT signed
-  // bytes + signature to manifests/<hash>/ (write-once, never reopened), and
-  // advance HEAD so the next generate links its `previous` to this version.
+  // bytes + signature to manifests/<hash>/ (write-once, never reopened). The
+  // chain backpointer is NOT advanced here: the next generate derives
+  // `previous` from the committed manifest in git, so only an actual publish
+  // (a commit) moves the chain — nothing a dry run writes can poison it.
   const manifestHash = createHash("sha256").update(manifestBytes).digest("hex");
   const snapDir = join("manifests", manifestHash);
   await mkdir(snapDir, { recursive: true });
   await writeFile(join(snapDir, "manifest.json"), manifestBytes);
   await writeFile(join(snapDir, "manifest.json.sig"), signature);
-  await writeFile(HEAD, manifestHash + "\n");
 
   console.error(
     `[sign-manifest] signed ${manifestBytes.byteLength} bytes of ${MANIFEST} ` +
@@ -97,7 +97,7 @@ async function main() {
   console.error(
     `[sign-manifest] version: ${versionLabel} (sha256:${manifestHash})`,
   );
-  console.error(`[sign-manifest] snapshot → ${snapDir}/ (HEAD advanced)`);
+  console.error(`[sign-manifest] snapshot → ${snapDir}/`);
   console.error(`[sign-manifest] next:`);
   console.error(`  git add . && git commit -m "publish ${versionLabel}"`);
   console.error(`  git tag ${versionLabel} && git push --follow-tags`);
