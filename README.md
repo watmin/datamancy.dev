@@ -64,9 +64,9 @@ Test whether what is claimed matches what is delivered.
 | **circumspicere** | infinitive (act) | to look around — runtime defaults, shipped claims, the blind spot every inward lens turns its back on |
 | **conferre** | infinitive (act) | to bring spec and code together and compare — find divergence at every joint |
 | **consonare** | infinitive (act) | to sound together — whether new prose rings in tune with the chronicle's gold-anchor voice |
+| **excusare** | infinitive (act) | to weigh the excuse — whether any checker-override's stated reason earns its exemption, at birth or over time |
 | **exigere** | infinitive (act) | to drive out deferred-work language — ship it now or bound it to a named arc |
 | **probare** | infinitive (act) | to test the substance — is this a program or a description? |
-| **recensere** | infinitive (act) | to re-muster the runes — every standing exemption re-judged against present truth |
 
 <!-- END catalog:fidelity -->
 

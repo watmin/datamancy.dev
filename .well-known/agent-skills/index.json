@@ -44,10 +44,18 @@
     {
       "name": "consonare",
       "type": "tests-of-fidelity",
-      "description": "Hear whether new prose rings in tune with the chronicle's voice. The datamancer consonat the draft against the gold anchors — does each line carry the substrate-event register? Does the close earn its verdict? Does recognition-voice stay in its lane? Is the user present as a collaborator, quoted the way the gold anchors carry them, or has the duet collapsed into a solo report? Returns VERDICT + per-rule findings + fidelity score 1-10.",
+      "description": "Hear whether new prose rings in tune with the chronicle's voice. The datamancer consonat the draft against the gold anchors — does each line carry the substrate-event register? Does the close earn its verdict? Does recognition-voice stay in its lane? Does the page carry substance, or only signpost to it? Is the user present as a collaborator, quoted the way the gold anchors carry them, or has the duet collapsed into a solo report? Returns VERDICT + per-rule findings + fidelity score 1-10.",
       "url": "https://datamancy.dev/consonare/SKILL.md",
-      "sha256": "665169f6bf35dc91f191898c3fb5733177320838c8b2bde27ebedb9b47267d6a",
+      "sha256": "dbb78eaa584101e6cb19618dc94c47931945b6a27a8e9f7922eb4d574d1a3c0c",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/consonare/SKILL.md"
+    },
+    {
+      "name": "excusare",
+      "type": "tests-of-fidelity",
+      "description": "Weigh every exemption against present truth. The datamancer excusat the overrides — each suppression that tells a checker \"this looks like a finding, but it is correct, and here is why\" is held up to the world as it is now, at the moment it is offered AND as it ages, and struck when its reason does not earn its standing.",
+      "url": "https://datamancy.dev/excusare/SKILL.md",
+      "sha256": "da39d9aba852c3b283cf897a81502834e8b0241068e14c2ca4c3e3f41a1ce432",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/excusare/SKILL.md"
     },
     {
       "name": "exigere",
@@ -62,7 +70,7 @@
       "type": "grimoire-index",
       "description": "The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "fc14b97d4b99cd3de9a835d0ff7ec3bea677ee14d2c728713e92617efb327770",
+      "sha256": "f25a538d09fc857487454d93e21e618947bf0fe310bd1f40fd02ebfd70bf7bcb",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -112,14 +120,6 @@
       "url": "https://datamancy.dev/purgare/SKILL.md",
       "sha256": "4c14a3d26b75b440313e58f0e53d08ff5156eedfffaa7f995c5f4fbeab80584d",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/purgare/SKILL.md"
-    },
-    {
-      "name": "recensere",
-      "type": "tests-of-fidelity",
-      "description": "Re-muster the runes against present truth. The datamancer recenset the rolls — re-examining every already-declared exemption (stale-guard, closed-deferral, orphaned back-reference) and striking each rune whose justification no longer holds.",
-      "url": "https://datamancy.dev/recensere/SKILL.md",
-      "sha256": "cf615a299e73e60882e8aa88933d58079a311a14d2038149a0094177789f77be",
-      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/recensere/SKILL.md"
     },
     {
       "name": "secare",
