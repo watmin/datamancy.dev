@@ -70,7 +70,7 @@
       "type": "grimoire-index",
       "description": "The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "f25a538d09fc857487454d93e21e618947bf0fe310bd1f40fd02ebfd70bf7bcb",
+      "sha256": "e42d729605d4ed41334d01f561781afd449fd81f5a5d47e600aa1e0d49a1e12b",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
