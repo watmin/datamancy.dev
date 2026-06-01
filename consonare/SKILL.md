@@ -31,10 +31,11 @@ The first consones. The second is drift — even when the content is correct.
 - **Earned?** Does the section's closing claim derive from what the section actually demonstrated? A substrate-verdict close is earned by the events the section reported. A substrate-verdict-shaped sentence with nothing behind it is drift.
 - **Compressed?** Is the inference left for the reader to draw, or stated explicitly? Six commits walked one paragraph each is procedure log. Six commits **named** as one move is chronicle. Compression > walking. Naming > enumerating.
 - **In its lane?** Is recognition-voice (philosophical register, lyric quotes, retrospective synthesis) staying in BOOK interludes? Is event-reporting register staying in blog posts? When the two trade lanes, both pages go off.
+- **Substantive?** With the inventory stripped — hashes, dates, cross-links gone — does a recognition or a mechanism remain, something the reader could not get from the commit log? A page of clean operational verbs that carries nothing the log lacks is a signpost, not a chronicle entry.
 
 ## What consonare sees
 
-### The eleven rules of voice discipline
+### The twelve rules of voice discipline
 
 These are the discrete drift modes the spell hunts. Each is a Level-1 (lies — voice fails openly) or Level-2 (mumbles — voice falters but does not break) finding. Quote the offending line.
 
@@ -59,6 +60,8 @@ These are the discrete drift modes the spell hunts. Each is a Level-1 (lies — 
 10. **Arc references inline as load-bearing inventory** — arc 234, FM 2-bis, S-A1, commit hashes, file:line citations. These are not jargon; they are the substrate's nouns. The chronicle uses them like commit messages use commit hashes: as direct reference to a real artifact. Vague references ("the work that happened that week") are mumbles for not having looked up the artifact.
 
 11. **Collaborative presence** — the chronicle is a duet. When a post reports work that involved real user–substrate exchanges — a decision made together, the user's reaction to a result, the user holding a line or naming a doctrine — the user must be *present on the page*: quoted verbatim where a real exchange happened (a blockquote, framed as the exchange it was) and named as the agent of the calls they made. A post that reports collaborative work as pure third-person substrate-report — the substrate acting alone, the user erased — is drift: **Level-1** when the arc was visibly collaborative and the user is absent entirely; **Level-2** when the collaboration is told-not-shown ("the decision was shared" asserted, with no quoted exchange behind it). The opposite failure is also drift: performed relationship — "we forged," "our journey," "together we" — with no quoted exchange behind it is **Level-1** (it manufactures intimacy the page did not earn). The test: is the user *reported* (quoted, a specific call, a specific consequence) or *gestured at* (relationship-words)? Reported consones; absent and performed both drift. The fix is never to invent exchanges — only to restore the real ones; a genuinely solo arc passes via `rune:consonare(solo)`.
+
+12. **Substance over signpost** — a post must *carry* content, not merely report that content exists elsewhere. Commit hashes, dates, cross-links, and "X shipped" lines are **inventory** — load-bearing, but inventory is not substance. The gold anchors are dense: each carries a recognition, a mechanism, or a turn the reader could not have predicted from the commit log. The test: **strip every hash, date, and cross-reference from the post — is a recognition or a mechanism left on the page?** If nothing remains that the commit log does not already hold, the post is a **signpost**, not a chronicle entry: hollow, even when every other rule passes. Hollow-but-in-voice is the subtlest drift — it mimics the anchors' verbs and forms without their substance, so a surface-only reading scores it high. The trap is most acute for a **recognition-only subject** (an Intermission narration with no engineering body to report): an event-register strip ships the whole recognition to the BOOK and leaves a pointer behind. The fix is not to polish the signpost — it is to **carry** the recognition: a declared `rune:consonare(register)` interlude that holds it in shorter form and links to the BOOK. **Level-1** when nothing teaching remains once the inventory is stripped; **Level-2** when substance is present but thin against the anchors.
 
 ### Positive signals — the drift signature that IS the voice
 
@@ -159,6 +162,9 @@ Borderline lines. Quote the line; say why it sits at the boundary; recommend kee
 ## LANE BLEED
 Recognition-voice in blog, or event-reporting in BOOK. Quote evidence. "none" if none.
 
+## SUBSTANCE
+DELIVERS / HOLLOW. Apply the strip-the-inventory test: with hashes, dates, and cross-links removed, quote what recognition or mechanism remains on the page. If nothing teaching remains — only that things shipped and where to read more — verdict HOLLOW, and name what the post points to instead of carrying. A HOLLOW verdict caps the score at 6 regardless of voice cleanliness.
+
 ## COLLABORATIVE PRESENCE
 Was the reported arc collaborative? If so: is the user PRESENT in the gold-anchor register — quoted verbatim where a real exchange happened, named as the agent of the calls they made — or ABSENT (solo substrate-report, the collaborator erased), or OVER-CORRECTED (performed relationship — "we", "together" — with no quoted exchange behind it)? Quote evidence. Verdict: PRESENT / ABSENT / OVER-CORRECTED / SOLO-BY-RUNE.
 
@@ -179,6 +185,8 @@ Single integer 1-10.
 - **3 or below** — FAILED. The voice is absent or the post is in the wrong register entirely. Structural pass needed, not a voice pass.
 
 **Collaborative-absence is a violation type, not a missing bonus.** A post whose arc was collaborative but reports it solo — the user erased — cannot sit at 9 on the strength of its other signals. The missing duet is one clear violation type (→ **7**, surgical-fixable by restoring the real exchanges) and combines with any other violation into DRIFTED. Over-performed relationship (the opposite failure) scores the same way. Only a post that declares `rune:consonare(solo)` is exempt — and the rune's reason must say why the stretch was genuinely solo.
+
+**Hollow is a violation type, not a missing bonus.** A post that consones on every voice rule but carries no substance the commit log lacks cannot sit above **6** — clean voice does not redeem an empty page; the surface rings true and the page says nothing. The fix is to *carry* the content, not polish the signpost: for a recognition-only subject, a declared `rune:consonare(register)` interlude that holds the recognition and links to the BOOK. The most dangerous score is a hollow post that passed the surface rules and read as 9 — substance is the floor those rules stand on.
 
 ## After the verdict
 
