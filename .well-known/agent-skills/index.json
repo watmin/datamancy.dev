@@ -46,7 +46,7 @@
       "type": "tests-of-fidelity",
       "description": "Hear whether new prose rings in tune with the chronicle's voice. The datamancer consonat the draft against the gold anchors — does each line carry the substrate-event register? Does the close earn its verdict? Does recognition-voice stay in its lane? Does the page carry substance, or only signpost to it? Is the user present as a collaborator, quoted the way the gold anchors carry them, or has the duet collapsed into a solo report? Returns VERDICT + per-rule findings + fidelity score 1-10.",
       "url": "https://datamancy.dev/consonare/SKILL.md",
-      "sha256": "dbb78eaa584101e6cb19618dc94c47931945b6a27a8e9f7922eb4d574d1a3c0c",
+      "sha256": "30e860116311497b13a8ab088a0cc67e506bb9acbc5c8a9ab6a2f38876c1fa88",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/consonare/SKILL.md"
     },
     {
