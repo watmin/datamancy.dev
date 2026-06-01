@@ -157,6 +157,20 @@ async function main() {
     ? `publish ${version} — ${note}`
     : `publish ${version}`;
   capture("git", ["add", "."]);
+  // GATE: `git add .` is a blunt sweep. Refuse to publish if it staged patch/editor cruft —
+  // a real stray riding a signed push is the failure the .rej phantom only mimicked. This
+  // names the actual staged offenders and aborts; the verdict is bound to evidence, never a
+  // free-floating "STRAY" that can desync from what's on disk.
+  const staged = capture("git", ["diff", "--cached", "--name-only"]).split("\n").filter(Boolean);
+  const cruft = staged.filter((f) =>
+    /\.(rej|orig|swp|swo|bak)$|~$|(^|\/)\.DS_Store$|(^|\/)node_modules\//.test(f),
+  );
+  if (cruft.length) {
+    die(
+      `'git add .' staged stray/cruft files — refusing to publish:\n  ${cruft.join("\n  ")}\n` +
+        `  remove or .gitignore them, then re-run.`,
+    );
+  }
   capture("git", ["commit", "-m", message]);
   capture("git", ["tag", version]);
   log(`committed + tagged ${version}; pushing …`);

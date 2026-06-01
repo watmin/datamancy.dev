@@ -80,13 +80,13 @@ async function main() {
       );
       process.exit(1);
     }
-    console.error(`[generate-grimoire-skill] ✓ ${OUTPUT_FILE} is current (${spells.length} spells)`);
+    console.error(`[generate-grimoire-skill] ✓ ${OUTPUT_FILE} is current (${spells.length} spells; + the generated grimoire index = ${spells.length + 1} dirs)`);
     return;
   }
 
   await mkdir(join(process.cwd(), OUTPUT_DIR), { recursive: true });
   await writeFile(OUTPUT_FILE, next);
-  console.error(`[generate-grimoire-skill] wrote index of ${spells.length} spells to ${OUTPUT_FILE}`);
+  console.error(`[generate-grimoire-skill] wrote index of ${spells.length} spells to ${OUTPUT_FILE} (+ the grimoire index itself = ${spells.length + 1} dirs on disk)`);
 }
 
 main().catch((err) => {

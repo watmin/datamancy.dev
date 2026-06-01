@@ -95,7 +95,7 @@ async function main() {
       );
       process.exit(1);
     }
-    console.error(`[generate-readme-catalog] ✓ ${README} catalog is current (${spells.length} spells)`);
+    console.error(`[generate-readme-catalog] ✓ ${README} catalog is current (${spells.length} spells; + the grimoire index = ${spells.length + 1} dirs)`);
     return;
   }
 
@@ -104,7 +104,7 @@ async function main() {
     return;
   }
   await writeFile(README, next);
-  console.error(`[generate-readme-catalog] updated ${README} catalog (${spells.length} spells)`);
+  console.error(`[generate-readme-catalog] updated ${README} catalog (${spells.length} spells; + the grimoire index = ${spells.length + 1} dirs)`);
 }
 
 main().catch((err) => {

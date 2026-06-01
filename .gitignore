@@ -4,3 +4,10 @@ node_modules/
 # Private keys live offline at ~/.config/datamancy/.
 *.pem
 *.key
+# Patch / editor cruft — never let `git add .` sweep these into a signed publish.
+*.rej
+*.orig
+*.swp
+*.swo
+*~
+*.bak

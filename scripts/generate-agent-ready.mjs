@@ -59,7 +59,14 @@ async function build() {
   const skills = [];
   for (const r of manifest.resources) {
     const fm = frontmatter(await readFile(r.uri, "utf-8"));
-    const type = fm.name === "grimoire" ? "grimoire-index" : TYPE[fm.category] || "spell";
+    let type;
+    if (fm.name === "grimoire") type = "grimoire-index";
+    else if (TYPE[fm.category]) type = TYPE[fm.category];
+    else
+      throw new Error(
+        `[generate-agent-ready] ${r.uri}: category "${fm.category}" has no Agent Skills type — ` +
+          `add it to TYPE, or fix the frontmatter (readSpells gates this upstream, but do not ship a silent "spell" fallback).`,
+      );
     skills.push({
       name: r.name,
       type,

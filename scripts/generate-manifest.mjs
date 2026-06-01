@@ -177,7 +177,7 @@ async function main() {
   await writeFile(MANIFEST, JSON.stringify(manifest, null, 2) + "\n");
 
   console.error(
-    `[generate-manifest] ${resources.length} spells, version ${version}, ` +
+    `[generate-manifest] ${resources.length} resources (${resources.length - 1} spells + the grimoire index), version ${version}, ` +
       `schemaVersion ${SCHEMA_VERSION} (commit ${commit})`,
   );
   console.error(
