@@ -30,6 +30,7 @@ import { join } from "node:path";
 
 const MANIFEST = ".well-known/mcp/manifest.json";
 const SIGNATURE = ".well-known/mcp/manifest.json.sig";
+const SIGNATURE_TXT = ".well-known/mcp/manifest.json.sig.txt";
 
 const KEY_ID = process.env.DATAMANCY_KMS_KEY ?? "alias/datamancy-signing";
 const REGION = process.env.DATAMANCY_KMS_REGION ?? "us-west-2";
@@ -73,6 +74,17 @@ async function main() {
   const signature = Buffer.from(sigB64, "base64");
   await writeFile(SIGNATURE, signature);
 
+  // Human-readable, copy-pasteable view of the same signature (base64). The raw
+  // .sig is binary DER — a browser downloads it — so a viewer who clicks through
+  // gets text, not a file. NOT signed content: a derived view of SIGNATURE,
+  // regenerated here on every sign so it can never drift from the real signature.
+  const sigTxt =
+    "ECDSA P-256 / SHA-256 detached signature over /.well-known/mcp/manifest.json\n" +
+    "(raw DER at manifest.json.sig). The `npx datamancy` adapter pins the public key\n" +
+    "and verifies this on every fetch.\n\nSignature (DER, base64):\n\n" +
+    sigB64 + "\n";
+  await writeFile(SIGNATURE_TXT, sigTxt);
+
   // Finalize the immutable snapshot. The manifest's own SHA-256 is its
   // content address = the version id a consumer pins. Copy the EXACT signed
   // bytes + signature to manifests/<hash>/ (write-once, never reopened). The
@@ -84,6 +96,7 @@ async function main() {
   await mkdir(snapDir, { recursive: true });
   await writeFile(join(snapDir, "manifest.json"), manifestBytes);
   await writeFile(join(snapDir, "manifest.json.sig"), signature);
+  await writeFile(join(snapDir, "manifest.json.sig.txt"), sigTxt);
 
   console.error(
     `[sign-manifest] signed ${manifestBytes.byteLength} bytes of ${MANIFEST} ` +

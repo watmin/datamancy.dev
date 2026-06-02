@@ -1,0 +1,7 @@
+ECDSA P-256 / SHA-256 detached signature over /.well-known/mcp/manifest.json
+(raw DER at manifest.json.sig). The `npx datamancy` adapter pins the public key
+and verifies this on every fetch.
+
+Signature (DER, base64):
+
+MEQCIFJo88aei8uyz5dwsTLP6a1wg/BT9UVZ0qFKuHbnF56PAiBXIX2tNuWDMQxcKSAOQJwE/z9z09gif7i9LNV15LNj9w==
