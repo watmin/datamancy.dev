@@ -57,9 +57,10 @@
 /.well-known/mcp/manifest.json
   Content-Type: application/json; charset=utf-8
 
-# Detached ECDSA P-256 signature — opaque binary bytes
+# Detached ECDSA P-256 signature — raw DER bytes. Served as text/plain so a
+# browser renders it inline instead of downloading it (it will look like raw bytes).
 /.well-known/mcp/manifest.json.sig
-  Content-Type: application/octet-stream
+  Content-Type: text/plain; charset=utf-8
 
 # Immutable content-addressed blobs (spell bodies) — raw markdown
 /blobs/sha256/*
@@ -69,4 +70,4 @@
 /manifests/*/manifest.json
   Content-Type: application/json; charset=utf-8
 /manifests/*/manifest.json.sig
-  Content-Type: application/octet-stream
+  Content-Type: text/plain; charset=utf-8
