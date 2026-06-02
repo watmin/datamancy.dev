@@ -30,7 +30,7 @@
       "type": "tests-of-fidelity",
       "description": "Bring spec and code together to find divergence. The datamancer conferre the specification against the implementation — where they disagree, one of them is wrong.",
       "url": "https://datamancy.dev/conferre/SKILL.md",
-      "sha256": "94a67d4fe368ca32cc72fcb1c2f9c9506a57e351ededd4bbdd91142e55c15020",
+      "sha256": "4cb8d0863ea6104813bd11e8d91b91020ad15c4e299fb33975d4cc305aacb5d8",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/conferre/SKILL.md"
     },
     {
@@ -70,7 +70,7 @@
       "type": "grimoire-index",
       "description": "The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "e42d729605d4ed41334d01f561781afd449fd81f5a5d47e600aa1e0d49a1e12b",
+      "sha256": "b02247da4172ad57798b61206dd0707f04d25eafbb778336e919c37311fe1aa2",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
