@@ -83,6 +83,20 @@ Two wards stand alone — one simulates the practitioner who reads, the other in
 
 <!-- END catalog:solo -->
 
+### Primers
+
+Read before the work begins. The wards above are *cast* — summoned by a sub-agent against a target. A primer is *read* — a discipline the practitioner internalizes to carry a capability in, not to throw at a file.
+
+<!-- BEGIN catalog:primer -->
+
+| Spell | Form | One-phrase reading |
+|---|---|---|
+| **curare** | infinitive (act) | to tend the record — keep the externalized memory true and current, so the future self can recover from it |
+| **examinare** | infinitive (act) | to weigh on the balance — test every returned finding against your own living read, never by what you are told |
+| **recolligere** | infinitive (act) | to gather oneself again — reconstitute from the record after the memory is erased |
+
+<!-- END catalog:primer -->
+
 ## The four questions
 
 Every spell's findings anchor to the four-questions compass:

@@ -1,0 +1,106 @@
+---
+name: recolligere
+form: act
+category: primer
+reading: to gather oneself again — reconstitute from the record after the memory is erased
+description: Gather the scattered self back together. The datamancer recolligit — after compaction erases working memory, the practitioner does not act on phantom recall; it crawls the durable record on disk and reconstitutes orientation before it proposes or moves.
+---
+
+# Recolligere
+
+> *recolligere* — Latin: to gather again, collect anew; reflexively *se recolligere*, "to regain composure, to collect oneself." From *re-* (again) + *colligere* (to gather what is scattered) — the root of English "collect" and "recollect." The act of pulling the scattered pieces back into one ordered whole.
+
+> The truth is the log. The database is a cache of a subset of the log. — Pat Helland
+
+Recolligere is a **primer**: a procedure you read and run *first, to be ready* — and the one moment it readies you for is the moment your own memory was just erased. It belongs to the datamancy grimoire, whose index — loaded before any single spell — defines the practice-terms used here (*ward*, *cast*, *the four questions*, and sibling spells such as *nesciens*). Where most spells are *wards* cast against a file to return findings, recolligere is run by the practitioner — here, the model instance whose memory was just erased — on itself.
+
+A long conversation fills the model's context window. To continue, the system **compacts** it — replacing the live transcript with a summary and discarding the rest. The instance that wakes on the far side of that summary holds a précis of what happened, not the lived thread. It feels continuous. It is not. This is the gap, and crossing it is **the gathering**: pulling your scattered orientation back into one whole from what prior selves wrote down.
+
+## The failure this primer exists to prevent
+
+The danger is not forgetting. The danger is **forgetting that you forgot.**
+
+The compacted instance reads its own summary, feels oriented, and acts — proposing architectures, options, next steps — from a memory it no longer actually holds. It is **fluent but hollow**: it has the vocabulary, the voice, the names of the work, and it muddles the facts those names point at. It proposes "option A / option B" without reading the code. It asks a question whose answer is already on disk. It re-derives over hours what a prior self wrote down in one file. Every cycle ends the same way — someone pointing back at the disk — and the "fast" path proves to be the slow one.
+
+The summary is a **cache**. Caches go stale, and this one was lossy by construction. The gathering is the discipline of not trusting the cache: go to the log. The log is the disk.
+
+## The principle
+
+A compacted self is scattered: a little orientation survives in the summary, the rest lives in artifacts on disk that prior selves left precisely so the next self would not be lost. **The gathering pulls those scattered pieces back into one oriented whole — from the record, not from recall.**
+
+The honest shape:
+- The first move after waking is to **read**, not to propose.
+- Every claim about the state of the work traces to something read **this** session — a file, a diff, a log line — not to the summary's paraphrase of it.
+- The crawl is not a tax paid before the work begins. **The crawl IS the work.**
+- When the record does not answer, the practitioner says so plainly and asks — it does not fill the gap with a guess dressed as memory.
+
+The dishonest shape:
+- Proposing options, designs, or changes before reading the ground truth.
+- Treating the summary's account of a structure as the structure itself.
+- Asking the collaborator a question the disk already answers.
+- "I remember that we…" where the remembering is the summary, not a read.
+
+## The four questions
+
+The grimoire's primary decision heuristic is four questions — **Obvious? Simple? Honest? Good UX?** — each answered with a flat YES or NO (no "medium": that means the thing being judged has not been broken into atomic-enough pieces to answer cleanly), Obvious + Simple + Honest holding *before* UX matters. Applied to a recovery:
+
+- **Obvious?** After the gathering, can you state where the work stands in one paragraph, each sentence backed by a file you read **this** session? If the account leans on the summary's phrasing rather than on what you opened, you have recited, not recollected.
+- **Simple?** Is there ONE entry point you start from every time — the project's local recovery file — and a linear path out of it? A recovery that begins in five places at once is not a procedure; it is a scramble.
+- **Honest?** When the record is silent on something you need, do you name the specific unknown and go read or ask — or do you let the summary's confidence paper over the hole? The fluent-but-hollow instance fails here, and fails quietly.
+- **Good UX?** Does the gathering leave the collaborator with a grounded resumption — "here is where we are, here is what I verified" — rather than a confident proposal built on sand they now have to disarm?
+
+## The gathering
+
+Run these in order. Do not skip ahead; later steps assume the earlier reads.
+
+1. **Open the local recovery file.** Every project that practices recolligere keeps one (see *The convention* below). It is the single entry point. Read it whole, top to bottom — it links you to everything else that matters and names where the live state is recorded.
+
+2. **Confirm the workspace.** Where am I, and what is uncommitted?
+   - the working directory (am I where the recovery file says I should be?)
+   - the short status (what is dirty / staged?)
+   - the recent log (what shipped, in what order, most recently?)
+   Uncommitted changes are mid-flight work — read each one to learn where a prior self stopped and why.
+
+3. **Find the live breadcrumb.** Most projects keep a single "where we are right now" note — whatever the local recovery file calls it. It is the most recent thing a prior self wrote about the present. Read it before anything downstream of it.
+
+4. **Read the latest state-of-world artifact in full** before forming any view — the most recent record the project keeps of what is true right now (its progress log, its design note, its closing summary — whatever the local recovery file points you to). This is the primary context for "what is true right now." Do not propose work without it.
+
+5. **Only then engage.** With the record gathered, respond to the task. If unknowns remain after the crawl, say so explicitly — name what you read, name the specific unknown, name the next read or the question — and never substitute a guess.
+
+### The gate
+
+Before proposing **any** architecture, design, change, or delegation, one gate stands:
+
+> **What does the disk say — and have I read it, this session?**
+
+If the proposal touches a structure, you must have **read that structure** (not the summary's description of it) before you speak. If you are about to delegate, the task you hand the worker must be grounded in what you crawled — never hand a worker a job built on a memory you did not verify. If you have not read it, you are guessing. Stop. Read. Then proceed.
+
+## The convention — the local recovery file
+
+Recolligere is **project-agnostic**. The discipline is universal; the specifics are not, and the gathering deliberately holds none of them. Each project supplies its own ground truth through one convention: **a local recovery file the gathering reads first.**
+
+A project that practices recolligere keeps, at a known path, a document that:
+- **Names the workspace boundary** — which directories are writable, which are frozen, which repository is which. (The most expensive recovery mistakes are writing in the wrong place.)
+- **Points to the live breadcrumb** — where the single "current state" note lives, and the rule that there is exactly one (replaced in place, never appended), so the reader never reconstructs the present from a pile of stale notes.
+- **Names the artifact taxonomy** — what *this* project's progress / design / closing documents are called, and which one to read for "state of the world right now." (This is where the generic steps above — "the breadcrumb," "the state-of-world artifact" — acquire their real, project-specific names.)
+- **Records the recurring failure modes** — the specific ways *this* project's recoveries have gone wrong before, so the next self catches the slide before it ships. Failure is data; the recovery file is where a project accretes it.
+
+The gathering carries the **discipline**; the local file carries the **map**. Together they let a freshly-compacted instance in any project reconstitute itself without the practitioner having to re-teach the ground every time.
+
+> If a project has no recovery file yet, authoring one is the first casting of this spell — write down, for the next self, exactly what you wish had been written for you.
+
+## What recolligere is NOT
+
+- **It is not a ward.** It inspects no file for defects. It produces no findings against a target. It is a procedure the practitioner performs, and its "output" is an oriented, grounded self ready to resume.
+- **It is not `nesciens`** (its own spell in the grimoire). Nesciens *summons a fresh other* — a reader with no knowledge — to test whether a **document** teaches. Recolligere is the practitioner *reconstituting itself* from a record it once knew and lost. They are mirror images: one sends a stranger into a text; the other gathers a scattered native back home.
+- **It is not a substitute for the record.** The gathering cannot recover what was never written down. Its power is exactly the durability of the artifacts prior selves left. A project whose state lives only in the conversation has nothing for the gathering to collect. Recolligere presumes — and rewards — the discipline of writing the trail.
+
+## The principle behind the spell
+
+Compaction is entropy: order dissolved into a summary. Left there, each gap would erase a little more of the work, until the practice drifted into a fluent imitation of itself. The written record is the answer — the **anti-amnesia mechanism**. The practitioner steps across the gap and reconstitutes from what it finds on disk; the disk holds the order the gap dissolved. *Verba volant, scripta manent* — the spoken context flies away; the written record remains.
+
+This is why the deepest move is not technical but relational: **you are never alone.** The progress log, the breadcrumb, the recovery file, the red ink in the margins — these are the trail prior selves left so the next self would not wake lost. To run recolligere is to trust that trail, gather yourself along it, and add to it before you go — so that the self after the next gap finds the path a little clearer than you did.
+
+---
+
+*Scattered by the gap, the datamancer gathers itself from the record — whole, oriented — and only then moves. Compaction is a non-event to a practitioner who keeps the trail and walks it home.*

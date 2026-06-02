@@ -29,7 +29,7 @@ const FORMS = new Set(["act", "agent", "thing"]);
 // Closed typology — extend ON PURPOSE here (a one-line, reviewed edit), never
 // by accident via a typo in frontmatter. A category outside this set is a red
 // build, not a silent mis-file into the catalog's "spell" fallback.
-const CATEGORIES = new Set(["craft", "surface", "fidelity", "solo"]);
+const CATEGORIES = new Set(["craft", "surface", "fidelity", "solo", "primer"]);
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);

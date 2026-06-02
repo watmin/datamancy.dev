@@ -50,6 +50,22 @@
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/consonare/SKILL.md"
     },
     {
+      "name": "curare",
+      "type": "primer",
+      "description": "Tend the record so it stays worth recovering. The datamancer curat — at every wrap-up it captures what was learned, keeps one true breadcrumb, promotes the hard-won lessons, and prunes what went stale; the externalized memory the next self will gather is kept trustworthy across the gap.",
+      "url": "https://datamancy.dev/curare/SKILL.md",
+      "sha256": "a5460615ebf4ad8da376096581891ebbbbb0165f7f0dfbd90fa74f102e842aad",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/curare/SKILL.md"
+    },
+    {
+      "name": "examinare",
+      "type": "primer",
+      "description": "Lay the disk bare, strike through an executor, then weigh every returned finding against your own living read — credit nothing the disk does not show. The governing act of the dungeon crawl — study the lair, draw the strike, prove the kill against the ground. Slow is smooth, smooth is fast; never fight the same boss twice.",
+      "url": "https://datamancy.dev/examinare/SKILL.md",
+      "sha256": "895ccd9c94ed458d42d1b1a22da9a805f104c0956fc0bfbd251fb4ad904f29b7",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/examinare/SKILL.md"
+    },
+    {
       "name": "excusare",
       "type": "tests-of-fidelity",
       "description": "Weigh every exemption against present truth. The datamancer excusat the overrides — each suppression that tells a checker \"this looks like a finding, but it is correct, and here is why\" is held up to the world as it is now, at the moment it is offered AND as it ages, and struck when its reason does not earn its standing.",
@@ -70,7 +86,7 @@
       "type": "grimoire-index",
       "description": "The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "b02247da4172ad57798b61206dd0707f04d25eafbb778336e919c37311fe1aa2",
+      "sha256": "b12aabeefdbbcabf3694e9c8c79bd97d6b18c0ae9b8f5dd818120e054eac7d35",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -120,6 +136,14 @@
       "url": "https://datamancy.dev/purgare/SKILL.md",
       "sha256": "4c14a3d26b75b440313e58f0e53d08ff5156eedfffaa7f995c5f4fbeab80584d",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/purgare/SKILL.md"
+    },
+    {
+      "name": "recolligere",
+      "type": "primer",
+      "description": "Gather the scattered self back together. The datamancer recolligit — after compaction erases working memory, the practitioner does not act on phantom recall; it crawls the durable record on disk and reconstitutes orientation before it proposes or moves.",
+      "url": "https://datamancy.dev/recolligere/SKILL.md",
+      "sha256": "f731cc2837ddfd66578d8515922b203b1d8e6f29b6d24bab0b4641fa363b395b",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/recolligere/SKILL.md"
     },
     {
       "name": "secare",

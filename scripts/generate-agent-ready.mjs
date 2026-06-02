@@ -38,6 +38,7 @@ const TYPE = {
   surface: "tests-of-surface",
   fidelity: "tests-of-fidelity",
   solo: "solo-ward",
+  primer: "primer",
 };
 
 function frontmatter(src) {

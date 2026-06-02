@@ -1,14 +1,14 @@
 {
   "serverInfo": {
     "name": "datamancy.dev",
-    "version": "2026-06-02T00-01-53Z"
+    "version": "2026-06-02T18-58-16Z"
   },
   "capabilities": {
     "resources": {}
   },
   "x-static-server": true,
   "x-manifest-url": "https://datamancy.dev/.well-known/mcp/manifest.json",
-  "x-resource-count": 22,
+  "x-resource-count": 25,
   "x-trust": {
     "algorithm": "SHA-256",
     "signed": true,
@@ -22,7 +22,7 @@
       "name": "datamancy-mcp-manifest",
       "uri": "https://datamancy.dev/.well-known/mcp/manifest.json",
       "mimeType": "application/json",
-      "description": "The signed MCP manifest — 22 resources, each with SHA-256-verifiable content. Verify against the signature at /.well-known/mcp/manifest.json.sig."
+      "description": "The signed MCP manifest — 25 resources, each with SHA-256-verifiable content. Verify against the signature at /.well-known/mcp/manifest.json.sig."
     },
     {
       "name": "datamancy-agent-skills",
