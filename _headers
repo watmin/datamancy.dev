@@ -16,17 +16,17 @@
   Link: <https://github.com/watmin>; rel="author"
 
 # The grimoire index is the landing page (/ redirects here) — point agents at
-# the signed manifest and the skills index from it.
+# the signed manifest and the skills index from it. Content-Type is NOT declared
+# here: the single /*.md rule below owns it. Declaring it twice stacks a
+# duplicate `Content-Type` header (Cloudflare concatenates matching rules).
 /grimoire/SKILL.md
-  Content-Type: text/markdown; charset=utf-8
   Link: </.well-known/mcp/manifest.json>; rel="alternate"; type="application/json"; title="Signed MCP manifest"
   Link: </.well-known/agent-skills/index.json>; rel="alternate"; type="application/json"; title="Agent Skills index"
 
-# Every SKILL.md in a spell directory → text/markdown
-/*/SKILL.md
-  Content-Type: text/markdown; charset=utf-8
-
-# Top-level .md files (index.md, README.md, auth.md)
+# ALL markdown, ONE rule. Spell SKILL.md files end in .md; `*` spans path
+# separators, so this matches nested <name>/SKILL.md too — as well as the
+# grimoire index and the top-level docs (README.md, auth.md). One owner means no
+# path ever matches two Content-Type rules and stacks a duplicate header.
 /*.md
   Content-Type: text/markdown; charset=utf-8
 
