@@ -37,8 +37,11 @@ subagent reads the spell's `SKILL.md`, applies the discipline to a named target,
 and returns findings the practitioner addresses before shipping. Severity is
 L1 (lies — blocks) / L2 (mumbles — fix now) / L3 (taste — noted). The disciplines
 group into tests of craft (code quality), surface (test quality), and fidelity
-(spec/code drift and claim-vs-code honesty), plus solo wards (a fresh-reader pass
-and a parallel full-guard cast).
+(spec/code drift and claim-vs-code honesty); solo wards (a fresh-reader pass and
+a parallel full-guard cast); and **primers** — disciplines you *read and run on
+yourself* rather than cast against a target: recovering after a context
+compaction (`recolligere`), keeping the durable record true (`curare`), and the
+grounded dungeon-crawl method behind every spell here (`examinare`).
 
 ## Trust
 
