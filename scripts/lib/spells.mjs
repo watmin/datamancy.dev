@@ -57,7 +57,7 @@ export const CATEGORY_META = {
   primer: {
     label: "primers",
     blurb:
-      "disciplines you read and run on yourself rather than cast against a target — recovering after a context compaction, keeping the durable record true, and the grounded dungeon-crawl method behind every spell here",
+      "disciplines you read and run on yourself rather than cast against a target — recovering after a context compaction, keeping the durable record true, and the grounded dungeon crawl, the agile method behind every spell here",
   },
 };
 const CATEGORIES = new Set(Object.keys(CATEGORY_META));
