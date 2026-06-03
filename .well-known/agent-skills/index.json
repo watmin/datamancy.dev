@@ -60,9 +60,9 @@
     {
       "name": "examinare",
       "type": "primer",
-      "description": "Lay the disk bare, strike through an executor, then weigh every returned finding against your own living read — credit nothing the disk does not show. The governing act of the dungeon crawl — study the lair, draw the strike, prove the kill against the ground. Slow is smooth, smooth is fast; never fight the same boss twice.",
+      "description": "Lay the disk bare, strike through an executor, then weigh every returned finding against your own living read — credit nothing the disk does not show. The governing act of the dungeon crawl — study the lair, draw the strike, prove the kill against the ground. A development methodology in the agile lineage — iterative, small-unit, feedback-driven scoping and delegation — run on the strike, not the sprint or the board. Slow is smooth, smooth is fast; never fight the same boss twice.",
       "url": "https://datamancy.dev/examinare/SKILL.md",
-      "sha256": "895ccd9c94ed458d42d1b1a22da9a805f104c0956fc0bfbd251fb4ad904f29b7",
+      "sha256": "cd879ffccd2e36329a1403763e374a3b8397ee5bacc65202071ec22380d8eddd",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/examinare/SKILL.md"
     },
     {
@@ -86,7 +86,7 @@
       "type": "grimoire-index",
       "description": "The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "b12aabeefdbbcabf3694e9c8c79bd97d6b18c0ae9b8f5dd818120e054eac7d35",
+      "sha256": "9a568794182ebc31dea4053d9b5d273bc96a2ebec3c89b26642a07d884544170",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {

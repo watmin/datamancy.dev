@@ -92,7 +92,7 @@ Read before the work begins. The wards above are *cast* — summoned by a sub-ag
 | Spell | Form | One-phrase reading |
 |---|---|---|
 | **curare** | infinitive (act) | to tend the record — keep the externalized memory true and current, so the future self can recover from it |
-| **examinare** | infinitive (act) | to weigh on the balance — test every returned finding against your own living read, never by what you are told |
+| **examinare** | infinitive (act) | the dungeon crawl — scope a body of work into strikes, delegate each, and prove the kill against your own living read |
 | **recolligere** | infinitive (act) | to gather oneself again — reconstitute from the record after the memory is erased |
 
 <!-- END catalog:primer -->
