@@ -15,7 +15,7 @@
   Link: </sitemap.xml>; rel="sitemap"; type="application/xml"
   Link: <https://github.com/watmin>; rel="author"
 
-# The grimoire index is the landing page (/ redirects here) — point agents at
+# The grimoire index is the landing page — point agents at
 # the signed manifest and the skills index from it. Content-Type is NOT declared
 # here: the single /*.md rule below owns it. Declaring it twice stacks a
 # duplicate `Content-Type` header (Cloudflare concatenates matching rules).
@@ -64,14 +64,20 @@
 /.well-known/mcp/manifest.json.sig.txt
   Content-Type: text/plain; charset=utf-8
 
-# Immutable content-addressed blobs (spell bodies) — raw markdown
+# Immutable content-addressed blobs (spell bodies) — raw markdown. The SHA-256
+# is IN the path, so the bytes can never change: cache forever, never revalidate.
 /blobs/sha256/*
   Content-Type: text/markdown; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
 
-# Immutable manifest snapshots (one per version)
+# Immutable manifest snapshots (one per version) — addressed by hash dir,
+# write-once. Same deal: cache forever, never revalidate.
 /manifests/*/manifest.json
   Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
 /manifests/*/manifest.json.sig
   Content-Type: application/octet-stream
+  Cache-Control: public, max-age=31536000, immutable
 /manifests/*/manifest.json.sig.txt
   Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable

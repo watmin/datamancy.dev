@@ -14,19 +14,34 @@
 //    landing as `200 text/markdown`: a phantom success an agent parses as garbage.
 //    This middleware OWNS the spell namespace so that can never happen:
 //      - a real spell at a guessed path → 301 to the canonical URL
-//      - an unknown name at a `…/SKILL.md` path → honest 404 + a markdown body
-//        that points at the catalog (and the nearest real spell)
+//      - an unknown name at a `…/SKILL.md` path, OR a `.md` shorthand that
+//        resolves to nothing → honest 404 + a markdown body pointing at the
+//        catalog (and the nearest real spell)
 //    The valid spell set is read from the signed manifest — the same source of
 //    truth the MCP consumers verify against — so this layer can never disagree
 //    with what is actually published.
+//
+// Cloudflare does NOT apply the static `_headers` rules to responses a Function
+// builds by hand, so every Response we construct sets AGENT_HEADERS explicitly —
+// otherwise a cross-origin agent (browser/WebMCP) gets a CORS-opaque, header-bare
+// reply and cannot read even the helpful 404 body. These mirror the `/*` rule.
 //
 // Free-plan Pages Functions; no dependency on Cloudflare's paid features.
 
 const MANIFEST_PATH = "/.well-known/mcp/manifest.json";
 
+// The security + CORS + content-signal headers the `/*` _headers rule grants to
+// static-asset responses. Hand-built Function responses must carry them too.
+const AGENT_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Content-Signal": "search=yes, ai-input=yes, ai-train=yes",
+};
+
 // True only when Accept EXPLICITLY prefers text/markdown over text/html. A bare
 // wildcard is neutral and falls through to the HTML default (right for browsers).
-function prefersMarkdown(accept) {
+export function prefersMarkdown(accept) {
   if (!accept) return false;
   let mdQ = -1;
   let htmlQ = -1;
@@ -47,7 +62,7 @@ function prefersMarkdown(accept) {
 }
 
 // The root is the only HTML page; everything else is already raw markdown.
-function markdownCompanionPath(pathname) {
+export function markdownCompanionPath(pathname) {
   if (pathname === "/" || pathname === "") return "/llms.txt";
   return null;
 }
@@ -55,8 +70,9 @@ function markdownCompanionPath(pathname) {
 // Recognize the URL shapes that name a spell. `strict` shapes (…/SKILL.md) are
 // unambiguous spell requests — safe to 404 on an unknown name. The `.md`
 // shorthand is NOT strict: `/auth.md` and `/README.md` are real top-level files,
-// so an unknown `.md` name must fall through, never 404.
-function parseSpellRequest(pathname) {
+// so an unknown `.md` name is probed (real file → serve; nothing → honest 404),
+// never assumed missing.
+export function parseSpellRequest(pathname) {
   let m;
   if ((m = pathname.match(/^\/([a-z][a-z0-9-]*)\/SKILL\.md$/)))
     return { name: m[1], canonical: true, strict: true };
@@ -89,7 +105,7 @@ async function validSpellNames(env, origin) {
 
 // Cheapest useful "did you mean": longest shared prefix, with a bonus for a
 // containment match. Returns null when nothing is close enough to suggest.
-function nearestSpell(name, names) {
+export function nearestSpell(name, names) {
   let best = null;
   let bestScore = 1;
   for (const n of names) {
@@ -104,7 +120,7 @@ function nearestSpell(name, names) {
   return best;
 }
 
-function notFoundBody(name, hint) {
+export function notFoundBody(name, hint) {
   const lines = [
     `# No such spell: \`${name}\``,
     ``,
@@ -123,6 +139,28 @@ function notFoundBody(name, hint) {
   return lines.join("\n") + "\n";
 }
 
+function notFound(name, names) {
+  return new Response(notFoundBody(name, nearestSpell(name, names)), {
+    status: 404,
+    headers: {
+      ...AGENT_HEADERS,
+      "Content-Type": "text/markdown; charset=utf-8",
+      "X-Robots-Tag": "noindex",
+      Link: '</grimoire/SKILL.md>; rel="index"; type="text/markdown"',
+    },
+  });
+}
+
+function redirectCanonical(name, origin) {
+  return new Response(null, {
+    status: 301,
+    headers: {
+      ...AGENT_HEADERS,
+      Location: new URL(`/${name}/SKILL.md`, origin).toString(),
+    },
+  });
+}
+
 export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
@@ -138,25 +176,24 @@ export async function onRequest(context) {
       const known = names.has(spell.name);
       if (known && !spell.canonical) {
         // a real spell reached by a guessed path → redirect to its true home
-        return Response.redirect(
-          new URL(`/${spell.name}/SKILL.md`, url.origin).toString(),
-          301,
-        );
+        return redirectCanonical(spell.name, url.origin);
       }
-      if (!known && spell.strict) {
-        // unambiguous spell request, unknown name → honest 404, never a phantom 200
-        return new Response(notFoundBody(spell.name, nearestSpell(spell.name, names)), {
-          status: 404,
-          headers: {
-            "Content-Type": "text/markdown; charset=utf-8",
-            "X-Robots-Tag": "noindex",
-            Link: '</grimoire/SKILL.md>; rel="index"; type="text/markdown"',
-          },
-        });
+      if (!known) {
+        if (spell.strict) {
+          // unambiguous spell request, unknown name → honest 404, never a phantom 200
+          return notFound(spell.name, names);
+        }
+        // `.md` shorthand, unknown name: a real top-level file (/auth.md) or a
+        // genuine miss (/sprint.md)? Probe the asset. A real file serves; a miss
+        // gets the honest markdown 404 instead of 404.html mis-typed as
+        // text/markdown by the /*.md header rule.
+        const probe = await env.ASSETS.fetch(
+          new URL(url.pathname, url.origin).toString(),
+        );
+        if (!probe.ok) return notFound(spell.name, names);
+        // real file → fall through to serve it
       }
       // known && canonical → fall through and serve the real file.
-      // (!known && !strict) → `/<name>.md` that isn't a spell (e.g. /auth.md):
-      // fall through so real top-level files still serve.
     }
   }
 

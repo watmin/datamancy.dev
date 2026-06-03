@@ -56,8 +56,10 @@ The grimoire's security model is **content integrity, not access control**. Ther
 is no login, no token, no gated content (see [auth.md](https://datamancy.dev/auth.md)).
 The guarantee is cryptographic: the manifest is ECDSA P-256 signed by a key held
 non-exportably in AWS KMS; the matching public key is pinned in the npm package and
-cross-published at [datamancer.dev](https://datamancer.dev) and in a DNS `TXT`
-record. The major package version is the key generation: `1.x` trusts this key.
+cross-published at [datamancer.dev](https://datamancer.dev) and in a DNS `TXT` record
+at `_datamancy-key.datamancer.dev` (carrying the pinned fingerprint — verify with
+`dig +short TXT _datamancy-key.datamancer.dev`). The major package version is the
+key generation: `1.x` trusts this key.
 
 ## Pointers
 

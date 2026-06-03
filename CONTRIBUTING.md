@@ -67,6 +67,18 @@ DATAMANCY_NO_PUSH=1 npm run ship          # all local gates, no commit/push
 Overridable via env: `DATAMANCY_AWS_PROFILE` (default `datamancy-signer`),
 `DATAMANCY_KMS_KEY`, `DATAMANCY_KMS_REGION`, `DATAMANCY_ORIGIN`.
 
+### Infra commits vs published content
+
+`npm run ship` is for changes to **signed content** — a spell's `SKILL.md` and the
+generated indexes that hash into the manifest. Site **infra** that is not signed
+content — the routing (`functions/_middleware.js`, `_headers`, `_redirects`,
+`404.html`), the hand-authored prose in `llms.txt`, this file — is committed to
+`main` directly and deployed by Cloudflare on push; it never re-signs the manifest.
+One visible consequence: `manifest.serverInfo.commit` is the commit at the last
+**content publish**, not deployed `HEAD`. It is provenance for the signed bytes
+(what it covers), not a deploy pointer — a run of infra-only commits sitting ahead
+of it is correct, not drift.
+
 ### The lower-level scripts
 
 `npm run ship` orchestrates these; reach for them only to debug a single stage:
