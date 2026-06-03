@@ -35,13 +35,20 @@ LLM unverified.
 A spell is one focused discipline. It is **cast**, not enacted in-line: an LLM
 subagent reads the spell's `SKILL.md`, applies the discipline to a named target,
 and returns findings the practitioner addresses before shipping. Severity is
-L1 (lies — blocks) / L2 (mumbles — fix now) / L3 (taste — noted). The disciplines
-group into tests of craft (code quality), surface (test quality), and fidelity
-(spec/code drift and claim-vs-code honesty); solo wards (a fresh-reader pass and
-a parallel full-guard cast); and **primers** — disciplines you *read and run on
-yourself* rather than cast against a target: recovering after a context
-compaction (`recolligere`), keeping the durable record true (`curare`), and the
-grounded dungeon-crawl method behind every spell here (`examinare`).
+L1 (lies — blocks) / L2 (mumbles — fix now) / L3 (taste — noted).
+
+The disciplines group by category — load [the grimoire index](https://datamancy.dev/grimoire/SKILL.md)
+for each spell's one-line reading:
+
+<!-- BEGIN agent-categories -->
+
+- **tests of craft** — is the code well-made, beyond 'it compiles'? · `conformare` `intueri` `purgare` `secare` `sequi` `solvere` `struere` `temperare`
+- **tests of surface** — does the surface — types, tests, declarations — name what it does? · `complectens` `mora` `perspicere` `vocare`
+- **tests of fidelity** — does what's claimed match what's delivered? · `cernere` `circumspicere` `conferre` `consonare` `excusare` `exigere` `probare`
+- **solo wards** — stand-alone casts — a fresh reader walking the path, and every defensive spell at once · `nesciens` `vigilia`
+- **primers** — disciplines you read and run on yourself rather than cast against a target — recovering after a context compaction, keeping the durable record true, and the grounded dungeon-crawl method behind every spell here · `curare` `examinare` `recolligere`
+
+<!-- END agent-categories -->
 
 ## Trust
 

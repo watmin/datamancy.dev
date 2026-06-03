@@ -18,6 +18,7 @@
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
+import { CATEGORY_META } from "./lib/spells.mjs";
 
 const SITE = "https://datamancy.dev";
 const REPO = "https://github.com/watmin/datamancy.dev";
@@ -78,6 +79,15 @@ async function build() {
     });
   }
 
+  // Category overview, derived from the single CATEGORY_META source (+ the TYPE
+  // map) so it can never drift from the published categories — the exact bug
+  // that dropped `primer` from the hand-typed prose here. grimoire-index is the
+  // synthetic catalog type, appended explicitly.
+  const categoryNote =
+    Object.entries(CATEGORY_META)
+      .map(([cat, meta]) => `${TYPE[cat]} (${meta.blurb})`)
+      .join(", ") + ", grimoire-index (the catalog, load first)";
+
   // ── Agent Skills index ────────────────────────────────────────────────
   const skillsIndex = {
     $schema: "https://agentskills.io/schema/v0.2.0.json",
@@ -89,10 +99,7 @@ async function build() {
       "The datamancy grimoire — Latin-named defensive spells, each a SKILL.md the " +
       "datamancer casts as a subagent against a target file or tree. Each spell " +
       "encodes one discipline; severity is L1 (blocks) / L2 (fix-now) / L3 (taste). " +
-      "The `type` field groups them: tests-of-craft (code quality — Hickey + Beckman " +
-      "lineage), tests-of-surface (test quality), tests-of-fidelity (spec/code drift " +
-      "and claim-vs-code honesty), solo-ward (nesciens reads as a fresh reader; vigilia " +
-      "casts every defensive spell in parallel), grimoire-index (the catalog, load first). " +
+      `The \`type\` field groups them: ${categoryNote}. ` +
       "The sha256 lets agents verify content integrity against the URL — the same hashes " +
       "appear in the ECDSA P-256-signed MCP manifest, consumed by the `datamancy` npm " +
       "package via `npx -y datamancy`, which refuses any spell that fails verification.",

@@ -29,7 +29,38 @@ const FORMS = new Set(["act", "agent", "thing"]);
 // Closed typology — extend ON PURPOSE here (a one-line, reviewed edit), never
 // by accident via a typo in frontmatter. A category outside this set is a red
 // build, not a silent mis-file into the catalog's "spell" fallback.
-const CATEGORIES = new Set(["craft", "surface", "fidelity", "solo", "primer"]);
+//
+// CATEGORY_META is the SINGLE SOURCE for "what categories exist and what each
+// means." Generators derive their category overview from it (the /llms.txt
+// agent map, the agent-skills index x-note), and CATEGORIES — the validation
+// set — is its keys, so the valid categories and their descriptions can never
+// drift into two hand-typed lists. Key order is render order. Add a category
+// once, here, and it appears everywhere by construction.
+export const CATEGORY_META = {
+  craft: {
+    label: "tests of craft",
+    blurb: "is the code well-made, beyond 'it compiles'?",
+  },
+  surface: {
+    label: "tests of surface",
+    blurb: "does the surface — types, tests, declarations — name what it does?",
+  },
+  fidelity: {
+    label: "tests of fidelity",
+    blurb: "does what's claimed match what's delivered?",
+  },
+  solo: {
+    label: "solo wards",
+    blurb:
+      "stand-alone casts — a fresh reader walking the path, and every defensive spell at once",
+  },
+  primer: {
+    label: "primers",
+    blurb:
+      "disciplines you read and run on yourself rather than cast against a target — recovering after a context compaction, keeping the durable record true, and the grounded dungeon-crawl method behind every spell here",
+  },
+};
+const CATEGORIES = new Set(Object.keys(CATEGORY_META));
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);
