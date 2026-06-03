@@ -184,14 +184,20 @@ export async function onRequest(context) {
           return notFound(spell.name, names);
         }
         // `.md` shorthand, unknown name: a real top-level file (/auth.md) or a
-        // genuine miss (/sprint.md)? Probe the asset. A real file serves; a miss
-        // gets the honest markdown 404 instead of 404.html mis-typed as
-        // text/markdown by the /*.md header rule.
+        // genuine miss (/sprint.md)? The ASSETS binding returns the HTML 404 page
+        // for a miss with an UNRELIABLE status (it can come back 200 — the
+        // phantom-200 still lives at the binding level; the edge 404 comes from
+        // 404.html). So distinguish by CONTENT: a real markdown file never opens
+        // with an HTML doctype. HTML body → miss → honest markdown 404; real
+        // markdown → fall through (next() re-fetches and serves it).
         const probe = await env.ASSETS.fetch(
           new URL(url.pathname, url.origin).toString(),
         );
-        if (!probe.ok) return notFound(spell.name, names);
-        // real file → fall through to serve it
+        const head = (await probe.text()).replace(/^﻿/, "").trimStart().slice(0, 64).toLowerCase();
+        if (head.startsWith("<!doctype html") || head.startsWith("<html")) {
+          return notFound(spell.name, names);
+        }
+        // real markdown file → fall through to serve it
       }
       // known && canonical → fall through and serve the real file.
     }
