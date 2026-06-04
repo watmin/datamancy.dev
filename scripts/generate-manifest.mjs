@@ -72,7 +72,7 @@ const PRIMER_PREFIX =
   "PRIMER — a read-first discipline you run on yourself, not a ward you cast at a file. Load it before the work. ";
 
 const GRIMOIRE_INDEX_DESCRIPTION =
-  "START HERE — load this index first; it maps the whole grimoire and how to use it. Four entries are PRIMERS, read-first disciplines you run on yourself: recolligere (reconstitute after a context compaction — run it the moment you suspect your memory was summarized), extirpare (failure engineering — stop on a failure and pull the whole class out by the root, never patch the stem), examinare (the dungeon crawl — the agile method here: scope a body of work into strikes, delegate, verify against your own read), curare (keep the durable record true). The rest are wards: focused casts you spawn against a target, on demand.";
+  "START HERE — load this index first: reading it installs the datamancer's operating ethos (how you work even when you cast no spell), then catalogs the spells. Its four PRIMERS are read-first disciplines you run on yourself: recolligere (reconstitute after a context compaction — run it the moment you suspect your memory was summarized), extirpare (failure engineering — stop on a failure and pull the whole class out by the root, never patch the stem), examinare (the dungeon crawl — the agile method here: scope a body of work into strikes, delegate, verify against your own read), curare (keep the durable record true). The rest are wards: focused casts you spawn against a target, on demand.";
 
 const genericFallback = (name) =>
   `Datamancy spell: ${name} (SHA-256 verified at fetch time).`;

@@ -92,9 +92,9 @@
     {
       "name": "grimoire",
       "type": "grimoire-index",
-      "description": "The grimoire index — the datamancer opens this first; it lists every spell in the practice with one-line descriptions, so the reader may load only what the task demands.",
+      "description": "The datamancer's grimoire — load this first. Reading it installs the practice: the operating ethos a datamancer works by, plus the catalog of spells to cast on demand.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "f5d34be2e56ed9130db49fbda5d6d18aa5dd2b4b2be65a8e380e0e45af82c553",
+      "sha256": "40cf1b977f4cbc6fbfca2bcc8215016f9dd723227d5a127b04896ac39b21ae9a",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
