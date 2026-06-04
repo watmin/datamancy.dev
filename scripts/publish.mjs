@@ -121,8 +121,13 @@ async function main() {
   }
 
   // ── 1. Generate + sign ─────────────────────────────────────────────────
-  step("regenerating grimoire index", "scripts/generate-grimoire-skill.mjs");
-  step("regenerating README catalog", "scripts/generate-readme-catalog.mjs");
+  // Regenerate the content docs from the SINGLE source — `docs:regen` (grimoire
+  // index + README catalog + llms.txt agent map). Reusing the npm script instead
+  // of a hardcoded list here means a doc generator added to docs:regen can never
+  // be silently skipped by the publish flow — which is exactly how llms.txt once
+  // drifted (publish hardcoded grimoire+README and never got generate-llms).
+  log("regenerating content docs (docs:regen) …");
+  execFileSync("npm", ["run", "docs:regen"], { stdio: "inherit" });
   step("regenerating manifest", "scripts/generate-manifest.mjs");
   step("regenerating agent-discovery files", "scripts/generate-agent-ready.mjs");
   step("signing manifest via KMS", "scripts/sign-manifest.mjs");
