@@ -93,6 +93,7 @@ Read before the work begins. The wards above are *cast* — summoned by a sub-ag
 |---|---|---|
 | **curare** | infinitive (act) | to tend the record — keep the externalized memory true and current, so the future self can recover from it |
 | **examinare** | infinitive (act) | the dungeon crawl — scope a body of work into strikes, delegate each, and prove the kill against your own living read |
+| **extirpare** | infinitive (act) | to root out the failure class — pull the root so it cannot regrow, never patch the stem |
 | **recolligere** | infinitive (act) | to gather oneself again — reconstitute from the record after the memory is erased |
 
 <!-- END catalog:primer -->
