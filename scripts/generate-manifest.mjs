@@ -43,6 +43,7 @@ import {
 import { createHash } from "node:crypto";
 import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
+import { readSpells } from "./lib/spells.mjs";
 
 const REPO_ROOT = process.cwd();
 const SCHEMA_VERSION = 1;
@@ -60,6 +61,21 @@ const SKIP = new Set([
   ".git",
   ".github",
 ]);
+
+// The resource `description` is "shown to the LLM" by the frozen adapter's
+// resources/list — the FIRST thing an agent reads when it sources the grimoire.
+// We populate it so the index announces itself as START-HERE and the primers
+// announce they are read-first; wards carry their own frontmatter description.
+// (CONTRACT.md: `description` is the one optional resource field, freely addable
+// within 1.0.0 — the adapter already spreads it through resources/list.)
+const PRIMER_PREFIX =
+  "PRIMER — a read-first discipline you run on yourself, not a ward you cast at a file. Load it before the work. ";
+
+const GRIMOIRE_INDEX_DESCRIPTION =
+  "START HERE — load this index first; it maps the whole grimoire and how to use it. Four entries are PRIMERS, read-first disciplines you run on yourself: recolligere (reconstitute after a context compaction — run it the moment you suspect your memory was summarized), extirpare (failure engineering — stop on a failure and pull the whole class out by the root, never patch the stem), examinare (the dungeon crawl — the agile method here: scope a body of work into strikes, delegate, verify against your own read), curare (keep the durable record true). The rest are wards: focused casts you spawn against a target, on demand.";
+
+const genericFallback = (name) =>
+  `Datamancy spell: ${name} (SHA-256 verified at fetch time).`;
 
 function gitShortSha() {
   try {
@@ -134,6 +150,23 @@ async function main() {
 
   await mkdir(BLOBS_DIR, { recursive: true });
 
+  // Per-spell frontmatter (category + description) from the SINGLE source the
+  // other generators also read. readSpells validates every spell and throws
+  // LOUD on a malformed one, so a broken frontmatter can never reach the signed
+  // manifest. (readSpells deliberately skips the generated `grimoire` index; it
+  // gets the START-HERE description below.)
+  const spellsByName = new Map(
+    (await readSpells(REPO_ROOT)).map((s) => [s.name, s]),
+  );
+  const describe = (name) => {
+    if (name === "grimoire") return GRIMOIRE_INDEX_DESCRIPTION;
+    const sp = spellsByName.get(name);
+    if (!sp) return genericFallback(name);
+    return sp.category === "primer"
+      ? PRIMER_PREFIX + sp.description
+      : sp.description;
+  };
+
   const entries = await readdir(REPO_ROOT, { withFileTypes: true });
   const resources = [];
 
@@ -168,6 +201,7 @@ async function main() {
       uri: `${entry.name}/SKILL.md`,
       blob: `${BLOBS_DIR}/${sha256}`,
       mimeType: "text/markdown",
+      description: describe(entry.name),
       sha256,
       size: buf.byteLength,
     });
