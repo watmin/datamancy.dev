@@ -13,6 +13,8 @@ vigilia-slot: aggregator
 
 > The pieces guard each. The whole guards everything.
 
+> This spell belongs to the **datamancy grimoire** — load its index (`grimoire/SKILL.md`) first. The index defines the practice-terms used here (*ward*, *cast*, *the four questions*, *rune*) and lists the sibling spells vigilia musters; this spell assumes that context rather than redefining it.
+
 Vigilia is **the aggregator**. It does not check the code itself; it summons every defensive spell in the grimoire against the target, in parallel, and collects the reports. The practitioner casts vigilia when the question is "is this code ready?" — and wants the answer from every angle the grimoire knows how to ask.
 
 ## The principle
@@ -46,7 +48,7 @@ The grimoire's primary decision heuristic is four questions, each answered with 
 
 ## What vigilia casts
 
-The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated against `VIGILIA_SLOT_META`; it cannot drift from the wards:
+The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated by the spell reader; it cannot drift from the wards:
 
 | Spell | Concern | When cast |
 |---|---|---|
@@ -71,11 +73,11 @@ The defensive set, in the order each spell's findings tend to compose — univer
 | **nesciens** | Documentation walkability | cast on documentation targets — README, USER-GUIDE, walkable text |
 | **circumspicere** | The surround — egress, attack surface, claims-vs-code, negative space | always cast last, after the inward set — surveys the surround they left uncovered |
 
-Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind** — `code`, `spec`, `test`, `docs`, `chronicle`, or `mixed` (the union). The **universal code set** (intueri, solvere, conformare, purgare, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. Beyond those, **exigere** runs on every target regardless of kind — not just code (its row names where). circumspicere is always cast, and always last.
+Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind**. The **universal code set** (intueri, solvere, conformare, purgare, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. Beyond those, **exigere** runs on every target regardless of kind — not just code (its row names where). circumspicere is always cast, and always last. The selection rule below names, per kind, exactly which wards muster.
 
 ## The cast mechanic — embed, never fetch
 
-The caster fetches each inward spell's `SKILL.md` from the grimoire once — the MCP serves it SHA-256-verified — and **embeds the full text verbatim** into that spell's subagent prompt, alongside the named target. The subagent applies its discipline from what it was handed.
+The caster fetches each inward spell's `SKILL.md` from the grimoire once — the grimoire's signed MCP endpoint serves it SHA-256-verified — and **embeds the full text verbatim** into that spell's subagent prompt, alongside the named target. The subagent applies its discipline from what it was handed.
 
 The subagent **never fetches its own spell.** A spawned worker may run sandboxed: no network, no MCP, no reach to datamancy.dev. If the cast depended on the worker fetching the spell text, it would fail the instant the sandbox denied the request — and a spell the worker could not read is an invalid cast, not a finding. So the spell travels into the worker **by value, not by reference**: embedded in the prompt, already in hand. circumspicere is cast last the same way — after the inward reports, with its own text embedded, not fetched.
 
@@ -122,7 +124,7 @@ Aggregate:
 
 - **Invent findings** — vigilia's output is the union of its children's outputs; nothing new appears
 - **Re-classify findings** — each child spell owns its severity verdicts
-- **Suppress findings** — the rune system per spell handles legitimate exemptions; vigilia respects each spell's rune output and does not add its own suppression layer
+- **Suppress findings** — the rune system per spell (a rune is a structured, vouched exemption a finding can carry) handles legitimate exemptions; vigilia respects each spell's rune output and does not add its own suppression layer
 - **Recommend rune additions** — that's per-spell authoring discipline, not aggregator concern
 
 ## The rune

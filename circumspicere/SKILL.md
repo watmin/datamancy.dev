@@ -14,7 +14,7 @@ vigilia-concern: The surround — egress, attack surface, claims-vs-code, negati
 
 > *circum-* (around) + *specere* (to look) → to look around, on all sides. The sibling of perspicere: `per-` looks THROUGH the code; `circum-` looks AROUND it.
 
-> The seventeen look in. What they miss stands behind them.
+> The inward wards look in. What they miss stands behind them.
 
 Every defensive spell in the grimoire looks **into** the code, each through one lens — intueri at the names, struere at the craft, probare at the substance, secare at the races. Circumspicere is the spell that turns around. It is cast **last**, after the inward guard has reported, because its quarry is precisely what the inward gazes leave uncovered: the surround.
 
@@ -33,11 +33,11 @@ Circumspicere's quarry is the distance between the artifact's *promises and post
 
 ## Why it is cast last
 
-Circumspicere needs to know what the others covered, because its target is the complement: the uncovered. Cast first, it would re-walk ground the inward lenses own. Cast last — inside vigilia, after the seventeen report — it surveys the perimeter they left. The day it finds nothing is the day the artifact's claims and its code finally describe the same thing.
+Circumspicere needs to know what the others covered, because its target is the complement: the uncovered. Cast first, it would re-walk ground the inward lenses own. Cast last — inside vigilia, after the inward wards report — it surveys the perimeter they left. The day it finds nothing is the day the artifact's claims and its code finally describe the same thing.
 
 ## What circumspicere flags
 
-Each facet, with the worked example from the assault that birthed the spell — a full-grimoire cast where all seventeen inward spells found only cosmetics and missed every one of these:
+Each facet, with the worked example from the assault that birthed the spell — a full-grimoire cast where all the inward spells found only cosmetics and missed every one of these:
 
 1. **Default-behaviour egress** — a primitive used at its defaults whose default reaches outward.
    *Worked: every `fetch()` used the runtime's default `redirect: "follow"`. No line is wrong — yet a hosting-only attacker's `302` makes the kernel emit an attacker-chosen outbound request (SSRF) before any verification runs. The flaw lived in the defaults, not the logic; the fix was one option: `redirect: "error"`.*
@@ -90,4 +90,4 @@ For each finding:
 
 ## The principle behind the spell
 
-To know what you do not see, you do not look harder — you turn around. Every inward lens faces the code; the artifact's blind spots stand behind them, in the surround they all share. Circumspicere is the turn. It is cast last and it is cast once, and it earns its place the day it keeps a flaw the seventeen could not see out of something you can never patch.
+To know what you do not see, you do not look harder — you turn around. Every inward lens faces the code; the artifact's blind spots stand behind them, in the surround they all share. Circumspicere is the turn. It is cast last and it is cast once, and it earns its place the day it keeps a flaw the inward wards could not see out of something you can never patch.

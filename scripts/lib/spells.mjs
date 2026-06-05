@@ -6,7 +6,7 @@
 // generated surface picks it up. Forget a field and the build fails loud,
 // naming the spell — drift becomes a red build, never a silent stale table.
 
-import { readdir, readFile, stat } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 
 // Top-level entries that are not spell directories.
@@ -29,7 +29,7 @@ const REQUIRED = ["name", "form", "category", "description", "reading", "vigilia
 // trigger for conditional slots. Parsed always; validated conditionally in
 // readSpells (a member missing its order/concern, or a conditional ward missing
 // its trigger, is a red build — the same loud-drift discipline as a bad category).
-const VIGILIA_OPTIONAL = ["vigilia-order", "vigilia-concern", "vigilia-trigger"];
+const VIGILIA_MEMBER_FIELDS = ["vigilia-order", "vigilia-concern", "vigilia-trigger"];
 const FORMS = new Set(["act", "agent", "thing"]);
 // Closed typology — extend ON PURPOSE here (a one-line, reviewed edit), never
 // by accident via a typo in frontmatter. A category outside this set is a red
@@ -149,7 +149,7 @@ function parseFrontmatter(content) {
     const m = yaml.match(new RegExp(`^${key}:\\s*(.+)$`, "m"));
     return m ? m[1].trim() : null;
   };
-  return Object.fromEntries([...REQUIRED, ...VIGILIA_OPTIONAL].map((k) => [k, field(k)]));
+  return Object.fromEntries([...REQUIRED, ...VIGILIA_MEMBER_FIELDS].map((k) => [k, field(k)]));
 }
 
 // Recursively collect every SKILL.md path (relative to root), pruning the dirs
@@ -206,13 +206,14 @@ export async function readSpells(repoRoot = process.cwd()) {
     if (SKIP.has(entry.name)) continue;
 
     const skillPath = join(repoRoot, entry.name, "SKILL.md");
+    let raw;
     try {
-      await stat(skillPath);
+      raw = await readFile(skillPath, "utf-8");
     } catch {
-      continue; // directory without a SKILL.md is not a spell
+      continue; // directory without a SKILL.md is not a spell — readFile's own ENOENT is the signal
     }
 
-    const fm = parseFrontmatter(await readFile(skillPath, "utf-8"));
+    const fm = parseFrontmatter(raw);
     if (!fm) {
       problems.push(`${entry.name}/SKILL.md: missing or unparseable frontmatter`);
       continue;
@@ -249,6 +250,10 @@ export async function readSpells(repoRoot = process.cwd()) {
       if (slotMeta.conditional && !fm["vigilia-trigger"]) need.push("vigilia-trigger");
       if (need.length) {
         problems.push(`${entry.name}/SKILL.md: vigilia-slot "${slot}" requires field(s): ${need.join(", ")}`);
+        continue;
+      }
+      if (!/^[1-9][0-9]*$/.test(fm["vigilia-order"])) {
+        problems.push(`${entry.name}/SKILL.md: vigilia-order "${fm["vigilia-order"]}" must be a positive integer`);
         continue;
       }
       if (!slotMeta.conditional && fm["vigilia-trigger"]) {
