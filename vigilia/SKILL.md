@@ -16,7 +16,7 @@ Vigilia is **the aggregator**. It does not check the code itself; it summons eve
 
 ## The principle
 
-Each defensive spell sees one concern. solvere sees tangles. purgare sees dead thoughts. intueri sees communication. struere sees craft. temperare sees waste. secare sees parallel races. conferre sees spec/code divergence. probare sees substance. cernere sees phantom forms. nesciens sees documentation walkability. Every one of these looks **into** the code. And one looks **around** it: circumspicere sees the surround — the runtime's default egress, the shipped claims, the unenforced invariants, the blind spot the inward lenses turn their backs on. Each finding is bounded; each spell converges (L1 + L2 = 0) on its own concern.
+Each defensive spell sees one concern. solvere sees tangles. purgare sees dead thoughts. intueri sees communication. conformare sees error-type shape. struere sees craft. sequi sees state threading. temperare sees waste. exigere sees deferral-rot. perspicere sees the noun a nest of types is hiding. secare sees parallel races. mora sees a wait disguised as mechanism. excusare sees a suppression no one re-judged. conferre sees spec/code divergence. probare sees substance. cernere sees phantom forms. complectens sees a test thrown together instead of woven. vocare sees a test reaching past the interface. consonare sees prose drifting off the chronicle's voice. nesciens sees documentation walkability. Every one of these looks **into** the target. And one looks **around** it: circumspicere sees the surround — the runtime's default egress, the shipped claims, the unenforced invariants, the blind spot the inward lenses turn their backs on. Each finding is bounded; each spell converges (L1 + L2 = 0) on its own concern.
 
 Vigilia asks: **across ALL the concerns the grimoire knows, has the target converged?**
 
@@ -41,24 +41,32 @@ The dishonest shape:
 
 ## What vigilia casts
 
-The defensive set, in the order each spell's findings tend to compose:
+The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last:
 
-| Spell | Concern | Why in the set |
+| Spell | Concern | Slot — why in the set |
 |---|---|---|
-| **intueri** | Names + structure + communication | Read first because every other spell's findings reference names |
-| **solvere** | Braided concerns; misplaced logic | Hickey's decomplect; structure comes before behavior |
-| **purgare** | Dead code; unused state | Removes noise before craft checks |
-| **struere** | Per-function craft — values not places, types enforce | Hickey at the function level, after structure is settled |
-| **sequi** | Per-chain state threading — visible through types | Beckman at the chain level, after per-function craft |
-| **temperare** | Wasteful computation; redundant work | Efficiency, after correctness |
-| **secare** | Parallel safety; disjoint writes | Concurrency, where applicable |
-| **cernere** | Phantom forms; language-spec conformance | Where applicable (wat / DSL / language files) |
-| **probare** | Substance vs description | Where the target is a spec/doc/config |
-| **conferre** | Spec vs implementation divergence | Where the target has both spec and code |
-| **nesciens** | Documentation walkability | Where the target is documentation |
+| **intueri** | Names + structure + communication | Universal (code) — read first; every other spell's findings reference names |
+| **solvere** | Braided concerns; misplaced logic | Universal (code) — Hickey's decomplect; structure comes before behavior |
+| **conformare** | Error-type shape; wrong shape uncompilable | Universal (code) — error honesty, the correctness axis no other ward covers |
+| **purgare** | Dead code; unused state | Universal (code) — removes noise before craft checks |
+| **exigere** | Deferred-work / TODO-rot prose | **Universal across kinds** — code + docs; **always** on INSCRIPTION/SCORE records |
+| **struere** | Per-function craft — values not places, types enforce | Universal (code) — Hickey at the function level, after structure is settled |
+| **sequi** | Per-chain state threading — visible through types | Universal (code) — Beckman at the chain level, after per-function craft |
+| **temperare** | Wasteful computation; redundant work | Universal (code) — efficiency, after correctness |
+| **perspicere** | Deep nested type expression → named typealias | Conditional — typed code carrying 2+ `<` in a type |
+| **secare** | Parallel safety; disjoint writes | Conditional — files that use parallel primitives |
+| **mora** | A wait disguised as mechanism (sleep/timeout) | Conditional — any file that waits by a chosen duration, concurrent or not |
+| **excusare** | Suppressions weighed against present truth | Conditional — files carrying `#[allow]` / `# noqa` / runes; audits the very runes the inward set emits |
+| **cernere** | Phantom forms; language-spec conformance | Spec kind — wat / DSL / language files |
+| **probare** | Substance vs description | Spec kind — spec / doc / config files (and test stubs) |
+| **conferre** | Spec ↔ implementation divergence | Where the target carries both spec and code |
+| **complectens** | Test layering; each layer carries its own proof | Test kind — was the test woven or thrown together |
+| **vocare** | Test vantage — verifies through the interface, not past it | Test kind |
+| **consonare** | Chronicle-voice fidelity against the gold anchors | Chronicle kind — **cast by a fresh subagent, no surrounding context** |
+| **nesciens** | Documentation walkability | Docs kind — where the target is documentation |
 | **circumspicere** | The surround — egress, attack surface, shipped-claims-vs-code, negative space | **Cast LAST**, after the inward set reports; surveys the perimeter they left uncovered |
 
-Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's kind (code / spec / docs / mixed). The default casts the universally-applicable set (intueri, solvere, purgare, struere, sequi, temperare) and adds the others as the target's contents warrant.
+Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind** — `code`, `spec`, `test`, `docs`, `chronicle`, or `mixed` (the union). The **universal code-default set** (intueri, solvere, conformare, purgare, exigere, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. **exigere** is the one ward genuinely universal across kinds — it also runs on docs and always on INSCRIPTION/SCORE records. circumspicere is always cast, and always last.
 
 ## The cast mechanic — embed, never fetch
 
@@ -67,6 +75,8 @@ The caster fetches each inward spell's `SKILL.md` from the grimoire once — the
 The subagent **never fetches its own spell.** A spawned worker may run sandboxed: no network, no MCP, no reach to datamancy.dev. If the cast depended on the worker fetching the spell text, it would fail the instant the sandbox denied the request — and a spell the worker could not read is an invalid cast, not a finding. So the spell travels into the worker **by value, not by reference**: embedded in the prompt, already in hand. circumspicere is cast last the same way — after the inward reports, with its own text embedded, not fetched.
 
 Failure engineering: the worker that cannot reach the grimoire still holds the spell. Remove the fetch, remove the fetch-failure class.
+
+**One ward needs the opposite of context: consonare.** consonare grades chronicle voice against the gold anchors, and its verdict is honest only from a *fresh* reader. Its subagent gets the draft and the spell text — but **not** the surrounding conversation or prior drafts, which would prime it to hear its own echo as the chronicle's voice. When vigilia musters consonare on a chronicle target, it withholds the session context from that one worker. The embed-never-fetch rule still holds (the spell travels by value); only the *context* is held back.
 
 ## How to invoke
 
@@ -79,12 +89,15 @@ Failure engineering: the worker that cannot reach the grimoire still holds the s
 
 The default selection rule:
 
-- Code file in a host language (Rust, Clojure-style Lisp, etc.) — cast intueri, solvere, purgare, struere, sequi, temperare (+ secare if the file uses parallel primitives)
-- Spec / DSL / wat file — add cernere (phantom forms), probare (substance)
-- Documentation (README, USER-GUIDE, etc.) — add nesciens (walkability); skip code-specific spells
-- Mixed file — cast the union
+- **Code file** in a host language (Rust, Clojure-style Lisp, etc.) — cast the universal code-default set: intueri, solvere, conformare, purgare, exigere, struere, sequi, temperare. Add **perspicere** if it carries deeply-nested generic types, **secare** if it uses parallel primitives, **mora** if it waits via sleep/timeout, **excusare** if it carries lint/rune suppressions.
+- **Spec / DSL / wat file** — add **cernere** (phantom forms) and **probare** (substance); add **conferre** if the target carries both spec and code.
+- **Test file** — the applicable code wards plus **complectens** (layering) and **vocare** (caller-vantage); mora and excusare commonly fire here too.
+- **Documentation** (README, USER-GUIDE, …) — **nesciens** (walkability) and **exigere** (deferral prose); skip the code-specific spells.
+- **Chronicle prose** (blog post, BOOK entry) — **consonare** (voice), cast by a fresh, uncontexted subagent.
+- **INSCRIPTION / SCORE** records — always add **exigere**.
+- **Mixed file** — cast the union.
 
-The practitioner can override with `--include` / `--exclude` as needed.
+circumspicere is cast last on every target, regardless of kind. The practitioner can override with `--include` / `--exclude` as needed.
 
 ## What vigilia returns
 
