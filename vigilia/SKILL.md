@@ -42,32 +42,32 @@ The dishonest shape:
 
 ## What vigilia casts
 
-The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last:
+The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated against `VIGILIA_SLOT_META`; it cannot drift from the wards:
 
 | Spell | Concern | Slot — why in the set |
 |---|---|---|
-| **intueri** | Names + structure + communication | Universal (code) — read first; every other spell's findings reference names |
-| **solvere** | Braided concerns; misplaced logic | Universal (code) — Hickey's decomplect; structure comes before behavior |
-| **conformare** | Error-type shape; wrong shape uncompilable | Universal (code) — error honesty, the correctness axis no other ward covers |
-| **purgare** | Dead code; unused state | Universal (code) — removes noise before craft checks |
-| **exigere** | Deferred-work / TODO-rot prose | **Universal across kinds** — code + docs; **always** on INSCRIPTION/SCORE records |
-| **struere** | Per-function craft — values not places, types enforce | Universal (code) — Hickey at the function level, after structure is settled |
-| **sequi** | Per-chain state threading — visible through types | Universal (code) — Beckman at the chain level, after per-function craft |
-| **temperare** | Wasteful computation; redundant work | Universal (code) — efficiency, after correctness |
-| **perspicere** | Deep nested type expression → named typealias | Conditional — typed code carrying 2+ `<` in a type |
+| **intueri** | Names + structure + communication | cast on every code target — the default set, before all others |
+| **solvere** | Braided concerns; misplaced logic | cast on every code target — the default set, before all others |
+| **conformare** | Error-type shape; wrong shape uncompilable | cast on every code target — the default set, before all others |
+| **purgare** | Dead code; unused state | cast on every code target — the default set, before all others |
+| **struere** | Per-function craft — values not places | cast on every code target — the default set, before all others |
+| **sequi** | Per-chain state threading | cast on every code target — the default set, before all others |
+| **temperare** | Wasteful computation; redundant work | cast on every code target — the default set, before all others |
+| **exigere** | Deferred-work / TODO-rot prose | cast on every target regardless of kind — code, docs, INSCRIPTION/SCORE |
+| **perspicere** | Deep nested type expression → named typealias | Conditional — typed code carrying 2 or more `<` in a type |
 | **secare** | Parallel safety; disjoint writes | Conditional — files that use parallel primitives |
-| **mora** | A wait disguised as mechanism (sleep/timeout) | Conditional — any file that waits by a chosen duration, concurrent or not |
-| **excusare** | Suppressions weighed against present truth | Conditional — files carrying `#[allow]` / `# noqa` / runes; audits the very runes the inward set emits |
-| **cernere** | Phantom forms; language-spec conformance | Spec kind — wat / DSL / language files |
-| **probare** | Substance vs description | Spec kind — spec / doc / config files (and test stubs) |
-| **conferre** | Spec ↔ implementation divergence | Where the target carries both spec and code |
-| **complectens** | Test layering; each layer carries its own proof | Test kind — was the test woven or thrown together |
-| **vocare** | Test vantage — verifies through the interface, not past it | Test kind |
-| **consonare** | Chronicle-voice fidelity against the gold anchors | Chronicle kind — **cast by a fresh subagent, no surrounding context** |
-| **nesciens** | Documentation walkability | Docs kind — where the target is documentation |
-| **circumspicere** | The surround — egress, attack surface, shipped-claims-vs-code, negative space | **Cast LAST**, after the inward set reports; surveys the perimeter they left uncovered |
+| **mora** | A wait disguised as mechanism (sleep/timeout) | Conditional — any file that waits by a chosen duration |
+| **excusare** | Suppressions weighed against present truth | Conditional — files carrying #[allow] / # noqa / runes |
+| **cernere** | Phantom forms; language-spec conformance | cast on spec, language, and DSL files |
+| **probare** | Substance vs description | cast on spec, language, and DSL files |
+| **conferre** | Spec and implementation divergence | cast on spec, language, and DSL files |
+| **complectens** | Test layering; each layer carries its own proof | cast on test files, alongside the applicable code wards |
+| **vocare** | Test vantage — verifies through the interface | cast on test files, alongside the applicable code wards |
+| **consonare** | Chronicle-voice fidelity against the gold anchors | cast on chronicle prose by a fresh, uncontexted subagent |
+| **nesciens** | Documentation walkability | cast on documentation targets — README, USER-GUIDE, walkable text |
+| **circumspicere** | The surround — egress, attack surface, claims-vs-code, negative space | always cast last, after the inward set — surveys the surround they left uncovered |
 
-Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind** — `code`, `spec`, `test`, `docs`, `chronicle`, or `mixed` (the union). The **universal code-default set** (intueri, solvere, conformare, purgare, exigere, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. **exigere** is the one ward genuinely universal across kinds — it also runs on docs and always on INSCRIPTION/SCORE records. circumspicere is always cast, and always last.
+Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind** — `code`, `spec`, `test`, `docs`, `chronicle`, or `mixed` (the union). The **universal code set** (intueri, solvere, conformare, purgare, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. **exigere** is the one ward genuinely universal across kinds — it also runs on docs and always on INSCRIPTION/SCORE records. circumspicere is always cast, and always last.
 
 ## The cast mechanic — embed, never fetch
 
@@ -88,15 +88,16 @@ Failure engineering: the worker that cannot reach the grimoire still holds the s
 /vigilia path/to/target --exclude temperare,secare     # explicit skip
 ```
 
-The default selection rule:
+The default selection rule (also generated from the slots):
 
-- **Code file** in a host language (Rust, Clojure-style Lisp, etc.) — cast the universal code-default set: intueri, solvere, conformare, purgare, exigere, struere, sequi, temperare. Add **perspicere** if it carries deeply-nested generic types, **secare** if it uses parallel primitives, **mora** if it waits via sleep/timeout, **excusare** if it carries lint/rune suppressions.
-- **Spec / DSL / wat file** — add **cernere** (phantom forms) and **probare** (substance); add **conferre** if the target carries both spec and code.
-- **Test file** — the applicable code wards plus **complectens** (layering) and **vocare** (caller-vantage); mora and excusare commonly fire here too.
-- **Documentation** (README, USER-GUIDE, …) — **nesciens** (walkability) and **exigere** (deferral prose); skip the code-specific spells.
-- **Chronicle prose** (blog post, BOOK entry) — **consonare** (voice), cast by a fresh, uncontexted subagent.
-- **INSCRIPTION / SCORE** records — always add **exigere**.
-- **Mixed file** — cast the union.
+- **universal code wards** — cast on every code target — the default set, before all others: **intueri**, **solvere**, **conformare**, **purgare**, **struere**, **sequi**, **temperare**.
+- **universal cross-kind ward** — cast on every target regardless of kind — code, docs, INSCRIPTION/SCORE: **exigere**.
+- **conditional code wards** — join the cast when the trigger fires: **perspicere** (typed code carrying 2 or more `<` in a type), **secare** (files that use parallel primitives), **mora** (any file that waits by a chosen duration), **excusare** (files carrying #[allow] / # noqa / runes).
+- **spec / DSL wards** — cast on spec, language, and DSL files: **cernere**, **probare**, **conferre**.
+- **test wards** — cast on test files, alongside the applicable code wards: **complectens**, **vocare**.
+- **chronicle ward** — cast on chronicle prose by a fresh, uncontexted subagent: **consonare**.
+- **docs ward** — cast on documentation targets — README, USER-GUIDE, walkable text: **nesciens**.
+- **perimeter lens** — always cast last, after the inward set — surveys the surround they left uncovered: **circumspicere**.
 
 circumspicere is cast last on every target, regardless of kind. The practitioner can override with `--include` / `--exclude` as needed.
 
