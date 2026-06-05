@@ -139,7 +139,7 @@ export const VIGILIA_SLOT_META = {
     member: false,
   },
 };
-export const VIGILIA_SLOTS = new Set(Object.keys(VIGILIA_SLOT_META));
+const VIGILIA_SLOTS = new Set(Object.keys(VIGILIA_SLOT_META));
 
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);
@@ -156,7 +156,10 @@ function parseFrontmatter(content) {
 // that never hold spells. Used to assert the FLAT layout: the enumeration in
 // readSpells only sees `<name>/SKILL.md`, so a spell written one level deeper
 // is invisible to it — never validated, silently absent. This walk is the eye
-// that sees what the glob can't, so a misplaced/nested spell fails LOUD.
+// that sees what the glob can't, so a NESTED spell (deeper than `<name>/SKILL.md`)
+// fails LOUD. A flat SKILL.md inside a reserved SKIP dir is NOT caught here — it is
+// intentionally excluded by Gate 2's SKIP set, which is how the generated
+// `grimoire/SKILL.md` index legitimately lives in a non-spell dir.
 async function findSkillFiles(root) {
   const out = [];
   async function walk(dir) {

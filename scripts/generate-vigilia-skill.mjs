@@ -16,9 +16,11 @@
 //
 // Twin of generate-grimoire-skill.mjs — same readSpells source, same --check gate.
 
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { readSpells, VIGILIA_SLOT_META } from "./lib/spells.mjs";
 
+const OUTPUT_DIR = "vigilia";
 const OUTPUT_FILE = "vigilia/SKILL.md";
 const CHECK = process.argv.includes("--check");
 
@@ -241,6 +243,7 @@ async function main() {
     return;
   }
 
+  await mkdir(join(process.cwd(), OUTPUT_DIR), { recursive: true });
   await writeFile(OUTPUT_FILE, next);
   console.error(`[generate-vigilia-skill] wrote ${OUTPUT_FILE} (${members(spells).length} wards mustered from frontmatter)`);
 }
