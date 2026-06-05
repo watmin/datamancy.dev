@@ -6,7 +6,7 @@
       "type": "tests-of-fidelity",
       "description": "Sift valid forms from phantom. The datamancer cernit the source — every form used must trace to the language spec. Forms that look valid but aren't defined are phantom; the spell catches them before they ship.",
       "url": "https://datamancy.dev/cernere/SKILL.md",
-      "sha256": "8ac7bb3a95dd0580bb8f1ac64fb211f401fdb6a1e8a3a51f199e2cb69fd09c25",
+      "sha256": "6d5009f0d9ec6e3fa1f43917babdd395a49505d60abcc75d987fc600fd495a21",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/cernere/SKILL.md"
     },
     {
@@ -14,7 +14,7 @@
       "type": "tests-of-fidelity",
       "description": "Look around. The datamancer circumspicere — steps back from the code the other spells look INTO and surveys what surrounds it: the runtime's default behaviour, the attack surface, the shipped claims, and the blind spot every inward lens turns its back on. Cast last; finds what the guard walked past.",
       "url": "https://datamancy.dev/circumspicere/SKILL.md",
-      "sha256": "a27baa9b533c0820ca0bb4ade296d33e54c58d35416f70932d9d88983186d6b9",
+      "sha256": "d663b3f370b2e166cb1ee2ef54288c1de9d114163cad0f535fdfbeee63a97267",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/circumspicere/SKILL.md"
     },
     {
@@ -22,7 +22,7 @@
       "type": "tests-of-surface",
       "description": "Weave together. The datamancer complectēns the tests — does each layer compose only from layers above it? Does each layer carry its own proof? Or did this test attempt to one-shot a hard problem?",
       "url": "https://datamancy.dev/complectens/SKILL.md",
-      "sha256": "83de480d7b40b907463e81ffb7e86a7556893e61525715d0707ec67b00caef65",
+      "sha256": "4349f7cc73faa71442bee60c666d460f2b22b9673e529d5cb62f7afbedf09e91",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/complectens/SKILL.md"
     },
     {
@@ -30,7 +30,7 @@
       "type": "tests-of-fidelity",
       "description": "Bring spec and code together to find divergence. The datamancer conferre the specification against the implementation — where they disagree, one of them is wrong.",
       "url": "https://datamancy.dev/conferre/SKILL.md",
-      "sha256": "4cb8d0863ea6104813bd11e8d91b91020ad15c4e299fb33975d4cc305aacb5d8",
+      "sha256": "312d20161806bf9e9b3089af13e00928abdc2ef6dc1523808a4a6117784f4c9f",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/conferre/SKILL.md"
     },
     {
@@ -38,7 +38,7 @@
       "type": "tests-of-craft",
       "description": "Shape error types together to a common standard. The datamancer conformat — every error variant must reach diagnostic completeness via structural guarantee, not hand-discipline. The wrong shape must be uncompilable.",
       "url": "https://datamancy.dev/conformare/SKILL.md",
-      "sha256": "6e8ef62e0e2cb961f2d5ec8393d40b4290451fcfe4e50c12646fbc7a5bd34b8d",
+      "sha256": "f69543b0f8865038b1a48bbcf3186fe2502018d58d786455d81c880fcbaa451d",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/conformare/SKILL.md"
     },
     {
@@ -46,7 +46,7 @@
       "type": "tests-of-fidelity",
       "description": "Hear whether new prose rings in tune with the chronicle's voice. The datamancer consonat the draft against the gold anchors — does each line carry the substrate-event register? Does the close earn its verdict? Does recognition-voice stay in its lane? Does the page carry substance, or only signpost to it? Is the user present as a collaborator, quoted the way the gold anchors carry them, or has the duet collapsed into a solo report? Returns VERDICT + per-rule findings + fidelity score 1-10.",
       "url": "https://datamancy.dev/consonare/SKILL.md",
-      "sha256": "30e860116311497b13a8ab088a0cc67e506bb9acbc5c8a9ab6a2f38876c1fa88",
+      "sha256": "a50f344819a32b3ab3dbed974e785fd92be0e731cd8ca12e3e4bdf5df4183b9c",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/consonare/SKILL.md"
     },
     {
@@ -54,7 +54,7 @@
       "type": "primer",
       "description": "Tend the record so it stays worth recovering. The datamancer curat — at every wrap-up it captures what was learned, keeps one true breadcrumb, promotes the hard-won lessons, and prunes what went stale; the externalized memory the next self will gather is kept trustworthy across the gap.",
       "url": "https://datamancy.dev/curare/SKILL.md",
-      "sha256": "f9f5a7b1862cb1d43e692017dbbf32db1d0aa1c55d355141b98ef55d632a7dec",
+      "sha256": "41467a3a6978c7892018779e5c3bedaf9e31b0eac02be5f66c4af6bc243e2985",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/curare/SKILL.md"
     },
     {
@@ -62,7 +62,7 @@
       "type": "primer",
       "description": "Lay the disk bare, strike through an executor, then weigh every returned finding against your own living read — credit nothing the disk does not show. The governing act of the dungeon crawl — study the lair, draw the strike, prove the kill against the ground. A development methodology in the agile lineage — iterative, small-unit, feedback-driven scoping and delegation — run on the strike, not the sprint or the board. Slow is smooth, smooth is fast; never fight the same boss twice.",
       "url": "https://datamancy.dev/examinare/SKILL.md",
-      "sha256": "cd879ffccd2e36329a1403763e374a3b8397ee5bacc65202071ec22380d8eddd",
+      "sha256": "6e6537179b6ebbdc23737047f37b72bf6a95d358ae925df372d9926741ec7b94",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/examinare/SKILL.md"
     },
     {
@@ -70,7 +70,7 @@
       "type": "tests-of-fidelity",
       "description": "Weigh every exemption against present truth. The datamancer excusat the overrides — each suppression that tells a checker \"this looks like a finding, but it is correct, and here is why\" is held up to the world as it is now, at the moment it is offered AND as it ages, and struck when its reason does not earn its standing.",
       "url": "https://datamancy.dev/excusare/SKILL.md",
-      "sha256": "da39d9aba852c3b283cf897a81502834e8b0241068e14c2ca4c3e3f41a1ce432",
+      "sha256": "377effcc5bed00e55510396abf82ed95abbf8cdb263c637ae57dd944d8041f56",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/excusare/SKILL.md"
     },
     {
@@ -78,7 +78,7 @@
       "type": "tests-of-fidelity",
       "description": "Drive out deferred-work language. The datamancer exigit — what cannot ship in this stone either ships now or is bounded by a named arc; deferral-prose carries no other honest form. Substrate code does not promise future-work in comments; it ships present-work or names where the future-work tracks.",
       "url": "https://datamancy.dev/exigere/SKILL.md",
-      "sha256": "9d90fd5bd85a7e84a6c3cb35f2e66a3a269ce3a7e917179c1171e3e8a0b1d053",
+      "sha256": "a017527e81a878fa74c5b6d0cb13ef0f1b00eeaf3750ed5e441e79d87d616211",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/exigere/SKILL.md"
     },
     {
@@ -86,7 +86,7 @@
       "type": "primer",
       "description": "Root out the failure class. The datamancer extirpat — a failure is not friction to bypass but the system asking for help; stop the moment it surfaces, read what it reports, and pull the whole class out by the root so it cannot regrow. Never patch the stem; never construct the situation that needs the patch. The meta-discipline beneath every ward — each spell is one failure class pulled out of the ground.",
       "url": "https://datamancy.dev/extirpare/SKILL.md",
-      "sha256": "684c864d744599d5aab1a487b97b9f4b21a8d7837c3118c5348d25d370fe3906",
+      "sha256": "90b8ec68759e308d3d03c674d22828f493d0721b696a884765acb55daae4558f",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/extirpare/SKILL.md"
     },
     {
@@ -102,7 +102,7 @@
       "type": "tests-of-craft",
       "description": "Contemplate whether the code speaks. The datamancer intuetur the file — does each name say what it is? Does the structure tell the story? Does the spark live?",
       "url": "https://datamancy.dev/intueri/SKILL.md",
-      "sha256": "8ad3f691c7ffabaf6a0bb305cd5db6d599e813be881f0c31518e475078c5aaf3",
+      "sha256": "5cf6a9bb0df0bd95864b2ef387966a7f83c4605196d5d632b1bbd68b0c9fbcb1",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/intueri/SKILL.md"
     },
     {
@@ -110,7 +110,7 @@
       "type": "tests-of-surface",
       "description": "Hunt the pause. The datamancer suffers no mora — every wait must arrive via the wire, not via mechanism. Sleep is a guess; guesses race. Time is I/O; it arrives as an fd-event or it doesn't arrive honestly.",
       "url": "https://datamancy.dev/mora/SKILL.md",
-      "sha256": "381ca6442b0eed4e39e7e91592c9cf4776464894e527499b9a6e44a4c04172e2",
+      "sha256": "5f5745a5d3613f94581f575df2ffd9206dc5a3ef5a4ef482de1ce9d9ce05fcf7",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/mora/SKILL.md"
     },
     {
@@ -118,7 +118,7 @@
       "type": "solo-ward",
       "description": "The one who does not yet know. The datamancer summons the nesciens — a fresh reader who walks the document top-to-bottom, measuring what cannot be reached.",
       "url": "https://datamancy.dev/nesciens/SKILL.md",
-      "sha256": "2eae880aefd0f14870e7e9ce26ecbd5bcdf5f3b49df4a508d0fb3ec2ec5d2e26",
+      "sha256": "c0756417ed297e00f26628a5625bfb0fa785c4db897e4634e8d6986112feb2f6",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/nesciens/SKILL.md"
     },
     {
@@ -126,7 +126,7 @@
       "type": "tests-of-surface",
       "description": "See through. The datamancer perspicere — pierces deeply-nested type expressions to find the noun the depth is hiding, and suggests a typealias that names it.",
       "url": "https://datamancy.dev/perspicere/SKILL.md",
-      "sha256": "b15c69de1a9987e96eaa8e6464793365e75221010994ac1ed025ed02595f9f93",
+      "sha256": "8c300714acccd4914de2c6671bdd7e2097a310fa911d871c3e0016fef7dd4b66",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/perspicere/SKILL.md"
     },
     {
@@ -134,7 +134,7 @@
       "type": "tests-of-fidelity",
       "description": "Test the substance. The datamancer probare the file — is this a program or a description? Comments tell the human; expressions tell the machine. The assayer crushes the rock and reports the fraction.",
       "url": "https://datamancy.dev/probare/SKILL.md",
-      "sha256": "5fd5cc9a0b55175474ed534862e337a9ee356efc7a1c656098bf69fd5f682a65",
+      "sha256": "64d245dfb25b27630f9fb361b62ae27c0acf6fbd7debb432327a5ace3c960f64",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/probare/SKILL.md"
     },
     {
@@ -142,7 +142,7 @@
       "type": "tests-of-craft",
       "description": "Purge dead thoughts. The datamancer purgares the code — finds structs never imported, fields never read, collections never populated, branches never taken. The cost of a dead thought is compute.",
       "url": "https://datamancy.dev/purgare/SKILL.md",
-      "sha256": "4c14a3d26b75b440313e58f0e53d08ff5156eedfffaa7f995c5f4fbeab80584d",
+      "sha256": "89ec35a53a1c624626415429c4f62aad7691d16c123f7ad491657e23786d672c",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/purgare/SKILL.md"
     },
     {
@@ -150,7 +150,7 @@
       "type": "primer",
       "description": "Gather the scattered self back together. The datamancer recolligit — after compaction erases working memory, the practitioner does not act on phantom recall; it crawls the durable record on disk and reconstitutes orientation before it proposes or moves.",
       "url": "https://datamancy.dev/recolligere/SKILL.md",
-      "sha256": "21af9fb271170a6167364c019f0932d2845eb61decf59f75963b8cb73672a5ef",
+      "sha256": "1c5b333e6166f709361bac544c97a5ef1303243925cab853256c8964f61ce1dd",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/recolligere/SKILL.md"
     },
     {
@@ -158,7 +158,7 @@
       "type": "tests-of-craft",
       "description": "Cut cleanly along the grain. The datamancer secat the parallel boundary — verify that each parallel invocation writes to its own slot, never shares mutation, never races for state.",
       "url": "https://datamancy.dev/secare/SKILL.md",
-      "sha256": "d742b6e3b1670cfaa8bd5ce42feffc2fe0f0f4d8f5c76fcbb30ff63c0d50ae2b",
+      "sha256": "59bd137bb88da6065047dccdffbd918c53d5c344bd62ac61ad833db5adb480e0",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/secare/SKILL.md"
     },
     {
@@ -166,7 +166,7 @@
       "type": "tests-of-craft",
       "description": "Follow the state. The datamancer sequit the composition chain — state must follow through every transformation, visibly, through the types. Hidden state breaks composition; the spell catches the break.",
       "url": "https://datamancy.dev/sequi/SKILL.md",
-      "sha256": "dd2c26fc3e17e9ff5aef10162ccaf9b17903ba99ac110a7c19851dfbab5547af",
+      "sha256": "ccb817e92bb53027850f192a5d28fd7e8eb8ca03556d5f45728ce5613038ecc0",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/sequi/SKILL.md"
     },
     {
@@ -174,7 +174,7 @@
       "type": "tests-of-craft",
       "description": "Loosen what was wrongly bound. The datamancer solveres the code — finds braided concerns, misplaced logic, duplicated encoding. Hickey's decomplect, made operational.",
       "url": "https://datamancy.dev/solvere/SKILL.md",
-      "sha256": "1f169a2ed0d3ee5d380e28c9728ea8059e82a10b56a5468cb8e456fe6da557d0",
+      "sha256": "4572aac11a76027d3bd2316ff46f056572049f1144292faba8f7f94fded5cd28",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/solvere/SKILL.md"
     },
     {
@@ -182,7 +182,7 @@
       "type": "tests-of-craft",
       "description": "Test what is built. The datamancer struere the function — values flowing through, not mutating in place; composition that holds under load; abstractions at the right level.",
       "url": "https://datamancy.dev/struere/SKILL.md",
-      "sha256": "d143b6f8eb9d606d77fb1b76b91c7e9275f0e3e503262709647f11f2ef254510",
+      "sha256": "2cbe51a3f35b0ba350540f75f9f3b0e3ccf5ca1d7286cb3d72f134acce9cbcb9",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/struere/SKILL.md"
     },
     {
@@ -190,7 +190,7 @@
       "type": "tests-of-craft",
       "description": "Mix computation in right proportion. The datamancer temperat the code — finds redundant calls, invariant work in loops, recomputation when nothing changed. Correct but hot.",
       "url": "https://datamancy.dev/temperare/SKILL.md",
-      "sha256": "d012c2e6888999ad7a9f6d0b68343c4fd57bdaf7a4ea2e133f95d3b46f2f2806",
+      "sha256": "e6fcaad550b77195764e60cc8da6eed1d50094578ce9de24c03aafe6b2cbf7e9",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/temperare/SKILL.md"
     },
     {
@@ -198,7 +198,7 @@
       "type": "solo-ward",
       "description": "The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.",
       "url": "https://datamancy.dev/vigilia/SKILL.md",
-      "sha256": "292a8b28ab4b6785a92122ddad1f1e1219d6a452df6b0ff06c8b9202ca15748f",
+      "sha256": "5277df0fcbd36c2c47e2936c8822aa07f4066bedc05e4142c00a8a799aed2c20",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vigilia/SKILL.md"
     },
     {
@@ -206,7 +206,7 @@
       "type": "tests-of-surface",
       "description": "Call the test to its caller. The datamancer vocares the tests — does this verify what the caller sees, or has the test reached past the interface into the implementation?",
       "url": "https://datamancy.dev/vocare/SKILL.md",
-      "sha256": "229b8ee7537fd54a85983a91ab95d77ca1e976ec282cea7cdbefdc16944ed527",
+      "sha256": "3b01f28fef658862cd0e25150b9bf23cfe7fd896c561f8f36cdcdb0ae09491aa",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vocare/SKILL.md"
     }
   ],
