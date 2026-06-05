@@ -7,9 +7,9 @@
 // each spell's own `vigilia-slot` frontmatter (the single source, validated in
 // scripts/lib/spells.mjs against VIGILIA_SLOT_META). The conceptual prose lives
 // in render() as literals; the roster table, the selection rule, and the
-// universal/conditional name-lists are generated — so the watch can never drift
-// from the wards (it once listed 12 of 20, while three wards self-declared a
-// membership the table omitted).
+// universal/conditional/cross-kind name-lists are generated — and the prose names
+// NO ward as a literal, so nothing can drift when the roster changes (the watch
+// once listed 12 of 20, while three wards self-declared a membership it omitted).
 //
 //   npm run vigilia:regen                              # write vigilia/SKILL.md
 //   node scripts/generate-vigilia-skill.mjs --check    # drift gate, no write
@@ -27,32 +27,31 @@ const CHECK = process.argv.includes("--check");
 const SLOT_KEYS = Object.keys(VIGILIA_SLOT_META);
 
 // Roster members (everything but the two non-member slots), sorted by slot-group
-// order (VIGILIA_SLOT_META key order) then by each spell's vigilia-order.
+// order (VIGILIA_SLOT_META key order) then by each spell's vigilia-order. Order
+// is unique within a slot (readSpells Gate 4 enforces it), so the sort is total.
 function members(spells) {
   return spells
     .filter((s) => VIGILIA_SLOT_META[s["vigilia-slot"]].member)
     .sort((a, b) => {
-      const da = SLOT_KEYS.indexOf(a["vigilia-slot"]);
-      const db = SLOT_KEYS.indexOf(b["vigilia-slot"]);
-      return da !== db ? da - db : Number(a["vigilia-order"]) - Number(b["vigilia-order"]);
+      const slotA = SLOT_KEYS.indexOf(a["vigilia-slot"]);
+      const slotB = SLOT_KEYS.indexOf(b["vigilia-slot"]);
+      return slotA !== slotB ? slotA - slotB : Number(a["vigilia-order"]) - Number(b["vigilia-order"]);
     });
 }
 
-// The "Slot — why in the set" column derives from the slot: a conditional ward
-// shows its trigger, every other shows its slot's blurb. No per-row editorial to
-// drift.
-function rosterRows(spells) {
-  return members(spells).map((s) => {
+// The "When cast" column derives from the slot: a conditional ward shows its
+// trigger, every other shows its slot's blurb. No per-row editorial to drift.
+function rosterRows(ms) {
+  return ms.map((s) => {
     const meta = VIGILIA_SLOT_META[s["vigilia-slot"]];
-    const why = meta.conditional ? `Conditional — ${s["vigilia-trigger"]}` : meta.blurb;
-    return `| **${s.name}** | ${s["vigilia-concern"]} | ${why} |`;
+    const when = meta.conditional ? `Conditional — ${s["vigilia-trigger"]}` : meta.blurb;
+    return `| **${s.name}** | ${s["vigilia-concern"]} | ${when} |`;
   });
 }
 
 // The selection rule, grouped by slot in render order; conditional wards list
 // their trigger, the rest list the slot's blurb.
-function selectionRows(spells) {
-  const ms = members(spells);
+function selectionRows(ms) {
   const lines = [];
   for (const slot of SLOT_KEYS) {
     const meta = VIGILIA_SLOT_META[slot];
@@ -70,16 +69,17 @@ function selectionRows(spells) {
   return lines;
 }
 
-function namesInSlot(spells, slot) {
-  return members(spells)
+function namesInSlot(ms, slot) {
+  return ms
     .filter((s) => s["vigilia-slot"] === slot)
     .map((s) => s.name)
     .join(", ");
 }
 
-function render(spells) {
-  const universalCode = namesInSlot(spells, "universal-code");
-  const conditional = namesInSlot(spells, "conditional-code");
+function render(ms) {
+  const universalCode = namesInSlot(ms, "universal-code");
+  const conditional = namesInSlot(ms, "conditional-code");
+  const crossKind = namesInSlot(ms, "universal-cross");
   const lines = [
     "---",
     "name: vigilia",
@@ -100,7 +100,9 @@ function render(spells) {
     "",
     "## The principle",
     "",
-    "Each defensive spell sees one concern. solvere sees tangles. purgare sees dead thoughts. intueri sees communication. conformare sees error-type shape. struere sees craft. sequi sees state threading. temperare sees waste. exigere sees deferral-rot. perspicere sees the noun a nest of types is hiding. secare sees parallel races. mora sees a wait disguised as mechanism. excusare sees a suppression no one re-judged. conferre sees spec/code divergence. probare sees substance. cernere sees phantom forms. complectens sees a test thrown together instead of woven. vocare sees a test reaching past the interface. consonare sees prose drifting off the chronicle's voice. nesciens sees documentation walkability. Every one of these looks **into** the target. And one looks **around** it: circumspicere sees the surround — the runtime's default egress, the shipped claims, the unenforced invariants, the blind spot the inward lenses turn their backs on. Each finding is bounded; each spell converges (L1 + L2 = 0) on its own concern.",
+    "Each defensive spell sees one concern — names and structure, tangles, dead code, craft, state, waste, and the rest; the roster below names every ward and the concern it owns. Every one of these looks **into** the target. And one looks **around** it: circumspicere sees the surround — the runtime's default egress, the shipped claims, the unenforced invariants, the blind spot the inward lenses turn their backs on. Each finding is bounded; each spell converges (L1 + L2 = 0) on its own concern.",
+    "",
+    "A finding carries a severity: **L1** is a correctness lie, **L2** a structural mumble, **L3** taste. Only L1 and L2 count toward convergence; L3 is noted and set aside.",
     "",
     "Vigilia asks: **across ALL the concerns the grimoire knows, has the target converged?**",
     "",
@@ -118,6 +120,8 @@ function render(spells) {
     "",
     "## The four questions applied",
     "",
+    "The grimoire's primary decision heuristic is four questions, each answered with a flat YES or NO — turned here on vigilia's own output:",
+    "",
     "- **Obvious?** Can the practitioner read vigilia's aggregate and know in one glance which spells converged and which didn't? \"9 of 10 converged; cernere flagged 2 phantoms\" is obvious. \"Various findings\" is not.",
     "- **Simple?** Does vigilia add complexity beyond aggregation? The spell should not invent new findings; the spell should only collect what the defensive set produced.",
     "- **Honest?** Does the aggregate report each spell's findings as that spell named them? Vigilia does not re-classify (no demoting a sibling's L1 to L2; no merging two findings into one).",
@@ -127,11 +131,11 @@ function render(spells) {
     "",
     "The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated against `VIGILIA_SLOT_META`; it cannot drift from the wards:",
     "",
-    "| Spell | Concern | Slot — why in the set |",
+    "| Spell | Concern | When cast |",
     "|---|---|---|",
-    ...rosterRows(spells),
+    ...rosterRows(ms),
     "",
-    `Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind** — \`code\`, \`spec\`, \`test\`, \`docs\`, \`chronicle\`, or \`mixed\` (the union). The **universal code set** (${universalCode}) is cast on every code target; the conditional code wards (${conditional}) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. **exigere** is the one ward genuinely universal across kinds — it also runs on docs and always on INSCRIPTION/SCORE records. circumspicere is always cast, and always last.`,
+    `Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind** — \`code\`, \`spec\`, \`test\`, \`docs\`, \`chronicle\`, or \`mixed\` (the union). The **universal code set** (${universalCode}) is cast on every code target; the conditional code wards (${conditional}) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. Beyond those, **${crossKind}** runs on every target regardless of kind — not just code (its row names where). circumspicere is always cast, and always last.`,
     "",
     "## The cast mechanic — embed, never fetch",
     "",
@@ -154,7 +158,7 @@ function render(spells) {
     "",
     "The default selection rule (also generated from the slots):",
     "",
-    ...selectionRows(spells),
+    ...selectionRows(ms),
     "",
     "circumspicere is cast last on every target, regardless of kind. The practitioner can override with `--include` / `--exclude` as needed.",
     "",
@@ -223,7 +227,8 @@ function render(spells) {
 
 async function main() {
   const spells = await readSpells();
-  const next = render(spells);
+  const ms = members(spells);
+  const next = render(ms);
 
   if (CHECK) {
     let current = "";
@@ -238,14 +243,13 @@ async function main() {
       );
       process.exit(1);
     }
-    const count = members(spells).length;
-    console.error(`[generate-vigilia-skill] ✓ ${OUTPUT_FILE} is current (${count} wards mustered + 2 non-members)`);
+    console.error(`[generate-vigilia-skill] ✓ ${OUTPUT_FILE} is current (${ms.length} wards mustered from ${spells.length} spells)`);
     return;
   }
 
   await mkdir(join(process.cwd(), OUTPUT_DIR), { recursive: true });
   await writeFile(OUTPUT_FILE, next);
-  console.error(`[generate-vigilia-skill] wrote ${OUTPUT_FILE} (${members(spells).length} wards mustered from frontmatter)`);
+  console.error(`[generate-vigilia-skill] wrote ${OUTPUT_FILE} (${ms.length} wards mustered from ${spells.length} spells)`);
 }
 
 main().catch((err) => {

@@ -17,7 +17,9 @@ Vigilia is **the aggregator**. It does not check the code itself; it summons eve
 
 ## The principle
 
-Each defensive spell sees one concern. solvere sees tangles. purgare sees dead thoughts. intueri sees communication. conformare sees error-type shape. struere sees craft. sequi sees state threading. temperare sees waste. exigere sees deferral-rot. perspicere sees the noun a nest of types is hiding. secare sees parallel races. mora sees a wait disguised as mechanism. excusare sees a suppression no one re-judged. conferre sees spec/code divergence. probare sees substance. cernere sees phantom forms. complectens sees a test thrown together instead of woven. vocare sees a test reaching past the interface. consonare sees prose drifting off the chronicle's voice. nesciens sees documentation walkability. Every one of these looks **into** the target. And one looks **around** it: circumspicere sees the surround — the runtime's default egress, the shipped claims, the unenforced invariants, the blind spot the inward lenses turn their backs on. Each finding is bounded; each spell converges (L1 + L2 = 0) on its own concern.
+Each defensive spell sees one concern — names and structure, tangles, dead code, craft, state, waste, and the rest; the roster below names every ward and the concern it owns. Every one of these looks **into** the target. And one looks **around** it: circumspicere sees the surround — the runtime's default egress, the shipped claims, the unenforced invariants, the blind spot the inward lenses turn their backs on. Each finding is bounded; each spell converges (L1 + L2 = 0) on its own concern.
+
+A finding carries a severity: **L1** is a correctness lie, **L2** a structural mumble, **L3** taste. Only L1 and L2 count toward convergence; L3 is noted and set aside.
 
 Vigilia asks: **across ALL the concerns the grimoire knows, has the target converged?**
 
@@ -35,6 +37,8 @@ The dishonest shape:
 
 ## The four questions applied
 
+The grimoire's primary decision heuristic is four questions, each answered with a flat YES or NO — turned here on vigilia's own output:
+
 - **Obvious?** Can the practitioner read vigilia's aggregate and know in one glance which spells converged and which didn't? "9 of 10 converged; cernere flagged 2 phantoms" is obvious. "Various findings" is not.
 - **Simple?** Does vigilia add complexity beyond aggregation? The spell should not invent new findings; the spell should only collect what the defensive set produced.
 - **Honest?** Does the aggregate report each spell's findings as that spell named them? Vigilia does not re-classify (no demoting a sibling's L1 to L2; no merging two findings into one).
@@ -44,7 +48,7 @@ The dishonest shape:
 
 The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated against `VIGILIA_SLOT_META`; it cannot drift from the wards:
 
-| Spell | Concern | Slot — why in the set |
+| Spell | Concern | When cast |
 |---|---|---|
 | **intueri** | Names + structure + communication | cast on every code target — the default set, before all others |
 | **solvere** | Braided concerns; misplaced logic | cast on every code target — the default set, before all others |
@@ -53,7 +57,7 @@ The defensive set, in the order each spell's findings tend to compose — univer
 | **struere** | Per-function craft — values not places | cast on every code target — the default set, before all others |
 | **sequi** | Per-chain state threading | cast on every code target — the default set, before all others |
 | **temperare** | Wasteful computation; redundant work | cast on every code target — the default set, before all others |
-| **exigere** | Deferred-work / TODO-rot prose | cast on every target regardless of kind — code, docs, INSCRIPTION/SCORE |
+| **exigere** | Deferred-work / TODO-rot prose | cast on every target regardless of kind — code, docs, and a warded home's stamped proof records (INSCRIPTION/SCORE) |
 | **perspicere** | Deep nested type expression → named typealias | Conditional — typed code carrying 2 or more `<` in a type |
 | **secare** | Parallel safety; disjoint writes | Conditional — files that use parallel primitives |
 | **mora** | A wait disguised as mechanism (sleep/timeout) | Conditional — any file that waits by a chosen duration |
@@ -67,7 +71,7 @@ The defensive set, in the order each spell's findings tend to compose — univer
 | **nesciens** | Documentation walkability | cast on documentation targets — README, USER-GUIDE, walkable text |
 | **circumspicere** | The surround — egress, attack surface, claims-vs-code, negative space | always cast last, after the inward set — surveys the surround they left uncovered |
 
-Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind** — `code`, `spec`, `test`, `docs`, `chronicle`, or `mixed` (the union). The **universal code set** (intueri, solvere, conformare, purgare, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. **exigere** is the one ward genuinely universal across kinds — it also runs on docs and always on INSCRIPTION/SCORE records. circumspicere is always cast, and always last.
+Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind** — `code`, `spec`, `test`, `docs`, `chronicle`, or `mixed` (the union). The **universal code set** (intueri, solvere, conformare, purgare, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. Beyond those, **exigere** runs on every target regardless of kind — not just code (its row names where). circumspicere is always cast, and always last.
 
 ## The cast mechanic — embed, never fetch
 
@@ -91,7 +95,7 @@ Failure engineering: the worker that cannot reach the grimoire still holds the s
 The default selection rule (also generated from the slots):
 
 - **universal code wards** — cast on every code target — the default set, before all others: **intueri**, **solvere**, **conformare**, **purgare**, **struere**, **sequi**, **temperare**.
-- **universal cross-kind ward** — cast on every target regardless of kind — code, docs, INSCRIPTION/SCORE: **exigere**.
+- **universal cross-kind ward** — cast on every target regardless of kind — code, docs, and a warded home's stamped proof records (INSCRIPTION/SCORE): **exigere**.
 - **conditional code wards** — join the cast when the trigger fires: **perspicere** (typed code carrying 2 or more `<` in a type), **secare** (files that use parallel primitives), **mora** (any file that waits by a chosen duration), **excusare** (files carrying #[allow] / # noqa / runes).
 - **spec / DSL wards** — cast on spec, language, and DSL files: **cernere**, **probare**, **conferre**.
 - **test wards** — cast on test files, alongside the applicable code wards: **complectens**, **vocare**.

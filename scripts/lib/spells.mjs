@@ -86,7 +86,7 @@ export const VIGILIA_SLOT_META = {
   },
   "universal-cross": {
     label: "universal cross-kind ward",
-    blurb: "cast on every target regardless of kind — code, docs, INSCRIPTION/SCORE",
+    blurb: "cast on every target regardless of kind — code, docs, and a warded home's stamped proof records (INSCRIPTION/SCORE)",
     conditional: false,
     member: true,
   },
@@ -266,6 +266,25 @@ export async function readSpells(repoRoot = process.cwd()) {
       continue;
     }
     spells.push(fm);
+  }
+
+  // Gate 4 — vigilia-order uniqueness WITHIN a slot. A cross-spell check: two
+  // members of the same slot sharing an order would tie, and the generated
+  // roster's row position would fall to an implicit tiebreaker. A collision is a
+  // red build naming both spells — the order is the single source for row order,
+  // so it must be unambiguous.
+  const orderSeen = new Map(); // `${slot}#${order}` -> first spell name seen
+  for (const sp of spells) {
+    const slot = sp["vigilia-slot"];
+    if (!VIGILIA_SLOT_META[slot]?.member) continue;
+    const key = `${slot}#${sp["vigilia-order"]}`;
+    if (orderSeen.has(key)) {
+      problems.push(
+        `${sp.name}/SKILL.md: vigilia-order ${sp["vigilia-order"]} in slot "${slot}" collides with ${orderSeen.get(key)} — orders must be unique within a slot`,
+      );
+    } else {
+      orderSeen.set(key, sp.name);
+    }
   }
 
   if (problems.length) {
