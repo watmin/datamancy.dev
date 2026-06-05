@@ -7,9 +7,11 @@
 // each spell's own `vigilia-slot` frontmatter (the single source, validated in
 // scripts/lib/spells.mjs against VIGILIA_SLOT_META). The conceptual prose lives
 // in render() as literals; the roster table, the selection rule, and EVERY
-// ward/kind name-list are generated — the prose names NO spell or kind as a
-// literal, so nothing can drift when the roster changes (the watch once listed
-// 12 of 20, while three wards self-declared a membership it omitted).
+// ward/kind name-list are generated — the prose names no ward or kind as a
+// ROSTER literal (conceptual mentions of circumspicere, the singular perimeter
+// lens, and the kind taxonomy are stable vocabulary, not roster data), so the
+// roster cannot drift when the wards change (the watch once listed 12 of 20,
+// while three wards self-declared a membership it omitted).
 //
 //   npm run vigilia:regen                              # write vigilia/SKILL.md
 //   node scripts/generate-vigilia-skill.mjs --check    # drift gate, no write
@@ -133,13 +135,13 @@ function render(members) {
     "",
     "## What vigilia casts",
     "",
-    "The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated by the spell reader; it cannot drift from the wards:",
+    "The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the kind-scoped wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated at build time (a table out of sync with the frontmatter fails the drift gate); it cannot drift from the wards:",
     "",
     "| Spell | Concern | When cast |",
     "|---|---|---|",
     ...rosterRows(members),
     "",
-    `Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind**. The **universal code set** (${universalCode}) is cast on every code target; the conditional code wards (${conditional}) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. Beyond those, **${crossKind}** runs on every target regardless of kind — not just code (its row names where). circumspicere is always cast, and always last. The selection rule below names, per kind, exactly which wards muster.`,
+    `Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind**. The **universal code set** (${universalCode}) is cast on every code target; the conditional code wards (${conditional}) join as the file's contents warrant; the kind-scoped wards join when the target matches their kind. Beyond those, **${crossKind}** runs on every target regardless of kind — not just code (its row names where). circumspicere is always cast, and always last. The selection rule below names, per kind, exactly which wards muster.`,
     "",
     "## The cast mechanic — embed, never fetch",
     "",

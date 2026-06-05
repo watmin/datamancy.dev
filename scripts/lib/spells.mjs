@@ -25,11 +25,13 @@ const SKIP = new Set([
 // (the fuller line); `reading` feeds the README catalog (the one-phrase);
 // `form` and `category` drive the catalog's typology + grouping.
 const REQUIRED = ["name", "form", "category", "description", "reading", "vigilia-slot"];
-// Vigilia membership fields beyond the slot: order + concern for roster members,
-// trigger for conditional slots. Parsed always; validated conditionally in
-// readSpells (a member missing its order/concern, or a conditional ward missing
-// its trigger, is a red build — the same loud-drift discipline as a bad category).
-const VIGILIA_MEMBER_FIELDS = ["vigilia-order", "vigilia-concern", "vigilia-trigger"];
+// The vigilia frontmatter fields beyond the required slot: order + concern (for
+// roster members), trigger (conditional slots only). Parsed from EVERY spell —
+// members carry them, non-members must not; validated per-slot in readSpells (a
+// member missing its order/concern, a conditional ward missing its trigger, or a
+// non-member carrying any, is a red build — the loud-drift discipline of a bad
+// category).
+const VIGILIA_EXTRA_FIELDS = ["vigilia-order", "vigilia-concern", "vigilia-trigger"];
 const FORMS = new Set(["act", "agent", "thing"]);
 // Closed typology — extend ON PURPOSE here (a one-line, reviewed edit), never
 // by accident via a typo in frontmatter. A category outside this set is a red
@@ -149,7 +151,7 @@ function parseFrontmatter(content) {
     const m = yaml.match(new RegExp(`^${key}:\\s*(.+)$`, "m"));
     return m ? m[1].trim() : null;
   };
-  return Object.fromEntries([...REQUIRED, ...VIGILIA_MEMBER_FIELDS].map((k) => [k, field(k)]));
+  return Object.fromEntries([...REQUIRED, ...VIGILIA_EXTRA_FIELDS].map((k) => [k, field(k)]));
 }
 
 // Recursively collect every SKILL.md path (relative to root), pruning the dirs

@@ -48,7 +48,7 @@ The grimoire's primary decision heuristic is four questions, each answered with 
 
 ## What vigilia casts
 
-The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the spec / test / chronicle / docs wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated by the spell reader; it cannot drift from the wards:
+The defensive set, in the order each spell's findings tend to compose — universal code wards first, then the conditional code wards, then the kind-scoped wards, then circumspicere last. **This table is generated from each spell's `vigilia-slot` frontmatter** — the single source, validated at build time (a table out of sync with the frontmatter fails the drift gate); it cannot drift from the wards:
 
 | Spell | Concern | When cast |
 |---|---|---|
@@ -73,7 +73,7 @@ The defensive set, in the order each spell's findings tend to compose — univer
 | **nesciens** | Documentation walkability | cast on documentation targets — README, USER-GUIDE, walkable text |
 | **circumspicere** | The surround — egress, attack surface, claims-vs-code, negative space | always cast last, after the inward set — surveys the surround they left uncovered |
 
-Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind**. The **universal code set** (intueri, solvere, conformare, purgare, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the spec, test, chronicle, and docs wards join when the target is of that kind. Beyond those, **exigere** runs on every target regardless of kind — not just code (its row names where). circumspicere is always cast, and always last. The selection rule below names, per kind, exactly which wards muster.
+Not all spells apply to every target. Vigilia casts only those whose discipline matches the target's **kind**. The **universal code set** (intueri, solvere, conformare, purgare, struere, sequi, temperare) is cast on every code target; the conditional code wards (perspicere, secare, mora, excusare) join as the file's contents warrant; the kind-scoped wards join when the target matches their kind. Beyond those, **exigere** runs on every target regardless of kind — not just code (its row names where). circumspicere is always cast, and always last. The selection rule below names, per kind, exactly which wards muster.
 
 ## The cast mechanic — embed, never fetch
 
