@@ -5,6 +5,9 @@ category: fidelity
 reading: to look around — runtime defaults, shipped claims, the blind spot every inward lens turns its back on
 description: Look around. The datamancer circumspicere — steps back from the code the other spells look INTO and surveys what surrounds it: the runtime's default behaviour, the attack surface, the shipped claims, and the blind spot every inward lens turns its back on. Cast last; finds what the guard walked past.
 argument-hint: [artifact path or directory]
+vigilia-slot: perimeter
+vigilia-order: 1
+vigilia-concern: The surround — egress, attack surface, claims-vs-code, negative space
 ---
 
 # Circumspicere

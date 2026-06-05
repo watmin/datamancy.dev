@@ -4,6 +4,9 @@ form: act
 category: craft
 reading: to test what is built — Hickey at the function level
 description: Test what is built. The datamancer struere the function — values flowing through, not mutating in place; composition that holds under load; abstractions at the right level.
+vigilia-slot: universal-code
+vigilia-order: 5
+vigilia-concern: Per-function craft — values not places
 ---
 
 # Struere

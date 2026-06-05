@@ -4,6 +4,9 @@ form: act
 category: fidelity
 reading: to drive out deferred-work language — ship it now or bound it to a named arc
 description: Drive out deferred-work language. The datamancer exigit — what cannot ship in this stone either ships now or is bounded by a named arc; deferral-prose carries no other honest form. Substrate code does not promise future-work in comments; it ships present-work or names where the future-work tracks.
+vigilia-slot: universal-cross
+vigilia-order: 1
+vigilia-concern: Deferred-work / TODO-rot prose
 ---
 
 # Exigere

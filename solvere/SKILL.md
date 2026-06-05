@@ -4,6 +4,9 @@ form: act
 category: craft
 reading: to loosen what was wrongly bound — Hickey's decomplect
 description: Loosen what was wrongly bound. The datamancer solveres the code — finds braided concerns, misplaced logic, duplicated encoding. Hickey's decomplect, made operational.
+vigilia-slot: universal-code
+vigilia-order: 2
+vigilia-concern: Braided concerns; misplaced logic
 ---
 
 # Solvere

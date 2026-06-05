@@ -4,6 +4,7 @@ form: act
 category: primer
 reading: to tend the record — keep the externalized memory true and current, so the future self can recover from it
 description: Tend the record so it stays worth recovering. The datamancer curat — at every wrap-up it captures what was learned, keeps one true breadcrumb, promotes the hard-won lessons, and prunes what went stale; the externalized memory the next self will gather is kept trustworthy across the gap.
+vigilia-slot: primer
 ---
 
 # Curare

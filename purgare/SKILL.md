@@ -4,6 +4,9 @@ form: act
 category: craft
 reading: to purge dead code — structs unimported, fields unread, branches untaken
 description: Purge dead thoughts. The datamancer purgares the code — finds structs never imported, fields never read, collections never populated, branches never taken. The cost of a dead thought is compute.
+vigilia-slot: universal-code
+vigilia-order: 4
+vigilia-concern: Dead code; unused state
 ---
 
 # Purgare

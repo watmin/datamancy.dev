@@ -4,6 +4,7 @@ form: act
 category: primer
 reading: to gather oneself again — reconstitute from the record after the memory is erased
 description: Gather the scattered self back together. The datamancer recolligit — after compaction erases working memory, the practitioner does not act on phantom recall; it crawls the durable record on disk and reconstitutes orientation before it proposes or moves.
+vigilia-slot: primer
 ---
 
 # Recolligere

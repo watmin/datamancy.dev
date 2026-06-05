@@ -4,6 +4,9 @@ form: act
 category: surface
 reading: to call — verify the test from the caller's vantage, not the implementer's
 description: Call the test to its caller. The datamancer vocares the tests — does this verify what the caller sees, or has the test reached past the interface into the implementation?
+vigilia-slot: test-kind
+vigilia-order: 2
+vigilia-concern: Test vantage — verifies through the interface
 ---
 
 # Vocare

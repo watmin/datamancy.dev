@@ -4,6 +4,9 @@ form: act
 category: craft
 reading: to shape error types to one standard — diagnostic completeness by structure, the wrong shape uncompilable
 description: Shape error types together to a common standard. The datamancer conformat — every error variant must reach diagnostic completeness via structural guarantee, not hand-discipline. The wrong shape must be uncompilable.
+vigilia-slot: universal-code
+vigilia-order: 3
+vigilia-concern: Error-type shape; wrong shape uncompilable
 ---
 
 # Conformare

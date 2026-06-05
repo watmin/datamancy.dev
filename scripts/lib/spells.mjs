@@ -24,7 +24,12 @@ const SKIP = new Set([
 // Every spell MUST declare these. `description` feeds the grimoire index
 // (the fuller line); `reading` feeds the README catalog (the one-phrase);
 // `form` and `category` drive the catalog's typology + grouping.
-const REQUIRED = ["name", "form", "category", "description", "reading"];
+const REQUIRED = ["name", "form", "category", "description", "reading", "vigilia-slot"];
+// Vigilia membership fields beyond the slot: order + concern for roster members,
+// trigger for conditional slots. Parsed always; validated conditionally in
+// readSpells (a member missing its order/concern, or a conditional ward missing
+// its trigger, is a red build — the same loud-drift discipline as a bad category).
+const VIGILIA_OPTIONAL = ["vigilia-order", "vigilia-concern", "vigilia-trigger"];
 const FORMS = new Set(["act", "agent", "thing"]);
 // Closed typology — extend ON PURPOSE here (a one-line, reviewed edit), never
 // by accident via a typo in frontmatter. A category outside this set is a red
@@ -62,6 +67,80 @@ export const CATEGORY_META = {
 };
 const CATEGORIES = new Set(Object.keys(CATEGORY_META));
 
+// VIGILIA_SLOT_META — the SINGLE SOURCE for "which spells the watch musters, and
+// in what slot." Twin of CATEGORY_META: vigilia's roster table and selection
+// rule are GENERATED from each spell's `vigilia-slot` frontmatter against this
+// object, so the watch can never drift from the wards the way a hand-maintained
+// table did (it once listed 12 of 20; three wards self-declared membership the
+// table omitted). `conditional: true` marks a slot whose members are cast only
+// when a trigger fires (so they MUST declare `vigilia-trigger`). `member: false`
+// marks the two non-roster slots (vigilia itself; the primers). Key order is the
+// slot group's render order; `vigilia-order` orders rows within a slot. Add a
+// slot once, here, and it appears in the generated watch by construction.
+export const VIGILIA_SLOT_META = {
+  "universal-code": {
+    label: "universal code wards",
+    blurb: "cast on every code target — the default set, before all others",
+    conditional: false,
+    member: true,
+  },
+  "universal-cross": {
+    label: "universal cross-kind ward",
+    blurb: "cast on every target regardless of kind — code, docs, INSCRIPTION/SCORE",
+    conditional: false,
+    member: true,
+  },
+  "conditional-code": {
+    label: "conditional code wards",
+    blurb: "join the code set when the file's contents warrant the trigger",
+    conditional: true,
+    member: true,
+  },
+  "spec-kind": {
+    label: "spec / DSL wards",
+    blurb: "cast on spec, language, and DSL files",
+    conditional: false,
+    member: true,
+  },
+  "test-kind": {
+    label: "test wards",
+    blurb: "cast on test files, alongside the applicable code wards",
+    conditional: false,
+    member: true,
+  },
+  "chronicle-kind": {
+    label: "chronicle ward",
+    blurb: "cast on chronicle prose by a fresh, uncontexted subagent",
+    conditional: false,
+    member: true,
+  },
+  "docs-kind": {
+    label: "docs ward",
+    blurb: "cast on documentation targets — README, USER-GUIDE, walkable text",
+    conditional: false,
+    member: true,
+  },
+  perimeter: {
+    label: "perimeter lens",
+    blurb: "always cast last, after the inward set — surveys the surround they left uncovered",
+    conditional: false,
+    member: true,
+  },
+  aggregator: {
+    label: "the aggregator — not a roster member",
+    blurb: "vigilia itself; excluded from the set it summons",
+    conditional: false,
+    member: false,
+  },
+  primer: {
+    label: "primers — excluded from vigilia",
+    blurb: "run on yourself, not cast against a target; vigilia does not summon these",
+    conditional: false,
+    member: false,
+  },
+};
+export const VIGILIA_SLOTS = new Set(Object.keys(VIGILIA_SLOT_META));
+
 function parseFrontmatter(content) {
   const match = content.match(/^---\n([\s\S]*?)\n---/);
   if (!match) return null;
@@ -70,7 +149,7 @@ function parseFrontmatter(content) {
     const m = yaml.match(new RegExp(`^${key}:\\s*(.+)$`, "m"));
     return m ? m[1].trim() : null;
   };
-  return Object.fromEntries(REQUIRED.map((k) => [k, field(k)]));
+  return Object.fromEntries([...REQUIRED, ...VIGILIA_OPTIONAL].map((k) => [k, field(k)]));
 }
 
 // Recursively collect every SKILL.md path (relative to root), pruning the dirs
@@ -146,6 +225,41 @@ export async function readSpells(repoRoot = process.cwd()) {
     }
     if (!CATEGORIES.has(fm.category)) {
       problems.push(`${entry.name}/SKILL.md: category "${fm.category}" not one of ${[...CATEGORIES].join(" | ")}`);
+      continue;
+    }
+
+    // Gate 3 — vigilia membership: every spell declares its watch slot (the
+    // generated roster's single source). A bad slot, a roster member missing
+    // its order/concern, a conditional ward missing its trigger, an
+    // unconditional ward carrying one, or a non-member carrying row fields — each
+    // is a red build, naming the spell. The watch can never drift from the wards.
+    const slot = fm["vigilia-slot"];
+    if (!VIGILIA_SLOTS.has(slot)) {
+      problems.push(`${entry.name}/SKILL.md: vigilia-slot "${slot}" not one of ${[...VIGILIA_SLOTS].join(" | ")}`);
+      continue;
+    }
+    const slotMeta = VIGILIA_SLOT_META[slot];
+    if (slotMeta.member) {
+      const need = [];
+      if (!fm["vigilia-order"]) need.push("vigilia-order");
+      if (!fm["vigilia-concern"]) need.push("vigilia-concern");
+      if (slotMeta.conditional && !fm["vigilia-trigger"]) need.push("vigilia-trigger");
+      if (need.length) {
+        problems.push(`${entry.name}/SKILL.md: vigilia-slot "${slot}" requires field(s): ${need.join(", ")}`);
+        continue;
+      }
+      if (!slotMeta.conditional && fm["vigilia-trigger"]) {
+        problems.push(`${entry.name}/SKILL.md: vigilia-slot "${slot}" is unconditional — drop vigilia-trigger`);
+        continue;
+      }
+    } else if (fm["vigilia-order"] || fm["vigilia-concern"] || fm["vigilia-trigger"]) {
+      problems.push(`${entry.name}/SKILL.md: vigilia-slot "${slot}" is not a roster member — drop vigilia-order/concern/trigger`);
+      continue;
+    }
+    // The primer category and the primer slot are one fact in two axes — a spell
+    // is a primer in both or neither, never split.
+    if ((fm.category === "primer") !== (slot === "primer")) {
+      problems.push(`${entry.name}/SKILL.md: category "${fm.category}" and vigilia-slot "${slot}" disagree on primer-ness`);
       continue;
     }
     spells.push(fm);

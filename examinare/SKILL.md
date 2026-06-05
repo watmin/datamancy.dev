@@ -4,6 +4,7 @@ form: act
 category: primer
 reading: the dungeon crawl — scope a body of work into strikes, delegate each, and prove the kill against your own living read
 description: Lay the disk bare, strike through an executor, then weigh every returned finding against your own living read — credit nothing the disk does not show. The governing act of the dungeon crawl — study the lair, draw the strike, prove the kill against the ground. A development methodology in the agile lineage — iterative, small-unit, feedback-driven scoping and delegation — run on the strike, not the sprint or the board. Slow is smooth, smooth is fast; never fight the same boss twice.
+vigilia-slot: primer
 ---
 
 # Examinare

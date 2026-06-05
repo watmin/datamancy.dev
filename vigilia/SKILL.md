@@ -4,6 +4,7 @@ form: thing
 category: solo
 reading: the watch — every defensive spell cast against a target in parallel
 description: The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.
+vigilia-slot: aggregator
 ---
 
 # Vigilia

@@ -4,6 +4,9 @@ form: agent
 category: solo
 reading: the one who does not yet know — simulates a fresh reader walking the path
 description: The one who does not yet know. The datamancer summons the nesciens — a fresh reader who walks the document top-to-bottom, measuring what cannot be reached.
+vigilia-slot: docs-kind
+vigilia-order: 1
+vigilia-concern: Documentation walkability
 ---
 
 # Nesciens

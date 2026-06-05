@@ -4,6 +4,10 @@ form: act
 category: craft
 reading: to cut cleanly along the grain — parallel boundaries genuinely disjoint
 description: Cut cleanly along the grain. The datamancer secat the parallel boundary — verify that each parallel invocation writes to its own slot, never shares mutation, never races for state.
+vigilia-slot: conditional-code
+vigilia-order: 2
+vigilia-concern: Parallel safety; disjoint writes
+vigilia-trigger: files that use parallel primitives
 ---
 
 # Secare

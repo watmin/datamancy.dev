@@ -5,6 +5,10 @@ category: fidelity
 reading: to weigh the excuse — whether any checker-override's stated reason earns its exemption, at birth or over time
 description: Weigh every exemption against present truth. The datamancer excusat the overrides — each suppression that tells a checker "this looks like a finding, but it is correct, and here is why" is held up to the world as it is now, at the moment it is offered AND as it ages, and struck when its reason does not earn its standing.
 argument-hint: [path or directory whose exemptions to weigh]
+vigilia-slot: conditional-code
+vigilia-order: 4
+vigilia-concern: Suppressions weighed against present truth
+vigilia-trigger: files carrying #[allow] / # noqa / runes
 ---
 
 # Excusare

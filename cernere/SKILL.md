@@ -4,6 +4,9 @@ form: act
 category: fidelity
 reading: to sift valid forms from phantom — every form traces to the language spec
 description: Sift valid forms from phantom. The datamancer cernit the source — every form used must trace to the language spec. Forms that look valid but aren't defined are phantom; the spell catches them before they ship.
+vigilia-slot: spec-kind
+vigilia-order: 1
+vigilia-concern: Phantom forms; language-spec conformance
 ---
 
 # Cernere

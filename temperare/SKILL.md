@@ -4,6 +4,9 @@ form: act
 category: craft
 reading: to mix computation in right proportion — efficient waste
 description: Mix computation in right proportion. The datamancer temperat the code — finds redundant calls, invariant work in loops, recomputation when nothing changed. Correct but hot.
+vigilia-slot: universal-code
+vigilia-order: 7
+vigilia-concern: Wasteful computation; redundant work
 ---
 
 # Temperare

@@ -4,6 +4,10 @@ form: thing
 category: surface
 reading: the delay — every wait must arrive via the wire, not by chosen mechanism
 description: Hunt the pause. The datamancer suffers no mora — every wait must arrive via the wire, not via mechanism. Sleep is a guess; guesses race. Time is I/O; it arrives as an fd-event or it doesn't arrive honestly.
+vigilia-slot: conditional-code
+vigilia-order: 3
+vigilia-concern: A wait disguised as mechanism (sleep/timeout)
+vigilia-trigger: any file that waits by a chosen duration
 ---
 
 # Mora

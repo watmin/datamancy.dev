@@ -4,6 +4,9 @@ form: act
 category: craft
 reading: to contemplate whether the code speaks — names, structure, comments
 description: Contemplate whether the code speaks. The datamancer intuetur the file — does each name say what it is? Does the structure tell the story? Does the spark live?
+vigilia-slot: universal-code
+vigilia-order: 1
+vigilia-concern: Names + structure + communication
 ---
 
 # Intueri

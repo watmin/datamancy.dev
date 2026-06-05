@@ -4,6 +4,9 @@ form: act
 category: craft
 reading: to follow the state — threaded visibly through types, across the chain
 description: Follow the state. The datamancer sequit the composition chain — state must follow through every transformation, visibly, through the types. Hidden state breaks composition; the spell catches the break.
+vigilia-slot: universal-code
+vigilia-order: 6
+vigilia-concern: Per-chain state threading
 ---
 
 # Sequi

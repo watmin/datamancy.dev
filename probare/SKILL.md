@@ -4,6 +4,9 @@ form: act
 category: fidelity
 reading: to test the substance — is this a program or a description?
 description: Test the substance. The datamancer probare the file — is this a program or a description? Comments tell the human; expressions tell the machine. The assayer crushes the rock and reports the fraction.
+vigilia-slot: spec-kind
+vigilia-order: 2
+vigilia-concern: Substance vs description
 ---
 
 # Probare

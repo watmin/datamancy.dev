@@ -4,6 +4,9 @@ form: act
 category: fidelity
 reading: to sound together — whether new prose rings in tune with the chronicle's gold-anchor voice
 description: Hear whether new prose rings in tune with the chronicle's voice. The datamancer consonat the draft against the gold anchors — does each line carry the substrate-event register? Does the close earn its verdict? Does recognition-voice stay in its lane? Does the page carry substance, or only signpost to it? Is the user present as a collaborator, quoted the way the gold anchors carry them, or has the duet collapsed into a solo report? Returns VERDICT + per-rule findings + fidelity score 1-10.
+vigilia-slot: chronicle-kind
+vigilia-order: 1
+vigilia-concern: Chronicle-voice fidelity against the gold anchors
 ---
 
 # Consonare

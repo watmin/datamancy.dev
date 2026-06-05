@@ -4,6 +4,9 @@ form: agent
 category: surface
 reading: the one who weaves — test composition from layered, named, individually-proven helpers
 description: Weave together. The datamancer complectēns the tests — does each layer compose only from layers above it? Does each layer carry its own proof? Or did this test attempt to one-shot a hard problem?
+vigilia-slot: test-kind
+vigilia-order: 1
+vigilia-concern: Test layering; each layer carries its own proof
 ---
 
 # Complectēns

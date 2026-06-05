@@ -4,6 +4,9 @@ form: act
 category: fidelity
 reading: to bring spec and code together and compare — find divergence at every joint
 description: Bring spec and code together to find divergence. The datamancer conferre the specification against the implementation — where they disagree, one of them is wrong.
+vigilia-slot: spec-kind
+vigilia-order: 3
+vigilia-concern: Spec and implementation divergence
 ---
 
 # Conferre

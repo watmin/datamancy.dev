@@ -5,6 +5,10 @@ category: surface
 reading: to see through — deeply-nested type expressions hiding a missing noun
 description: See through. The datamancer perspicere — pierces deeply-nested type expressions to find the noun the depth is hiding, and suggests a typealias that names it.
 argument-hint: [file-path or directory]
+vigilia-slot: conditional-code
+vigilia-order: 1
+vigilia-concern: Deep nested type expression → named typealias
+vigilia-trigger: typed code carrying 2 or more `<` in a type
 ---
 
 # Perspicere
