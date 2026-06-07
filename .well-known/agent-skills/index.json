@@ -110,7 +110,7 @@
       "type": "tests-of-surface",
       "description": "Hunt the pause. The datamancer suffers no mora — every wait must arrive via the wire, not via mechanism. Sleep is a guess; guesses race. Time is I/O; it arrives as an fd-event or it doesn't arrive honestly.",
       "url": "https://datamancy.dev/mora/SKILL.md",
-      "sha256": "5f5745a5d3613f94581f575df2ffd9206dc5a3ef5a4ef482de1ce9d9ce05fcf7",
+      "sha256": "c0b1e9c534dc7ddeab896a3f88c41afc41c88187051b5b97f167ea4deb8baa66",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/mora/SKILL.md"
     },
     {
@@ -198,7 +198,7 @@
       "type": "solo-ward",
       "description": "The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.",
       "url": "https://datamancy.dev/vigilia/SKILL.md",
-      "sha256": "5277df0fcbd36c2c47e2936c8822aa07f4066bedc05e4142c00a8a799aed2c20",
+      "sha256": "7eb06efe476a822304bbbaf8b8eb15a9b041100ce62e0e4b472542ac1ef1bded",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vigilia/SKILL.md"
     },
     {
