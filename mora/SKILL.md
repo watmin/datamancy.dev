@@ -6,8 +6,8 @@ reading: the delay — every wait must arrive via the wire, not by chosen mechan
 description: Hunt the pause. The datamancer suffers no mora — every wait must arrive via the wire, not via mechanism. Sleep is a guess; guesses race. Time is I/O; it arrives as an fd-event or it doesn't arrive honestly.
 vigilia-slot: conditional-code
 vigilia-order: 3
-vigilia-concern: A wait disguised as mechanism (sleep/timeout)
-vigilia-trigger: any file that waits by a chosen duration
+vigilia-concern: A wait disguised as mechanism (sleep/timeout), or a readiness/disconnect snapshot whose result races (poll timeout=0)
+vigilia-trigger: any file that waits by a chosen duration, or decides readiness/disconnect via a timeout-0 snapshot
 ---
 
 # Mora
@@ -27,6 +27,16 @@ Every `wait` in a program answers ONE question: what am I waiting FOR? If the an
 Mora asks: **is this wait delivered by the wire, or by mechanism?**
 
 The golang `select { case <-ch: ...; case <-time.After(d): ... }` is the reference shape. Even time arrives via channel. Until the consumer's reactor exposes this shape, the substrate has no honest sleep.
+
+## The second axis — the readiness snapshot that guesses
+
+Mora's first axis is the WAIT: a pause delivered by mechanism (sleep/timeout) instead of the wire. There is a second axis the pause-hunter can walk straight past — because it does not pause at all: the **non-blocking readiness/disconnect snapshot whose RESULT races**.
+
+A `libc::poll(fds, nfds, 0)` (timeout 0) returns instantly, so it is not a "wait," and mora's "what am I waiting FOR?" lens slides right off it. But when its two-way result — ready-vs-not, empty-vs-disconnected — drives a branch where a DETERMINISTIC wire-event was available, the snapshot is the same disease as the sleep: a guess that races. The kernel sets POLLHUP at close-time; a `poll(timeout=0)` that samples "is the bit set *right now*" can, under load, sample the instant before the bit becomes visible and take the wrong branch. **The sleep guesses *when*; the snapshot guesses *whether*. Both bet on timing.**
+
+The honest shape: let the deterministic wire-event decide. Either block on it (`submit_and_wait`, `poll(-1)`) when you may wait — or, when you must not block, make the racing branches CONVERGE so the timing cannot matter: a non-blocking read whose EOF is the sole disconnect signal; a 2-state value-or-not outcome where the formerly-racing empty/disconnected collapse to one. **A non-blocking peek is honest iff its result does not depend on which instant you sampled.**
+
+> Worked example (arc 253). `Receiver::try_recv` did `poll(timeout=0)` then branched `Empty`-vs-`Disconnected` on the revents snapshot. Under coverage instrumentation the snapshot intermittently missed the just-set POLLHUP → returned `Empty` where `Disconnected` was true. Mora had warded that comms home and walked past it — `poll(timeout=0)` is not a pause. The kill: collapse to a 2-state `Option<T>` (value / no-value); the two racing outcomes converge to one, and the timing becomes unrepresentable. The peek survives; the guess dies. The lesson: lock-step is violated two ways — *waiting* via a guess (mora's first axis) AND *deciding readiness/disconnect* via a racing snapshot where the wire-event was the deterministic source (this axis).
 
 ## What mora flags
 
@@ -49,6 +59,11 @@ Any code that WAITS via a chosen-duration mechanism:
 - `thread::sleep` in test setup "to give the kernel a moment" — almost always a lie covering a real race or a missing lock-step
 - `std::thread::yield_now()` followed by an assertion — yielding is hoping the scheduler does what you want; that's a guess
 - Inline `Duration::from_millis(N)` magic numbers near assertions — even if not in a sleep call, the proximity is a smell
+
+**Snapshot-guesses — non-blocking checks whose RESULT races (the second axis):**
+- `libc::poll(fds, nfds, 0)` / `epoll_wait(..., 0)` whose two-way result (ready/not, empty/disconnected) drives a downstream branch where a deterministic wire-event (blocking `POLL_ADD`, read-returns-0 EOF) was available — STOP; let the wire-event decide, or collapse the racing branches so timing cannot matter.
+- `try_recv()` / `try_lock()` / any `try_*` whose two outcomes (empty-vs-closed, or analogous) are BOTH load-bearing downstream + must be deterministic. A non-blocking peek is honest; a non-blocking peek whose two outcomes race and are both consumed is the snapshot-guess. (The fix is often to make the outcomes converge — a 2-state value-or-not — not to add a wait.)
+- `if ready_now() { act } else { other }` where `ready_now()` is a timeout-0 sample of state the kernel sets asynchronously (POLLHUP at peer-close, POLLIN at write).
 
 ## What mora does NOT flag
 
