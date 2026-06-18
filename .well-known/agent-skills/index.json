@@ -94,7 +94,7 @@
       "type": "grimoire-index",
       "description": "The datamancer's grimoire — load this first. Reading it installs the practice: the operating ethos a datamancer works by, plus the catalog of spells to cast on demand.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "40cf1b977f4cbc6fbfca2bcc8215016f9dd723227d5a127b04896ac39b21ae9a",
+      "sha256": "9e36cb4d11520c64d1330e92975c46c59c9ef248e62a73c4bab175ed0821e12c",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
