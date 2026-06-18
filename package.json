@@ -26,5 +26,5 @@
     "url": "git+https://github.com/watmin/datamancy.dev.git"
   },
   "homepage": "https://datamancy.dev",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }
