@@ -16,6 +16,7 @@ grounded-invalid. The green check is not the bar; the disposition is.
 | Target | Warded (ISO8601 UTC) | Method | Result | Commit |
 |---|---|---|---|---|
 | `scripts/lib/spells.mjs`, `scripts/generate-vigilia-skill.mjs` | `2026-06-05T11-18-37Z` | full `vigilia` ×3 (8 universal code wards + `nesciens` on the generated doc + `circumspicere` last), under the rune termination rule | **0 L1**; 5 L2 dispositioned (3 fixed, 2 grounded-invalid — `agent-ready` is manifest-derived, the asymmetry is necessary); no runes needed | `0da95bb` |
+| `cohaerere/SKILL.md` (new spell — admission trial by combat) | `2026-06-26T21-30-56Z` | full applicable `vigilia` (docs-kind: `nesciens` + `cohaerere`-on-itself + `exigere`, `circumspicere` last), embedded by value, fresh subagents, 3 combat rounds under the rune rule | **0 L1**; the dogfood drove the spell from 2 finding-shapes → 3 (added **assertion-clash**, the most common kind), generalized the incompatibility demonstration (verdict-flip / meaning-shift / absent-governing-definition / both-cannot-hold), stated the document boundary, and armed the clash shared-subject phantom; converged — `cohaerere` COHERES + `circumspicere` clean. `nesciens` 0 hard-stumbles; soft-stumbles grounded-invalid (grimoire house-style "rune"/"Level" forward-refs, consistent with conferre/consonare). `exigere` 0. 0 un-dispositioned. | _(the cohaerere-admission publish)_ |
 
 ## Adding a row
 

@@ -18,6 +18,14 @@
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/circumspicere/SKILL.md"
     },
     {
+      "name": "cohaerere",
+      "type": "tests-of-fidelity",
+      "description": "Test whether a document holds together as one thing. The datamancer cohaeret the document against itself — a term used under a different implicit definition in another section, a term scattered across definitions that never settle, or two sections asserting incompatible facts, is a contradiction no single section reveals, because each section read alone passes every other spell.",
+      "url": "https://datamancy.dev/cohaerere/SKILL.md",
+      "sha256": "a20e8199bc54fb654d662b4427570a8aa7a19cc1224e737dca21442e240843b3",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/cohaerere/SKILL.md"
+    },
+    {
       "name": "complectens",
       "type": "tests-of-surface",
       "description": "Weave together. The datamancer complectēns the tests — does each layer compose only from layers above it? Does each layer carry its own proof? Or did this test attempt to one-shot a hard problem?",
@@ -94,7 +102,7 @@
       "type": "grimoire-index",
       "description": "The datamancer's grimoire — load this first. Reading it installs the practice: the operating ethos a datamancer works by, plus the catalog of spells to cast on demand.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "9e36cb4d11520c64d1330e92975c46c59c9ef248e62a73c4bab175ed0821e12c",
+      "sha256": "a2ea038bcd51a71d1571711b184d2b36ba087b45cc1992f76cf7146880e268d2",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -198,7 +206,7 @@
       "type": "solo-ward",
       "description": "The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.",
       "url": "https://datamancy.dev/vigilia/SKILL.md",
-      "sha256": "7eb06efe476a822304bbbaf8b8eb15a9b041100ce62e0e4b472542ac1ef1bded",
+      "sha256": "9da4ef11aec4824de6a08cb12bb7aff7242a3ff89ec8940c513b2668c467e5c4",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vigilia/SKILL.md"
     },
     {

@@ -62,6 +62,7 @@ Test whether what is claimed matches what is delivered.
 |---|---|---|
 | **cernere** | infinitive (act) | to sift valid forms from phantom — every form traces to the language spec |
 | **circumspicere** | infinitive (act) | to look around — runtime defaults, shipped claims, the blind spot every inward lens turns its back on |
+| **cohaerere** | infinitive (act) | to cling together — whether a document is self-consistent: its definitions are used consistently and its assertions do not contradict |
 | **conferre** | infinitive (act) | to bring spec and code together and compare — find divergence at every joint |
 | **consonare** | infinitive (act) | to sound together — whether new prose rings in tune with the chronicle's gold-anchor voice |
 | **excusare** | infinitive (act) | to weigh the excuse — whether any checker-override's stated reason earns its exemption, at birth or over time |
