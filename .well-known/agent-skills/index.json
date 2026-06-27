@@ -102,7 +102,7 @@
       "type": "grimoire-index",
       "description": "The datamancer's grimoire — load this first. Reading it installs the practice: the operating ethos a datamancer works by, plus the catalog of spells to cast on demand.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "a2ea038bcd51a71d1571711b184d2b36ba087b45cc1992f76cf7146880e268d2",
+      "sha256": "a1eef19ac816d02abc4f718b1ce253b2e69bdde1430fe2737363fb7057bc6718",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -128,6 +128,14 @@
       "url": "https://datamancy.dev/nesciens/SKILL.md",
       "sha256": "c0756417ed297e00f26628a5625bfb0fa785c4db897e4634e8d6986112feb2f6",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/nesciens/SKILL.md"
+    },
+    {
+      "name": "partire",
+      "type": "tests-of-craft",
+      "description": "Decompose a module along its true seams. The datamancer partit the file — does it have one reason to change, or several? A file that braids independent domains, each with its own reason to change and its own test surface, is several modules wearing one name; partire finds the minimum cuts that make each piece obviously one thing, or returns LEAVE when the file is one concern at length.",
+      "url": "https://datamancy.dev/partire/SKILL.md",
+      "sha256": "c38542e991e81145d3da19f48e470c88b4d836ba2a1bce7512772d4d4bbae66d",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/partire/SKILL.md"
     },
     {
       "name": "perspicere",
@@ -206,7 +214,7 @@
       "type": "solo-ward",
       "description": "The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.",
       "url": "https://datamancy.dev/vigilia/SKILL.md",
-      "sha256": "9da4ef11aec4824de6a08cb12bb7aff7242a3ff89ec8940c513b2668c467e5c4",
+      "sha256": "76b67b58c7e0f1a5cad1829f1d5398f29ba55fba8033cfe3ab0b8083f274650e",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vigilia/SKILL.md"
     },
     {

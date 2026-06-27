@@ -28,6 +28,7 @@ Test whether the code is well-made. The compiler tells you it runs; these spells
 |---|---|---|
 | **conformare** | infinitive (act) | to shape error types to one standard — diagnostic completeness by structure, the wrong shape uncompilable |
 | **intueri** | infinitive (act) | to contemplate whether the code speaks — names, structure, comments |
+| **partire** | infinitive (act) | to divide a module along its cohesion seams — should this file be split, and if so, where? |
 | **purgare** | infinitive (act) | to purge dead code — structs unimported, fields unread, branches untaken |
 | **secare** | infinitive (act) | to cut cleanly along the grain — parallel boundaries genuinely disjoint |
 | **sequi** | infinitive (act) | to follow the state — threaded visibly through types, across the chain |
