@@ -3,7 +3,7 @@ name: extirpare
 form: act
 category: primer
 reading: to root out the failure class — pull the root so it cannot regrow, never patch the stem
-description: Root out the failure class. The datamancer extirpat — a failure is not friction to bypass but the system asking for help; stop the moment it surfaces, read what it reports, and pull the whole class out by the root so it cannot regrow. Never patch the stem; never construct the situation that needs the patch. The meta-discipline beneath every ward — each spell is one failure class pulled out of the ground.
+description: Root out the failure class. The datamancer extirpat — a failure is not friction to bypass but the system asking for help; stop the moment it surfaces, read what it reports, and pull the whole class out by the root so it cannot regrow. Never patch the stem; never construct the situation that needs the patch. The meta-discipline beneath every atomic ward — each is one failure class pulled out of the ground (the meta-spell composes them).
 vigilia-slot: primer
 ---
 
