@@ -40,6 +40,7 @@ import {
   stat,
   access,
 } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { execSync } from "node:child_process";
 import { join, dirname } from "node:path";
@@ -121,6 +122,36 @@ async function main() {
   const prevHash = prevBytes
     ? createHash("sha256").update(prevBytes).digest("hex")
     : null;
+
+  // The parent must be ARCHIVED, or the chain we are about to extend dangles.
+  //
+  // Reading `previous` from git HEAD defends against a dirty tree, a dry run
+  // and a crash mid-publish — none of those move HEAD. It does NOT defend
+  // against HEAD itself being REWRITTEN. An amend, rebase or reset+force-push
+  // between two publishes changes what `git show HEAD:…` returns, and the bytes
+  // it used to return stop existing anywhere.
+  //
+  // That happened once, on 2026-06-01T04-24-40Z: its `previous` names
+  // fb948bd6…, bytes present in no blob of this repository, while its real
+  // parent (2026-05-31T23-58-07Z) sits archived and orphaned. `datamancy
+  // versions` walked 17 hops and died on a 404 for eleven weeks.
+  //
+  // The snapshot is the thing consumers actually fetch, so it — not git — is
+  // the authority on whether a parent is reachable. If it is missing, the only
+  // honest manifests are one that re-baselines (`previous: null`, a deliberate
+  // new genesis) or none at all. Refuse rather than emit a chain with a hole.
+  if (prevHash && !existsSync(join("manifests", prevHash, "manifest.json"))) {
+    throw new Error(
+      `previous manifest ${prevHash} has NO snapshot at manifests/${prevHash}/.\n` +
+        `The committed manifest at git HEAD was never archived — HEAD was very ` +
+        `likely amended, rebased or force-pushed since the last publish, so the ` +
+        `bytes this hash names no longer exist.\n` +
+        `Publishing now would emit a chain that dangles here, and \`datamancy ` +
+        `versions\` would fail for every consumer at this hop.\n` +
+        `Fix the history so HEAD's manifest is the archived one, or re-baseline ` +
+        `deliberately (genesis, previous: null) and say so in the commit.`,
+    );
+  }
 
   // Epoch MUST strictly increase per published manifest — the consumer's
   // rollback protection depends on monotonicity. Use wall-clock seconds, but if
