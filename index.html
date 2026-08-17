@@ -40,7 +40,13 @@
 
   <h2>Use it</h2>
   <p>Add to any MCP client (Claude&nbsp;Code, Cursor, …):</p>
-  <pre>{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy"] } } }</pre>
+  <pre>{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy@1"] } } }</pre>
+  <p class="sub">Pin the major. A bare <code>datamancy</code> re-resolves on every launch, so a
+  release can change what your client runs — including which MCP capabilities it advertises —
+  without you touching the config.</p>
+  <p class="sub">Served through <strong>two surfaces over one verified pipeline</strong>: MCP
+  <em>resources</em>, and the <em>tools</em> <code>list_spells</code> / <code>fetch_spell</code> for
+  hosts that only wire tools through to the model. Same manifest, same verification, same bytes.</p>
 
   <h2>Read it</h2>
   <ul>

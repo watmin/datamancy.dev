@@ -40,7 +40,7 @@ The grimoire's security model is **content integrity**, not access control. The
 MCP manifest at [`/.well-known/mcp/manifest.json`](/.well-known/mcp/manifest.json)
 is **ECDSA P-256 signed**, and each spell's SHA-256 is verifiable against it. The
 [`datamancy`](https://www.npmjs.com/package/datamancy) npm adapter (`npx -y
-datamancy`) pins the public key and refuses any spell whose hash or signature
+datamancy@1`) pins the public key and refuses any spell whose hash or signature
 fails. So the question this site answers is not *"who are you?"* but *"are these
 the bytes the datamancer signed?"* — verifiably yes, or refused.
 

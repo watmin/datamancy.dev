@@ -15,13 +15,14 @@ is the chronicle. The grimoire is openly published for agent consumption.
 Add to any MCP client (Claude Code, Cursor, etc.):
 
 ```json
-{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy"] } } }
+{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy@1"] } } }
 ```
 
 The [`datamancy`](https://www.npmjs.com/package/datamancy) npm package is a
 zero-dependency adapter: it fetches the signed manifest, verifies the ECDSA P-256
 signature against a public key pinned in its source, then verifies the SHA-256 of
-each fetched spell before exposing it as an MCP resource. No content reaches the
+each fetched spell before exposing it — as an MCP resource, and as the tools
+`list_spells` / `fetch_spell` for hosts that only wire tools through to the model. No content reaches the
 LLM unverified.
 
 ## Start here
