@@ -40,10 +40,12 @@
 
   <h2>Use it</h2>
   <p>Add to any MCP client (Claude&nbsp;Code, Cursor, …):</p>
-  <pre>{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy@1"] } } }</pre>
-  <p class="sub">Pin the major. A bare <code>datamancy</code> re-resolves on every launch, so a
-  release can change what your client runs — including which MCP capabilities it advertises —
-  without you touching the config.</p>
+  <pre>{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy@^1.1.0"] } } }</pre>
+  <p class="sub">Use <code>^1.1.0</code>, not <code>@1</code>. The tool surface arrived in 1.1.0, and
+  <code>npx</code> reuses a cached tree that still satisfies the range you asked for — so
+  <code>@1</code> can keep serving a cached 1.0.0, which advertises no tools, forever. The caret
+  floors you at the tool surface and still takes fixes within major 1. A bare <code>datamancy</code>
+  is worse again: it re-resolves every launch, so a release can change what your client runs.</p>
   <p class="sub">Served through <strong>two surfaces over one verified pipeline</strong>: MCP
   <em>resources</em>, and the <em>tools</em> <code>list_spells</code> / <code>fetch_spell</code> for
   hosts that only wire tools through to the model. Same manifest, same verification, same bytes.</p>

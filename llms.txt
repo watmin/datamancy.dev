@@ -15,8 +15,13 @@ is the chronicle. The grimoire is openly published for agent consumption.
 Add to any MCP client (Claude Code, Cursor, etc.):
 
 ```json
-{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy@1"] } } }
+{ "mcpServers": { "datamancy": { "command": "npx", "args": ["-y", "datamancy@^1.1.0"] } } }
 ```
+
+Use `^1.1.0`, not `@1`: the tool surface arrived in 1.1.0, and `npx` will reuse a
+cached tree that still satisfies the range you asked for — so `@1` can keep
+serving a cached 1.0.0 that advertises no tools. The caret floors you at the
+tool surface and still takes fixes within major 1.
 
 The [`datamancy`](https://www.npmjs.com/package/datamancy) npm package is a
 zero-dependency adapter: it fetches the signed manifest, verifies the ECDSA P-256
