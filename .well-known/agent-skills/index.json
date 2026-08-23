@@ -102,7 +102,7 @@
       "type": "grimoire-index",
       "description": "The datamancer's grimoire — load this first. Reading it installs the practice: the operating ethos a datamancer works by, plus the catalog of spells to reach for on demand.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "59421eee9cbf97f493eb852eb0becd69ef410007bb75de591a101c34335a8732",
+      "sha256": "1e49c241b67d9d0c44d6502ca864c83091fd010b3d57df7778ea191f3436ff36",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -214,7 +214,7 @@
       "type": "solo-ward",
       "description": "The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.",
       "url": "https://datamancy.dev/vigilia/SKILL.md",
-      "sha256": "76b67b58c7e0f1a5cad1829f1d5398f29ba55fba8033cfe3ab0b8083f274650e",
+      "sha256": "ac10e58afc9da74f0014d0c97ed65116228ebf0262604fd14aa1cfcaf13d45e6",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vigilia/SKILL.md"
     },
     {
