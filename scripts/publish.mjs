@@ -126,6 +126,11 @@ async function main() {
   // of a hardcoded list here means a doc generator added to docs:regen can never
   // be silently skipped by the publish flow — which is exactly how llms.txt once
   // drifted (publish hardcoded grimoire+README and never got generate-llms).
+  // The ledger gate is in check:docs, and publish runs docs:regen — so without
+  // this line ship would sign and push, and CI would red main afterwards. That
+  // is the same drift the comment above describes, in the other direction.
+  log("checking the warding ledger …");
+  execFileSync("npm", ["run", "ledger:check"], { stdio: "inherit" });
   log("regenerating content docs (docs:regen) …");
   execFileSync("npm", ["run", "docs:regen"], { stdio: "inherit" });
   step("regenerating manifest", "scripts/generate-manifest.mjs");

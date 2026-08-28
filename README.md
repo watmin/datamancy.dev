@@ -68,6 +68,7 @@ Test whether what is claimed matches what is delivered.
 | **consonare** | infinitive (act) | to sound together — whether new prose rings in tune with the chronicle's gold-anchor voice |
 | **excusare** | infinitive (act) | to weigh the excuse — whether any checker-override's stated reason earns its exemption, at birth or over time |
 | **exigere** | infinitive (act) | to drive out deferred-work language — ship it now or bound it to a named arc |
+| **experiri** | infinitive (act) | to put to the proof — to learn by trial rather than by report |
 | **probare** | infinitive (act) | to test the substance — is this a program or a description? |
 
 <!-- END catalog:fidelity -->
@@ -131,9 +132,9 @@ Every spell respects the rune-exemption convention. A line or form may be annota
 rune:<spell-name>(<category>) — <reason>
 ```
 
-The rune declares the site exempt with a justified reason. The category is a positional keyword (specific to each spell's exemption taxonomy). The em-dash separator is required. The reason is free-text and required — a rune without a reason fails the spell. The rune's job is to capture the WHY so the next reader understands the exemption rather than guessing.
+The rune declares the site exempt with a justified reason. The category is a positional keyword (specific to each spell's exemption taxonomy). A spell may define one optional second positional to narrow the rune's scope; `experiri` uses it to pin a rune to a single position. The em-dash separator is required. The reason is free-text and required — a rune without a reason fails the spell. The rune's job is to capture the WHY so the next reader understands the exemption rather than guessing.
 
-When a spell encounters its rune, it skips the site and records the exemption in its report. Runes suppress the finding without denying its presence. A rune tells the spell: *the datamancer has been here. This is conscious.*
+When a spell encounters its rune, it records the exemption in its report, with its reason. Whether the spell then honours the rune on sight or adjudicates the reason — and fails the rune if it does not hold — is that spell's own rule, stated in its `## The rune` section. A rune tells the spell: *the datamancer has been here. This is conscious.*
 
 ## Casting
 
@@ -164,6 +165,7 @@ Agent(
 
 The discipline:
 - `model: "sonnet"` — mechanical scan; the practitioner makes the final call
+- **One ward is not a scan.** `experiri` *executes* the surface it audits — a synthesized caller is a real call. Cast it only against a target whose side effects you can undo: a disposable instance, a rolled-back transaction, a fixture. Every other ward only reads.
 - cwd anchored to the consumer's repo absolutely
 - `SKILL.md` content embedded verbatim — don't paraphrase the protocol
 - one agent per spell per file — no cross-talk

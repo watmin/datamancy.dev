@@ -50,7 +50,7 @@ for each spell's one-line reading:
 
 - **tests of craft** — is the code well-made, beyond 'it compiles'? · `conformare` `intueri` `partire` `purgare` `secare` `sequi` `solvere` `struere` `temperare`
 - **tests of surface** — does the surface — types, tests, declarations — name what it does? · `complectens` `mora` `perspicere` `vocare`
-- **tests of fidelity** — does what's claimed match what's delivered? · `cernere` `circumspicere` `cohaerere` `conferre` `consonare` `excusare` `exigere` `probare`
+- **tests of fidelity** — does what's claimed match what's delivered? · `cernere` `circumspicere` `cohaerere` `conferre` `consonare` `excusare` `exigere` `experiri` `probare`
 - **solo wards** — stand-alone casts — a fresh reader walking the path, and every defensive spell at once · `nesciens` `vigilia`
 - **primers** — disciplines you read and run on yourself rather than cast against a target — recovering after a context compaction, keeping the durable record true, and the grounded dungeon crawl, the agile method behind every spell here · `curare` `examinare` `extirpare` `recolligere`
 

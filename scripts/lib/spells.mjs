@@ -225,6 +225,34 @@ export async function readSpells(repoRoot = process.cwd()) {
       problems.push(`${entry.name}/SKILL.md: missing frontmatter field(s): ${missing.join(", ")}`);
       continue;
     }
+    // `name` and the DIRECTORY must agree, because they travel down different
+    // pipes and only meet at the consumer. The grimoire catalog line is built
+    // from frontmatter `name`; the fetchable `uri` and the manifest's resource
+    // name are built from the directory. The index then tells the reader the
+    // path is `/<name>/SKILL.md` — making the catalog name the path. So a
+    // mismatch ships a SIGNED manifest whose catalog advertises a spell that
+    // 404s, and nothing downstream would notice: each pipe is internally
+    // consistent. They matched by inspection until this line existed.
+    // The grimoire index asserts that a ward defining a rune states its
+    // categories, its valid-reason rule and its refusal cost in that ward's own
+    // `## The rune` section. That universal has shipped false three times; it
+    // matched by inspection until this line existed.
+    if (fm.category !== "primer" && !/^##\s+The rune\b/m.test(raw)) {
+      problems.push(
+        `${entry.name}/SKILL.md: no \`## The rune\` section — the grimoire index tells ` +
+          `readers that a ward's rune rules live there, so a ward without one makes the ` +
+          `index's claim false`,
+      );
+      continue;
+    }
+    if (fm.name !== entry.name) {
+      problems.push(
+        `${entry.name}/SKILL.md: frontmatter name "${fm.name}" != directory "${entry.name}" — ` +
+          `the catalog would advertise "${fm.name}" while the fetchable path stays ` +
+          `/${entry.name}/SKILL.md, so the published name would not resolve`,
+      );
+      continue;
+    }
     if (!FORMS.has(fm.form)) {
       problems.push(`${entry.name}/SKILL.md: form "${fm.form}" not one of ${[...FORMS].join(" | ")}`);
       continue;

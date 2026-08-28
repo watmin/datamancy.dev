@@ -90,6 +90,14 @@
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/exigere/SKILL.md"
     },
     {
+      "name": "experiri",
+      "type": "tests-of-fidelity",
+      "description": "Put the declared surface to the proof. The datamancer experītur — every form the system ADVERTISES is synthesized and driven, or carries a rune saying why not, in each position the cast declares and names; a surface that cannot be reached, or is reached and discriminates nothing, is a promise the system does not keep. The only ward whose evidence is an event rather than a source — cast it when the spec and the code AGREE and you still do not know whether either is true.",
+      "url": "https://datamancy.dev/experiri/SKILL.md",
+      "sha256": "3d49e26025c482901b5fe590c701f72082555aa3659f575b1c5894dfa71df3d1",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/experiri/SKILL.md"
+    },
+    {
       "name": "extirpare",
       "type": "primer",
       "description": "Root out the failure class. The datamancer extirpat — a failure is not friction to bypass but the system asking for help; stop the moment it surfaces, read what it reports, and pull the whole class out by the root so it cannot regrow. Never patch the stem; never construct the situation that needs the patch. The meta-discipline beneath every atomic ward — each is one failure class pulled out of the ground (the meta-spell composes them).",
@@ -102,7 +110,7 @@
       "type": "grimoire-index",
       "description": "The datamancer's grimoire — load this first. Reading it installs the practice: the operating ethos a datamancer works by, plus the catalog of spells to reach for on demand.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "1e49c241b67d9d0c44d6502ca864c83091fd010b3d57df7778ea191f3436ff36",
+      "sha256": "d34b7c90889eca15f741e1d17b2598033f455db16b5702d3260ee5c5a06f79cf",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -214,7 +222,7 @@
       "type": "solo-ward",
       "description": "The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.",
       "url": "https://datamancy.dev/vigilia/SKILL.md",
-      "sha256": "ac10e58afc9da74f0014d0c97ed65116228ebf0262604fd14aa1cfcaf13d45e6",
+      "sha256": "3bd57a2210f9ae7e952373ba1d227cfa08f733685cd30eb03c158bbf91485b5c",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vigilia/SKILL.md"
     },
     {
