@@ -76,9 +76,9 @@
     {
       "name": "excusare",
       "type": "tests-of-fidelity",
-      "description": "Weigh every exemption against present truth. The datamancer excusat the overrides — each suppression that tells a checker \"this looks like a finding, but it is correct, and here is why\" is held up to the world as it is now, at the moment it is offered AND as it ages, and struck when its reason does not earn its standing.",
+      "description": "Weigh every exemption against present truth. The datamancer excusat the overrides — each suppression that tells a checker \"this looks like a finding, but it is correct, and here is why\", and each declaration that no gate is constructible here at all, is held up to the world as it is now, at the moment it is offered AND as it ages, and struck when its reason does not earn its standing.",
       "url": "https://datamancy.dev/excusare/SKILL.md",
-      "sha256": "377effcc5bed00e55510396abf82ed95abbf8cdb263c637ae57dd944d8041f56",
+      "sha256": "2df6d9284f5081d6cfaee1a75a51f468b24fa364418374eb2f4f8aef7b37f69d",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/excusare/SKILL.md"
     },
     {
@@ -110,7 +110,7 @@
       "type": "grimoire-index",
       "description": "The datamancer's grimoire — load this first. Reading it installs the practice: the operating ethos a datamancer works by, plus the catalog of spells to reach for on demand.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "d34b7c90889eca15f741e1d17b2598033f455db16b5702d3260ee5c5a06f79cf",
+      "sha256": "f40fd9f6eff0e4857cefb9ff7dc9fe634a50d8b443d64d219e97047c55f1abad",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -222,7 +222,7 @@
       "type": "solo-ward",
       "description": "The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.",
       "url": "https://datamancy.dev/vigilia/SKILL.md",
-      "sha256": "3bd57a2210f9ae7e952373ba1d227cfa08f733685cd30eb03c158bbf91485b5c",
+      "sha256": "19f19cd0944f2bc5516924df747602306b7350d805d00e3a282de5272a4169a1",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vigilia/SKILL.md"
     },
     {

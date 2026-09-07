@@ -66,7 +66,7 @@ Test whether what is claimed matches what is delivered.
 | **cohaerere** | infinitive (act) | to cling together — whether a document is self-consistent: its definitions are used consistently and its assertions do not contradict |
 | **conferre** | infinitive (act) | to bring spec and code together and compare — find divergence at every joint |
 | **consonare** | infinitive (act) | to sound together — whether new prose rings in tune with the chronicle's gold-anchor voice |
-| **excusare** | infinitive (act) | to weigh the excuse — whether any checker-override's stated reason earns its exemption, at birth or over time |
+| **excusare** | infinitive (act) | to weigh the excuse — whether a reason standing in place of a finding earns that standing, at birth or over time |
 | **exigere** | infinitive (act) | to drive out deferred-work language — ship it now or bound it to a named arc |
 | **experiri** | infinitive (act) | to put to the proof — to learn by trial rather than by report |
 | **probare** | infinitive (act) | to test the substance — is this a program or a description? |
