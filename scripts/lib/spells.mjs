@@ -94,7 +94,12 @@ export const VIGILIA_SLOT_META = {
   },
   "conditional-code": {
     label: "conditional code wards",
-    blurb: "join the code set when the file's contents warrant the trigger",
+    // NOTE: conditional slots render each ward's own `vigilia-trigger`, not this
+    // blurb (generate-vigilia-skill.mjs branches on `conditional`), so this string
+    // reaches no generated surface. Kept true anyway: a trigger may test the file's
+    // contents, the environment it must run in, another ward's finding, or the
+    // practitioner's judgment about the target.
+    blurb: "join the cast when their own trigger fires",
     conditional: true,
     member: true,
   },
@@ -237,6 +242,12 @@ export async function readSpells(repoRoot = process.cwd()) {
     // categories, its valid-reason rule and its refusal cost in that ward's own
     // `## The rune` section. That universal has shipped false three times; it
     // matched by inspection until this line existed.
+    // NOTE the gap this closes and the one it does not: this is a PRESENCE proxy
+    // for a three-part CONTENT claim. A `## The rune` section that states none of
+    // the three still passes. The three-part claim holds across all 24 sections
+    // that DEFINE a rune, by inspection; vigilia's section declares it defines none,
+    // which is why the grimoire scopes the universal to "a ward that defines a rune".
+    // Same footing the name-vs-directory rule stood on until its gate existed.
     if (fm.category !== "primer" && !/^##\s+The rune\b/m.test(raw)) {
       problems.push(
         `${entry.name}/SKILL.md: no \`## The rune\` section — the grimoire index tells ` +

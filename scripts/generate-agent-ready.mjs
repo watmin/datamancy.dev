@@ -134,7 +134,7 @@ async function build() {
       "datamancy grimoire as raw markdown. The manifest is ECDSA P-256 signed; the " +
       "npm adapter (`npx -y datamancy`) verifies the signature against a public key " +
       "pinned in the package source, then verifies the SHA-256 of each fetched spell " +
-      "against the signed manifest. No content reaches the LLM unverified. The " +
+      "against the signed manifest. No content reaches the LLM unverified through the datamancy npm adapter, which pins the public key. The " +
       "practitioner's identity card is at " +
       PRACTITIONER +
       "; the chronicle is at " +

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>datamancy — the grimoire</title>
-  <meta name="description" content="A cryptographically verifiable static MCP serving the datamancy grimoire: Latin-named defensive spells, each SHA-256 verified against an ECDSA P-256-signed manifest before it reaches a model.">
+  <meta name="description" content="A cryptographically verifiable static MCP serving the datamancy grimoire: Latin-named defensive spells, each SHA-256 verified against an ECDSA P-256-signed manifest by the datamancy npm adapter before it reaches a model.">
 
   <!-- RFC 8288 agent-discovery links (HTML equivalents of the HTTP Link headers in _headers) -->
   <link rel="describedby" href="/llms.txt" type="text/markdown">
@@ -36,7 +36,7 @@
   <h1>datamancy — the grimoire</h1>
   <p class="sub">A cryptographically verifiable static MCP. Latin-named defensive spells — each a
   <code>SKILL.md</code> an LLM subagent casts against a target, SHA-256 verified against an
-  ECDSA&nbsp;P-256-signed manifest before it reaches a model.</p>
+  ECDSA&nbsp;P-256-signed manifest by the <code>datamancy</code> npm adapter, which pins the public key, before it reaches a model.</p>
 
   <h2>Use it</h2>
   <p>Add to any MCP client (Claude&nbsp;Code, Cursor, …):</p>
@@ -46,7 +46,7 @@
   <code>@1</code> can keep serving a cached 1.0.0, which advertises no tools, forever. The caret
   floors you at the tool surface and still takes fixes within major 1. A bare <code>datamancy</code>
   is worse again: it re-resolves every launch, so a release can change what your client runs.</p>
-  <p class="sub">Served through <strong>two surfaces over one verified pipeline</strong>: MCP
+  <p class="sub">Served through <strong>two surfaces over one pipeline the <code>datamancy</code> npm adapter verifies</strong>: MCP
   <em>resources</em>, and the <em>tools</em> <code>list_spells</code> / <code>fetch_spell</code> for
   hosts that only wire tools through to the model. Same manifest, same verification, same bytes.</p>
 
@@ -61,7 +61,7 @@
   <p class="trust">Content integrity, not access control: the manifest is signed by a key held
   non-exportably in AWS&nbsp;KMS; the public key (fingerprint <code>09db7668…</code>) is pinned in the
   <a href="https://www.npmjs.com/package/datamancy">npm package</a> and cross-published at
-  <a href="https://datamancer.dev">datamancer.dev</a>. Tampered content is refused, never delivered.</p>
+  <a href="https://datamancer.dev">datamancer.dev</a>. Tampered content is refused by the adapter, never delivered.</p>
 
   <h2>Elsewhere</h2>
   <ul>

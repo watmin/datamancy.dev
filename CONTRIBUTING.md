@@ -33,6 +33,23 @@ exact line between "edit freely" and "needs a new major.")
 3. **Do not hand-edit `grimoire/SKILL.md`.** The index is **generated** from
    every spell's frontmatter by `scripts/generate-grimoire-skill.mjs`. Edit the
    spell's own `description`; the index regenerates on publish.
+4. **Editing an already-warded spell? Commit the edit first.** `ledger:check` marks a
+   vouched path changed when it is merely *dirty in the worktree*, so a spell that
+   carries a live ledger row and is edited in place aborts `ship` before it can
+   publish. Commit the content change, re-cast the watch, re-stamp or strike the row
+   citing that commit, then `npm run ship`.
+5. **Ward it before it ships — trial by combat.** A new spell earns its place by
+   surviving the grimoire's own guard: cast the full applicable `vigilia` against
+   it (for a spell page that is `nesciens` + `cohaerere` + `exigere`, with
+   **`circumspicere` last**), embed each ward by value, use fresh subagents, and
+   fight every finding under the rune rule until there is **no un-dispositioned
+   L1 or L2**. Then append a row to [`docs/WARDING-LEDGER.md`](docs/WARDING-LEDGER.md)
+   recording the target, the ISO8601 UTC stamp, the method, the result and the
+   commit. The ledger's own gate (`npm run ledger:check` — run by
+   `check:docs`, and by `ship` after all content is regenerated and before it is
+   signed) verifies that every **vouched path** is unchanged
+   since its stamp — it cannot see a spell that has **no row at all**, so this
+   step is held by discipline and by this paragraph, not by the build.
 
 ## Publish: `npm run ship`
 
@@ -51,12 +68,28 @@ What it runs, in order:
 | Step | Gate it enforces |
 |---|---|
 | `aws sts get-caller-identity` | aborts if there is no signing session |
-| regen index → regen manifest → **KMS sign** | the three scripts, chained |
+| `npm run docs:regen` | the generated indexes are rebuilt from spell frontmatter — the single source |
+| `generate-manifest` → `generate-agent-ready` | the manifest and the discovery files are rebuilt from that tree |
+| **`npm run claims:check`** | every shipped verification claim must name who verifies. Runs **after all generation** (the discovery files carry claims) and **before signing**, because a false claim in signed content cannot be retracted from a consumer that already fetched it |
+| `npm run ledger:check` | a warding-ledger row whose vouched paths moved since its stamp aborts here, before anything is signed |
+| **KMS sign** | the manifest is signed and archived to `manifests/<hash>/` |
+| **`npm run manifest:check`** | the freshly-signed manifest must describe this tree — a spell on disk and not in the manifest would 404 while the indexes advertise it |
 | fetch the KMS public key → assert fingerprint `09db7668…` | the signing key **is** the one consumers pin — a key swap / wrong alias aborts here |
 | **verify the fresh signature against that key** | an unverifiable manifest is never committed |
-| `git commit` + `tag <version>` + `git push --follow-tags` | only after both gates pass |
+| `git add .` → stray/cruft gate | a `.rej`/`.orig`/`.bak`/`.patch`/`.tmp`/`node_modules` file staged into a signed push aborts, naming the offender |
+| orphan-snapshot gate | only *this* publish's `manifests/<hash>/` may be staged — a leftover dry-run snapshot cannot ride the push |
+| `git commit` + `tag <version>` + `git push --follow-tags` | only after every gate above passes |
 | poll the live origin until it serves the new hash | catches a failed Cloudflare deploy |
-| **re-verify the *served* bytes** against the pinned key | proves what the world actually gets verifies too |
+| **re-verify the *served* bytes** against the pinned key, then spot-check one blob + one spell body | proves what the world actually gets verifies too — and that the *content*, not just the manifest, landed |
+
+> **The dry run signs, and leaves something behind.** `DATAMANCY_NO_PUSH=1 npm run ship`
+> runs every gate above through the signature check and stops before the commit — but
+> it *does* mint a real KMS signature and archive `manifests/<hash>/`. `epoch` is
+> wall-clock, so the next run's manifest hashes differently and that snapshot becomes
+> an orphan: `git add .` stages it, the orphan gate refuses, and the refusal lands
+> **after** the next signature. **`rm -rf manifests/<the-dry-run-hash>` before you
+> ship** — the dry run prints the exact command. The same applies to any abort after
+> the signing step.
 
 Dry-run everything up to (but not including) the push:
 
@@ -85,10 +118,15 @@ of it is correct, not drift.
 
 | Script | Does |
 |---|---|
+| `npm run ledger:check` | verify every warding-ledger row's vouched paths are unchanged since its stamp |
 | `npm run grimoire:regen` | regenerate `grimoire/SKILL.md` from spell frontmatter |
 | `npm run manifest:generate` | rebuild `.well-known/mcp/manifest.json` + content-addressed blobs |
-| `npm run manifest:sign` | sign the manifest via KMS → `manifest.json.sig` + write-once snapshot |
-| `npm run manifest:publish` | the three above, chained (no verify gate, no push — prefer `ship`) |
+| `npm run manifest:sign` | sign the manifest via KMS → `manifest.json.sig` + content-addressed snapshot |
+| `npm run manifest:check` | assert the signed manifest describes the tree on disk (run by `ship` after signing, and by CI on a pushed commit — **not** by `check:docs`, where a tree mid-authoring is legitimately ahead) |
+| `npm run manifest:publish` | regen → generate → agent-ready → sign, chained (no verify gate, no push — prefer `ship`) |
+| `npm run claims:check` | every shipped verification claim must name who verifies (a ratchet over known phrasings — its docblock states its reach) |
+| `npm run check:docs` | the drift gate CI runs: claims + ledger + all five generators in `--check` mode |
+| `npm test` | the unit suite — middleware routing, and the pinned-fingerprint agreement check |
 
 ## Trust — why signing is manual, by design
 

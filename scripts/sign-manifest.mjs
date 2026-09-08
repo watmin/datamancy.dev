@@ -87,7 +87,10 @@ async function main() {
 
   // Finalize the immutable snapshot. The manifest's own SHA-256 is its
   // content address = the version id a consumer pins. Copy the EXACT signed
-  // bytes + signature to manifests/<hash>/ (write-once, never reopened). The
+  // bytes + signature to manifests/<hash>/. The path is content-addressed, so the
+  // manifest bytes there are immutable by construction; the detached signature is
+  // re-minted if the same bytes are signed again (ECDSA is non-deterministic) and
+  // both signatures verify. The
   // chain backpointer is NOT advanced here: the next generate derives
   // `previous` from the committed manifest in git, so only an actual publish
   // (a commit) moves the chain — nothing a dry run writes can poison it.

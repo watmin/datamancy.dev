@@ -1,6 +1,7 @@
 # Cloudflare Pages headers for datamancy.dev.
 #
-# The grimoire is served as bare, hash-verified markdown — no rendering layer.
+# The grimoire is served as bare markdown, hash-listed in a signed manifest that the
+# datamancy npm adapter verifies — the origin verifies nothing. No rendering layer.
 # The file IS the artifact. These headers (1) set MIME types so clients see raw
 # text exactly as committed, and (2) advertise agent-discovery metadata on every
 # response: RFC 8288 Link relations + Content Signals (the HTTP equivalent of
@@ -70,14 +71,18 @@
   Content-Type: text/markdown; charset=utf-8
   Cache-Control: public, max-age=31536000, immutable
 
-# Immutable manifest snapshots (one per version) — addressed by hash dir,
-# write-once. Same deal: cache forever, never revalidate.
+# Manifest snapshots (one per version), addressed by hash dir. The manifest bytes
+# are immutable BY CONTENT ADDRESS. The detached signature is not: ECDSA is
+# non-deterministic, so re-signing identical bytes mints a different .sig at the
+# same path (scripts/sign-manifest.mjs writes unconditionally). Both verify — but
+# `immutable` would pin a superseded signature for a year, so the .sig rows below
+# revalidate.
 /manifests/*/manifest.json
   Content-Type: application/json; charset=utf-8
   Cache-Control: public, max-age=31536000, immutable
 /manifests/*/manifest.json.sig
   Content-Type: application/octet-stream
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600
 /manifests/*/manifest.json.sig.txt
   Content-Type: text/plain; charset=utf-8
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600

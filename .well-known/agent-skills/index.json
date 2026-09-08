@@ -110,7 +110,7 @@
       "type": "grimoire-index",
       "description": "The datamancer's grimoire — load this first. Reading it installs the practice: the operating ethos a datamancer works by, plus the catalog of spells to reach for on demand.",
       "url": "https://datamancy.dev/grimoire/SKILL.md",
-      "sha256": "f40fd9f6eff0e4857cefb9ff7dc9fe634a50d8b443d64d219e97047c55f1abad",
+      "sha256": "2d7bc72529f209ef3be8ac66dee40695688754a31080512788064a95d804c2f3",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/grimoire/SKILL.md"
     },
     {
@@ -146,11 +146,19 @@
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/partire/SKILL.md"
     },
     {
+      "name": "peragrare",
+      "type": "tests-of-fidelity",
+      "description": "Traverse the whole ground. The datamancer peragrat the ground an instrument discriminates over — a differential, a gate, a fuzzer answers only the questions its corpus asks, so the space it could tell apart is enumerated from ITS OWN COMPARISON and every cell no fixture ever visits is named with the defect that would hide there. A green from an instrument that was never asked is silence, not proof.",
+      "url": "https://datamancy.dev/peragrare/SKILL.md",
+      "sha256": "339eaba4dce6712184c771f20af9b2c687df25b0fb9787b52db32d6b17a8253d",
+      "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/peragrare/SKILL.md"
+    },
+    {
       "name": "perspicere",
       "type": "tests-of-surface",
       "description": "See through. The datamancer perspicere — pierces deeply-nested type expressions to find the noun the depth is hiding, and suggests a typealias that names it.",
       "url": "https://datamancy.dev/perspicere/SKILL.md",
-      "sha256": "8c300714acccd4914de2c6671bdd7e2097a310fa911d871c3e0016fef7dd4b66",
+      "sha256": "ecac33cf1fafbb66477b8166a37f99a054328d67bde1ad115d4e0a2ca09ff79f",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/perspicere/SKILL.md"
     },
     {
@@ -174,7 +182,7 @@
       "type": "primer",
       "description": "Gather the scattered self back together. The datamancer recolligit — after compaction erases working memory, the practitioner does not act on phantom recall; it crawls the durable record on disk and reconstitutes orientation before it proposes or moves.",
       "url": "https://datamancy.dev/recolligere/SKILL.md",
-      "sha256": "1ac884dbfc4d41ed8db98e23562575b1d20114c69482db0ae84c0403f1513d32",
+      "sha256": "e28f5d89de4ad38fb40013c58c5d16d25816c3de8ab99ce40b4ba24c0f0ee86c",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/recolligere/SKILL.md"
     },
     {
@@ -198,7 +206,7 @@
       "type": "tests-of-craft",
       "description": "Loosen what was wrongly bound. The datamancer solveres the code — finds braided concerns, misplaced logic, duplicated encoding. Hickey's decomplect, made operational.",
       "url": "https://datamancy.dev/solvere/SKILL.md",
-      "sha256": "4572aac11a76027d3bd2316ff46f056572049f1144292faba8f7f94fded5cd28",
+      "sha256": "879b4d2cc3e8f102f4f6fa41bf706c670a8a4227c834f9a8eb365df6c43cf412",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/solvere/SKILL.md"
     },
     {
@@ -222,7 +230,7 @@
       "type": "solo-ward",
       "description": "The watch. The datamancer summons the vigilia — every inward defensive spell cast against the target in parallel, then circumspicere last to look around at what they all missed; one report per spell; the full guard standing.",
       "url": "https://datamancy.dev/vigilia/SKILL.md",
-      "sha256": "19f19cd0944f2bc5516924df747602306b7350d805d00e3a282de5272a4169a1",
+      "sha256": "9ca3296502da4b21a2231c90267164fbd94f6dcd6f39b0bbfb86e1616015d8f8",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vigilia/SKILL.md"
     },
     {
@@ -230,7 +238,7 @@
       "type": "tests-of-surface",
       "description": "Call the test to its caller. The datamancer vocares the tests — does this verify what the caller sees, or has the test reached past the interface into the implementation?",
       "url": "https://datamancy.dev/vocare/SKILL.md",
-      "sha256": "3b01f28fef658862cd0e25150b9bf23cfe7fd896c561f8f36cdcdb0ae09491aa",
+      "sha256": "184b9fff69bf72f41fb151b050d0e0d8816b617bfd958e277de387bc6c98eb62",
       "x-documentation": "https://github.com/watmin/datamancy.dev/blob/main/vocare/SKILL.md"
     }
   ],

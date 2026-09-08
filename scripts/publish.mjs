@@ -129,13 +129,36 @@ async function main() {
   // The ledger gate is in check:docs, and publish runs docs:regen — so without
   // this line ship would sign and push, and CI would red main afterwards. That
   // is the same drift the comment above describes, in the other direction.
-  log("checking the warding ledger …");
-  execFileSync("npm", ["run", "ledger:check"], { stdio: "inherit" });
+  // REGENERATE FIRST, THEN GATE. `docs:regen` rewrites grimoire/SKILL.md,
+  // vigilia/SKILL.md, README.md and llms.txt — files that carry both verification
+  // claims and vouched ledger paths. Gating before the regen measures a tree the
+  // ceremony is about to replace, and signs whatever the generators then produce.
   log("regenerating content docs (docs:regen) …");
   execFileSync("npm", ["run", "docs:regen"], { stdio: "inherit" });
+
   step("regenerating manifest", "scripts/generate-manifest.mjs");
   step("regenerating agent-discovery files", "scripts/generate-agent-ready.mjs");
+
+  // ALL content is now final — and only now do the content gates run, still before
+  // anything is signed. `generate-agent-ready` writes server-card.json and
+  // agent-skills/index.json, both of which carry verification claims, so gating
+  // ahead of it would check files the ceremony then rewrites. A false claim in
+  // signed content cannot be retracted from a consumer that already fetched it,
+  // so this ratchet sits on the irreversible path — not only in CI, which reds
+  // main AFTER the bytes are signed, pushed and fetchable.
+  log("checking shipped verification claims …");
+  execFileSync("npm", ["run", "claims:check"], { stdio: "inherit" });
+  log("checking the warding ledger …");
+  execFileSync("npm", ["run", "ledger:check"], { stdio: "inherit" });
+
   step("signing manifest via KMS", "scripts/sign-manifest.mjs");
+
+  // The manifest is now fresh, so it MUST describe this tree. A regen that
+  // silently skipped a spell, or a spell added after the regen, would otherwise
+  // be signed as absent and 404 for every consumer while the indexes advertise
+  // it. Cheap, and it fails before anything is pushed.
+  log("checking the signed manifest against disk …");
+  execFileSync("npm", ["run", "manifest:check"], { stdio: "inherit" });
 
   // ── 2. GATE: prove the fresh signature verifies against the pinned key ──
   const manifestBytes = readFileSync(MANIFEST);
@@ -158,7 +181,23 @@ async function main() {
 
   if (NO_PUSH) {
     log("DATAMANCY_NO_PUSH=1 — verified locally, stopping before push.");
-    log(`to publish: git add . && git commit -m "publish ${version}" && git tag ${version} && git push --follow-tags`);
+    // Two things this run leaves behind, both of which bite the next one.
+    //
+    // 1. It SIGNED. `sign-manifest.mjs` archived manifests/<head>/ unconditionally,
+    //    and `epoch` is wall-clock, so the next run's manifest hashes differently.
+    //    `git add .` will stage this snapshot, the orphan gate will refuse it, and
+    //    that refusal lands AFTER the next signature — burning it and leaving a
+    //    second orphan. Remove it before shipping.
+    // 2. Do NOT hand-commit. The commit line this used to print skipped the cruft
+    //    gate, the orphan gate, the live poll and the served-bytes verification —
+    //    every gate after this point — while CONTRIBUTING calls the ceremony
+    //    "fail-closed, every gate must pass before the next".
+    log("");
+    log(`this run signed. BEFORE the real ship, remove the snapshot it archived:`);
+    log(`    rm -rf manifests/${head}`);
+    log(`then publish with the full ceremony: npm run ship`);
+    log(`(do not hand-commit — the gates after this point are where the ceremony's`);
+    log(` fail-closed guarantee lives.)`);
     return;
   }
 
@@ -173,7 +212,7 @@ async function main() {
   // free-floating "STRAY" that can desync from what's on disk.
   const staged = capture("git", ["diff", "--cached", "--name-only"]).split("\n").filter(Boolean);
   const cruft = staged.filter((f) =>
-    /\.(rej|orig|swp|swo|bak)$|~$|(^|\/)\.DS_Store$|(^|\/)node_modules\//.test(f),
+    /\.(rej|orig|swp|swo|bak|patch|diff|tmp)$|~$|(^|\/)\.DS_Store$|(^|\/)node_modules\/|(^|\/)#[^/]*#$/.test(f),
   );
   if (cruft.length) {
     die(
@@ -229,17 +268,34 @@ async function main() {
     );
 
   // ── 5. GATE: prove what is ACTUALLY SERVED verifies against the pin ────
-  const liveManifest = Buffer.from(
-    await (await fetch(url, { redirect: "error", cache: "no-store" })).arrayBuffer(),
-  );
-  const liveSig = Buffer.from(
-    await (
-      await fetch(`${url}.sig`, { redirect: "error", cache: "no-store" })
-    ).arrayBuffer(),
-  );
+  // Check res.ok first. Without it a 404 or an HTML error page flowed straight into
+  // sha256Hex()/verify() and aborted with "signature does NOT verify" — a
+  // key-compromise-shaped message for what is almost always a deploy-timing fact.
+  // The poll loop above already does this; this pair did not.
+  const fetchServed = async (u, what) => {
+    const res = await fetch(u, { redirect: "error", cache: "no-store" });
+    if (!res.ok) die(`${what} not served yet (HTTP ${res.status} at ${u}) — the deploy has not landed; this is NOT a signature failure. Re-run the poll or retry.`);
+    return Buffer.from(await res.arrayBuffer());
+  };
+  const liveManifest = await fetchServed(url, "served manifest");
+  const liveSig = await fetchServed(`${url}.sig`, "served signature");
   if (sha256Hex(liveManifest) !== head)
     die("served manifest hash drifted mid-publish — aborting");
   verifyManifest(liveManifest, liveSig, key, "live / served");
+
+  // The manifest being served does not mean the CONTENT is. The adapter's pinned
+  // mode fetches `blob`, not `uri`, so a deploy that lands the manifest and not the
+  // blobs 404s every pinned consumer while this script prints PUBLISHED. Prove one
+  // blob and one spell body are actually reachable and hash correctly.
+  const sample = JSON.parse(liveManifest).resources.find((r) => r.blob) ?? null;
+  if (sample) {
+    for (const [path, what] of [[sample.blob, "blob"], [sample.uri, "spell body"]]) {
+      const served = await fetchServed(`${ORIGIN}/${path.replace(/^\//, "")}`, `served ${what}`);
+      if (sha256Hex(served) !== String(sample.sha256).replace(/^sha256:/, ""))
+        die(`served ${what} ${path} does not hash to its manifest entry — aborting`);
+    }
+    log(`✓ served content spot-check: ${sample.name} blob + body hash correctly`);
+  }
 
   log("");
   log(`PUBLISHED ✓  ${ORIGIN}  →  version ${version}`);

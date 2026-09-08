@@ -69,6 +69,7 @@ Test whether what is claimed matches what is delivered.
 | **excusare** | infinitive (act) | to weigh the excuse — whether a reason standing in place of a finding earns that standing, at birth or over time |
 | **exigere** | infinitive (act) | to drive out deferred-work language — ship it now or bound it to a named arc |
 | **experiri** | infinitive (act) | to put to the proof — to learn by trial rather than by report |
+| **peragrare** | infinitive (act) | to traverse the whole ground — visit every cell the instrument could tell apart |
 | **probare** | infinitive (act) | to test the substance — is this a program or a description? |
 
 <!-- END catalog:fidelity -->

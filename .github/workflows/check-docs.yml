@@ -26,3 +26,18 @@ jobs:
           node-version: 22
       # No dependencies to install — the generators are zero-dep Node scripts.
       - run: npm run check:docs
+      # `functions/_middleware.js` decides whether every published spell URL
+      # resolves; its tests existed and nothing ran them.
+      - run: npm test
+      # On a PUSHED commit the signed manifest must describe the tree, or the
+      # site serves a 404 for a spell the indexes advertise and the adapter
+      # refuses files on hash mismatch. Not in check:docs: a working tree
+      # mid-authoring is legitimately ahead of the manifest.
+      #
+      # `push` ONLY. A PR branch is mid-authoring by definition, and it cannot be
+      # made green: signing is deliberately human-gated and must never run in CI
+      # (see CONTRIBUTING, "Trust — why signing is manual"). Without this guard the
+      # step is permanently red on every PR touching a spell — which is exactly the
+      # ignore-the-gate failure the gate's own docblock exists to avoid.
+      - if: github.event_name == 'push'
+        run: npm run manifest:check

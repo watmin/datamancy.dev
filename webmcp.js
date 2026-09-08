@@ -9,6 +9,16 @@
 // Each tool feature-detects the WebMCP API; if `navigator.modelContext` is
 // absent (every browser without the experimental flag, today), the script
 // silently no-ops. No exceptions thrown, no console noise.
+//
+// SCOPE: these tools return what the origin serves, UNVERIFIED — including
+// getGrimoireIndex, which hands /grimoire/SKILL.md to a model as raw bytes. The
+// SHA-256 + ECDSA verification is performed by the `datamancy` npm adapter, which
+// pins the public key; a page cannot meaningfully pin a key against its own
+// origin. Shipped sentences that claim verification are required to name who
+// verifies; `scripts/check-shipped-claims.mjs` is the ratchet, and its docblock
+// states exactly which phrasings it can see.
+// Fetches use `redirect: "error"` so a hosting-only 302 cannot redirect a tool
+// call outward, matching scripts/publish.mjs.
 
 (function () {
   if (typeof navigator === "undefined") return;
@@ -17,7 +27,7 @@
 
   const fetchText = async (url, accept) => {
     try {
-      const r = await fetch(url, accept ? { headers: { Accept: accept } } : undefined);
+      const r = await fetch(url, { redirect: "error", ...(accept ? { headers: { Accept: accept } } : {}) });
       if (!r.ok) return { error: `HTTP ${r.status}`, url };
       return { contentType: r.headers.get("content-type"), content: await r.text(), url };
     } catch (err) {
@@ -26,7 +36,7 @@
   };
   const fetchJson = async (url) => {
     try {
-      const r = await fetch(url);
+      const r = await fetch(url, { redirect: "error" });
       if (!r.ok) return { error: `HTTP ${r.status}`, url };
       return await r.json();
     } catch (err) {

@@ -3,10 +3,11 @@
 > A cryptographically verifiable static MCP serving the **datamancy grimoire**:
 > Latin-named defensive spells, each a `SKILL.md` an LLM subagent casts against a
 > target file or tree. Every spell is SHA-256 verified against an ECDSA P-256-signed
-> manifest before it reaches a model — tampered content is refused, never delivered.
+> manifest by the `datamancy` npm adapter, which pins the public key, before it reaches a
+> model — tampered content is refused, never delivered.
 
-This site is one of three: **datamancy.dev** is the grimoire + MCP server (raw,
-hash-verified markdown); [datamancer.dev](https://datamancer.dev) is the
+This site is one of three: **datamancy.dev** is the grimoire + MCP server (raw markdown,
+hash-listed in a signed manifest the `datamancy` npm adapter verifies); [datamancer.dev](https://datamancer.dev) is the
 practitioner's identity card; [algebraic-intelligence.dev](https://algebraic-intelligence.dev)
 is the chronicle. The grimoire is openly published for agent consumption.
 
@@ -27,8 +28,8 @@ The [`datamancy`](https://www.npmjs.com/package/datamancy) npm package is a
 zero-dependency adapter: it fetches the signed manifest, verifies the ECDSA P-256
 signature against a public key pinned in its source, then verifies the SHA-256 of
 each fetched spell before exposing it — as an MCP resource, and as the tools
-`list_spells` / `fetch_spell` for hosts that only wire tools through to the model. No content reaches the
-LLM unverified.
+`list_spells` / `fetch_spell` for hosts that only wire tools through to the model. No content reaches the LLM unverified through that adapter,
+which pins the public key.
 
 ## Start here
 
@@ -50,7 +51,7 @@ for each spell's one-line reading:
 
 - **tests of craft** — is the code well-made, beyond 'it compiles'? · `conformare` `intueri` `partire` `purgare` `secare` `sequi` `solvere` `struere` `temperare`
 - **tests of surface** — does the surface — types, tests, declarations — name what it does? · `complectens` `mora` `perspicere` `vocare`
-- **tests of fidelity** — does what's claimed match what's delivered? · `cernere` `circumspicere` `cohaerere` `conferre` `consonare` `excusare` `exigere` `experiri` `probare`
+- **tests of fidelity** — does what's claimed match what's delivered? · `cernere` `circumspicere` `cohaerere` `conferre` `consonare` `excusare` `exigere` `experiri` `peragrare` `probare`
 - **solo wards** — stand-alone casts — a fresh reader walking the path, and every defensive spell at once · `nesciens` `vigilia`
 - **primers** — disciplines you read and run on yourself rather than cast against a target — recovering after a context compaction, keeping the durable record true, and the grounded dungeon crawl, the agile method behind every spell here · `curare` `examinare` `extirpare` `recolligere`
 

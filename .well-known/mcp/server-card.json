@@ -1,14 +1,14 @@
 {
   "serverInfo": {
     "name": "datamancy.dev",
-    "version": "2026-09-07T05-38-55Z"
+    "version": "2026-09-08T02-52-58Z"
   },
   "capabilities": {
     "resources": {}
   },
   "x-static-server": true,
   "x-manifest-url": "https://datamancy.dev/.well-known/mcp/manifest.json",
-  "x-resource-count": 29,
+  "x-resource-count": 30,
   "x-trust": {
     "algorithm": "SHA-256",
     "signed": true,
@@ -16,13 +16,13 @@
     "signature-algorithm": "ECDSA-P256",
     "pubkey-pinned-in": "https://www.npmjs.com/package/datamancy"
   },
-  "x-note": "datamancy.dev is a cryptographically verifiable static MCP serving the datamancy grimoire as raw markdown. The manifest is ECDSA P-256 signed; the npm adapter (`npx -y datamancy`) verifies the signature against a public key pinned in the package source, then verifies the SHA-256 of each fetched spell against the signed manifest. No content reaches the LLM unverified. The practitioner's identity card is at https://datamancer.dev; the chronicle is at https://algebraic-intelligence.dev.",
+  "x-note": "datamancy.dev is a cryptographically verifiable static MCP serving the datamancy grimoire as raw markdown. The manifest is ECDSA P-256 signed; the npm adapter (`npx -y datamancy`) verifies the signature against a public key pinned in the package source, then verifies the SHA-256 of each fetched spell against the signed manifest. No content reaches the LLM unverified through the datamancy npm adapter, which pins the public key. The practitioner's identity card is at https://datamancer.dev; the chronicle is at https://algebraic-intelligence.dev.",
   "x-recommended-resources": [
     {
       "name": "datamancy-mcp-manifest",
       "uri": "https://datamancy.dev/.well-known/mcp/manifest.json",
       "mimeType": "application/json",
-      "description": "The signed MCP manifest — 29 resources, each with SHA-256-verifiable content. Verify against the signature at /.well-known/mcp/manifest.json.sig."
+      "description": "The signed MCP manifest — 30 resources, each with SHA-256-verifiable content. Verify against the signature at /.well-known/mcp/manifest.json.sig."
     },
     {
       "name": "datamancy-agent-skills",
