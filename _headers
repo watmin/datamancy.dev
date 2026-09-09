@@ -13,6 +13,7 @@
   Content-Signal: search=yes, ai-input=yes, ai-train=yes
   Link: </llms.txt>; rel="describedby"; type="text/markdown"
   Link: </.well-known/api-catalog>; rel="api-catalog"; type="application/linkset+json"
+  Link: </.well-known/ai-catalog.json>; rel="ai-catalog"; type="application/json"
   Link: </sitemap.xml>; rel="sitemap"; type="application/xml"
   Link: <https://github.com/watmin>; rel="author"
 
@@ -53,6 +54,24 @@
   Content-Type: application/json; charset=utf-8
 /.well-known/mcp/server-card.json
   Content-Type: application/json; charset=utf-8
+
+# ARD (Agentic Resource Discovery) manifest — https://agenticresourcediscovery.org/
+# Discovery aid for agents and registries. NOT signed and not authoritative: the
+# signed manifest below is the source of truth for what this server serves, and
+# this file deliberately carries no spell list of its own so it cannot drift out
+# of agreement with it.
+#
+# Content-Type is bare `application/json`, no charset parameter: the spec names
+# the type exactly, JSON is UTF-8 by definition (RFC 8259 §8.1), and a validator
+# doing a string compare rejects the parameterised form. Sibling docs here keep
+# their charset; this one does not, on purpose.
+#
+# Access-Control-Allow-Origin is required by the spec so browser-based agents can
+# read the manifest cross-origin.
+/.well-known/ai-catalog.json
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
 
 # MCP manifest (latest pointer) — JSON
 /.well-known/mcp/manifest.json

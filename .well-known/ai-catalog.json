@@ -1,0 +1,102 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "datamancy.dev — the grimoire",
+    "identifier": "did:web:datamancy.dev"
+  },
+  "x-note": "A static MCP server whose catalog is cryptographically signed. The manifest at /.well-known/mcp/manifest.json is the authoritative, always-current catalog of spells, signed with ECDSA P-256 over SHA-256 by a key held non-exportably in AWS KMS. Every spell's bytes are hash-listed in that manifest for the `datamancy` npm adapter to check, and it is that adapter — pinning the public key in its own source — which verifies the signature and each digest before content reaches a model. THIS ORIGIN SERVES BYTES AND VERIFIES NOTHING: a client fetching these paths without the adapter, whether curl, a browser, or an MCP client that skips the check, gets whatever the origin served. This ARD manifest is a discovery aid, is not signed, and can go stale; it deliberately carries no spell list of its own, because a copy drifts and the signed source cannot. Resolve spells through the signed manifest.",
+  "entries": [
+    {
+      "identifier": "urn:air:datamancy.dev:mcp:server-card",
+      "displayName": "MCP server card — the datamancy grimoire",
+      "description": "A live static MCP server exposing 30 resources. Declares the manifest URL, the resource count, and the full trust chain: signature URL, algorithm, and where the public key is pinned.",
+      "type": "application/mcp-server-card+json",
+      "url": "https://datamancy.dev/.well-known/mcp/server-card.json",
+      "representativeQueries": [
+        "what MCP server does datamancy.dev run",
+        "how many resources does the datamancy MCP expose",
+        "is there an MCP server that serves code-review disciplines"
+      ]
+    },
+    {
+      "identifier": "urn:air:datamancy.dev:mcp:signed-manifest",
+      "displayName": "Signed spell manifest — the authoritative catalog",
+      "description": "The always-current catalog of every spell, each entry carrying a SHA-256 over the exact bytes served. This is the source of truth; any other listing is a copy that can drift.",
+      "type": "application/json",
+      "url": "https://datamancy.dev/.well-known/mcp/manifest.json",
+      "representativeQueries": [
+        "list every datamancy spell with its content hash",
+        "where is the authoritative catalog of the grimoire",
+        "how do I verify a datamancy spell has not been tampered with"
+      ]
+    },
+    {
+      "identifier": "urn:air:datamancy.dev:mcp:manifest-signature",
+      "displayName": "Detached ECDSA P-256 signature over the manifest",
+      "description": "Raw DER bytes of the detached signature. The private key is non-exportable in AWS KMS; the matching public key is pinned in the `datamancy` npm package source, and it is that adapter — not this origin — which verifies the signature and each spell's SHA-256 before content reaches a model.",
+      "type": "application/octet-stream",
+      "url": "https://datamancy.dev/.well-known/mcp/manifest.json.sig",
+      "representativeQueries": [
+        "how is the datamancy manifest signed",
+        "where is the signature for the grimoire manifest",
+        "what stops content tampering from becoming prompt injection here"
+      ]
+    },
+    {
+      "identifier": "urn:air:datamancy.dev:skill:grimoire",
+      "displayName": "The grimoire — load this first",
+      "description": "The index spell. Reading it installs the datamancer's operating ethos and catalogs every other spell: four read-first primers and the wards cast against a target.",
+      "type": "text/markdown",
+      "url": "https://datamancy.dev/grimoire/SKILL.md",
+      "representativeQueries": [
+        "what is the datamancy grimoire and how do I use it",
+        "give me the index of the datamancy spells",
+        "how should an agent operate as a datamancer"
+      ]
+    },
+    {
+      "identifier": "urn:air:datamancy.dev:catalog:agent-skills",
+      "displayName": "Agent Skills index — every spell as a skill",
+      "description": "Agent Skills Discovery view of the same catalog, each skill carrying a sha256 over the SKILL.md this origin serves.",
+      "type": "application/json",
+      "url": "https://datamancy.dev/.well-known/agent-skills/index.json",
+      "representativeQueries": [
+        "what agent skills does datamancy.dev publish",
+        "are the datamancy skills content-addressed"
+      ]
+    },
+    {
+      "identifier": "urn:air:datamancy.dev:doc:agent-map",
+      "displayName": "Agent map (llms.txt)",
+      "description": "The root index for agents: what this origin serves, how to fetch it, and how to verify it.",
+      "type": "text/markdown",
+      "url": "https://datamancy.dev/llms.txt",
+      "representativeQueries": [
+        "what is on datamancy.dev and where do I start",
+        "does datamancy.dev have a machine-readable index"
+      ]
+    },
+    {
+      "identifier": "urn:air:datamancy.dev:doc:contributing",
+      "displayName": "CONTRIBUTING — how a spell is minted and warded",
+      "description": "The publishing discipline: a spell is warded by trial by combat before it ships, and the warding ledger records each cast with its disposition.",
+      "type": "text/markdown",
+      "url": "https://datamancy.dev/CONTRIBUTING.md",
+      "representativeQueries": [
+        "how do I add a spell to the datamancy grimoire",
+        "what review does a datamancy spell pass before publishing"
+      ]
+    },
+    {
+      "identifier": "urn:air:datamancy.dev:doc:auth",
+      "displayName": "auth.md — agent authentication policy",
+      "description": "Explicit no-authentication document: nothing here is gated and there is no agent registration to complete.",
+      "type": "text/markdown",
+      "url": "https://datamancy.dev/auth.md",
+      "representativeQueries": [
+        "do I need credentials to read datamancy.dev",
+        "how does an agent authenticate against the grimoire"
+      ]
+    }
+  ]
+}

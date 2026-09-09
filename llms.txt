@@ -75,4 +75,5 @@ key generation: `1.x` trusts this key.
 - **Practitioner:** [datamancer.dev](https://datamancer.dev)
 - **Chronicle:** [algebraic-intelligence.dev](https://algebraic-intelligence.dev) — the story, incl. *The Hinge* (the build + the freeze)
 - **MCP server card:** [/.well-known/mcp/server-card.json](https://datamancy.dev/.well-known/mcp/server-card.json)
+- **ARD capability manifest:** [/.well-known/ai-catalog.json](https://datamancy.dev/.well-known/ai-catalog.json) — discovery aid, unsigned; the signed manifest above is the source of truth
 - **API catalog:** [/.well-known/api-catalog](https://datamancy.dev/.well-known/api-catalog)
